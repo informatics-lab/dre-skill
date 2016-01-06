@@ -27,3 +27,26 @@ class Action(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def getScore(self):
         pass
+
+
+class Decision(metaclass=abc.ABCMeta):
+    def __init__(self, whats=[], wheres=[], whens=[]):
+        self.whats = whats
+        self.wheres = wheres
+        self.whens = whens
+    
+    @abc.abstractmethod
+    def generatePossibilites(self):
+        pass
+
+class WhenDecision(Decision):
+    def __init__(self, whats, wheres, whenFilter, whenDeltas):
+        self.whats = whats
+        self.wheres = wheres
+        self.whenFilter = whenFilter
+        self.whenDeltas = whenDeltas
+
+    def generatePossibleAction(self, hourly):
+        possibleActions = []
+
+

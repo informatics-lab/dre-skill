@@ -17,9 +17,10 @@ class RunAction(Action):
         def getForecast(condition, instant):
             conn = datapoint.connection(api_key=DATAPOINT_KEY)
             site = conn.get_nearest_site(instant.place.lat, instant.place.lon)
-            forecast = conn.get_forecast_for_site(site.id)
+            forecast = conn.get_forecast_for_site(site.id, frequency="3hourly")
+            timesteps = [step for step in day.timesteps for day in forecast.days]
 
-            return 123.4567
+            return min(timesteps, key=lambda v: abs(v.date-instant.time))
 
         normalizeDistance = lambda val, min, max: return (val-min) / (max-min)
         toGaussianSpace = lambda x: return 1.0/math.sqrt(2.0*math.pi) * math.e**(-0.5 * x**2)

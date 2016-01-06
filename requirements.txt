@@ -1,1 +1,1 @@
-datapoint==0.2.2
+datapoint==0.3.0
