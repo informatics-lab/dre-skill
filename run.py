@@ -9,7 +9,7 @@ cache = forecastCache()
 DATAPOINT_KEY = "41bf616e-7dbc-4066-826a-7270b8da4b93"
 DP_FORECAST_FREQUENCY = "3hourly"
 
-class RunInstant(Instant):
+class RunAction(Action):
     def getScore(self):
         """ 
         Score for each variable is distance between idean an limit in gaussian space
@@ -20,7 +20,7 @@ class RunInstant(Instant):
         def getForecast(condition):
             cachedForecast = cache.getForecast(self.time, self.loc)
             if cachedForecast:
-                instantForecast = cachedForecast
+                actionForecast = cachedForecast
             else:
                 conn = datapoint.connection(api_key=DATAPOINT_KEY)
                 site = conn.get_nearest_site(latitude=self.loc.lat, longitude=self.loc.lon)
@@ -29,8 +29,8 @@ class RunInstant(Instant):
 
                 cache.cacheForecast(timesteps, self.loc)
 
-                instantForecast = min(timesteps, key=lambda v: abs(v.date-self.time))
-            return instantForecast
+                actionForecast = min(timesteps, key=lambda v: abs(v.date-self.time))
+            return actionForecast
 
         normalizeDistance = lambda val, min, max: (val-min) / (max-min)
         toGaussianSpace = lambda x: 1.0/math.sqrt(2.0*math.pi) * math.e**(-0.5 * x**2)

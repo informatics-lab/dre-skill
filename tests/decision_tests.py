@@ -9,7 +9,7 @@ from decision import *
 from run import *
 
 class WhenDecisionTest(unittest.TestCase):
-    whats = [RunInstant] * 5
+    whats = [RunAction] * 5
     whatConfigFiles = ["myRunConf.py"] * 5
     wheres = [Loc(lat=53.0, lon=-2.9),
               Loc(lat=52.9, lon=-3.0),
@@ -23,10 +23,10 @@ class WhenDecisionTest(unittest.TestCase):
 
     def testWhenRunDecision(self):
         aDecision = WhenDecision(self.whats, self.whatConfigFiles, self.wheres, self.whenDeltas, self.whenFilter)
-        aDecision.generatePossibleActions(timeRes=datetime.timedelta(hours=3))
+        aDecision.generatePossibleActivities(timeRes=datetime.timedelta(hours=3))
 
-        self.assertTrue(len(aDecision.possibleActions) > 0)
-        self.assertTrue(aDecision.possibleActions[0].score.value >= aDecision.possibleActions[-1].score.value)
+        self.assertTrue(len(aDecision.possibleActivities) > 0)
+        self.assertTrue(aDecision.possibleActivities[0].score.value >= aDecision.possibleActivities[-1].score.value)
 
 
 if __name__ == '__main__':

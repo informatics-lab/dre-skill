@@ -19,7 +19,7 @@ class Score(object):
         self.metadata = metadata
 
 
-class Instant(object):
+class Action(object):
     __metaclass__ = abc.ABCMeta
     def __init__(self, time, loc, configFile):
         self.time = time
@@ -37,21 +37,21 @@ class Instant(object):
         pass
 
 
-class Action(object):
+class Activity(object):
     __metaclass__ = abc.ABCMeta
     def __init__(self, possibility):
         self.possibility = possibility
         self.score = self.getScore()
 
     def getScore(self):
-        combinedScoreValue = sum(instant.score.value for instant in self.possibility)/len(self.possibility)
+        combinedScoreValue = sum(action.score.value for action in self.possibility)/len(self.possibility)
         return Score(combinedScoreValue)
 
 
 class WhenDecision(object):
     def __init__(self, whats, whatConfigFiles, wheres, whenDeltas, whenFilter):
         """
-        whats is a list of pointers to particular Instant classes
+        whats is a list of pointers to particular Action classes
         whatConfigFiles is a list of strings file paths of configs
         wheres is a list of lat/lons
         whenDeltas is a list of datetime.timedelta objects
@@ -66,13 +66,13 @@ class WhenDecision(object):
         self.whenDeltas = whenDeltas
 
         self.whenFilter = whenFilter
-        self.possibleActions = []
+        self.possibleActivities = []
 
-    def generatePossibleActions(self, timeRes):
+    def generatePossibleActivities(self, timeRes):
         """
         timeRes is a datetime.timedelta
 
-        actions ranked by quality
+        Activitys ranked by quality
 
         """
 
@@ -87,8 +87,8 @@ class WhenDecision(object):
                 for what, whatConfigFile, where, when in zip(self.whats, self.whatConfigFiles, self.wheres, thisWhens):
                     possibility.append(what(when, where, whatConfigFile))
 
-                self.possibleActions.append(Action(possibility)) 
+                self.possibleActivities.append(Activity(possibility)) 
 
                 thisStartTime += timeRes
 
-        self.possibleActions.sort(key=lambda action: action.score.value)
+        self.possibleActivities.sort(key=lambda activity: activity.score.value)
