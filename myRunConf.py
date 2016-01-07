@@ -1,5 +1,5 @@
 class Condition():
-    def __init__(variable, ideal, min, max):
+    def __init__(self, variable, ideal, min, max):
         self.variable = variable
         self.ideal = ideal
         self.min = min

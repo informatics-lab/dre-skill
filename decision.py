@@ -46,10 +46,11 @@ class Action(metaclass=abc.ABCMeta):
         return Score(combinedScoreValue)
 
 
-class WhenDecision(Decision):
-    def __init__(self, whats, wheres, whenDeltas, whenFilter):
+class WhenDecision():
+    def __init__(self, whats, whatConfigFiles, wheres, whenDeltas, whenFilter):
         """
         whats is a list of pointers to particular Instant classes
+        whatConfigFiles is a list of strings file paths of configs
         wheres is a list of lat/lons
         whenDeltas is a list of datetime.timedelta objects
         These first three must be the same length
@@ -58,6 +59,7 @@ class WhenDecision(Decision):
 
         """
         self.whats = whats
+        self.whatConfigFiles = whatConfigFiles
         self.wheres = wheres
         self.whenDeltas = whenDeltas
 
@@ -72,16 +74,16 @@ class WhenDecision(Decision):
 
         """
 
-        for timeSlot in whenFilter:
+        for timeSlot in self.whenFilter:
             thisMinTime = timeSlot.minTime
             thisStartTime = thisMinTime
             while thisStartTime < timeSlot.maxTime:
-                whens = [thisStartTime+whenDelta for whenDelta in whenDeltas]
-                if any(when>timeSlot.maxTime; for when in whens):
+                thisWhens = [thisStartTime+whenDelta for whenDelta in self.whenDeltas]
+                if any(when>timeSlot.maxTime for when in thisWhens):
                     break
                 possibility = []
-                for what, where, whenDelta in zip(whats, wheres, whens):
-                    possibility.append(what(when, where))
+                for what, whatConfigFile, where, when in zip(self.whats, self.whatConfigFiles, self.wheres, thisWhens):
+                    possibility.append(what(when, where, whatConfigFile))
 
                 self.possibleActions.append(Action(possibility)) 
 
