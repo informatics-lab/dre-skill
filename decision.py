@@ -1,25 +1,26 @@
 import abc
 import imp
 
-class Loc():
+class Loc(object):
     def __init__(self, lat=None, lon=None):
         self.lat = lat
         self.lon = lon
 
 
-class TimeSlot():
+class TimeSlot(object):
     def __init__(self, minTime=None, maxTime=None):
         self.minTime = minTime
         self.maxTime = maxTime
 
 
-class Score():
+class Score(object):
     def __init__(self, value, metadata=None):
         self.value = value
         self.metadata = metadata
 
 
-class Instant():
+class Instant(object):
+    __metaclass__ = abc.ABCMeta
     def __init__(self, time, loc, configFile):
         self.time = time
         self.loc = loc
@@ -36,17 +37,18 @@ class Instant():
         pass
 
 
-class Action(metaclass=abc.ABCMeta):
+class Action(object):
+    __metaclass__ = abc.ABCMeta
     def __init__(self, possibility):
         self.possibility = possibility
         self.score = self.getScore()
 
     def getScore(self):
-        combinedScoreValue = sum(self.possibility, key=lambda v: v.score)/len(self.possibility)
+        combinedScoreValue = sum(instant.score.value for instant in self.possibility)/len(self.possibility)
         return Score(combinedScoreValue)
 
 
-class WhenDecision():
+class WhenDecision(object):
     def __init__(self, whats, whatConfigFiles, wheres, whenDeltas, whenFilter):
         """
         whats is a list of pointers to particular Instant classes
@@ -55,7 +57,7 @@ class WhenDecision():
         whenDeltas is a list of datetime.timedelta objects
         These first three must be the same length
 
-        whenFilter is a list of min/max datetime.datetime objects
+        whenFilter is a list of TimeSlot objects
 
         """
         self.whats = whats

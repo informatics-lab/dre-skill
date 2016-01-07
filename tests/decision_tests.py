@@ -1,5 +1,6 @@
 import unittest
 import datetime
+import pytz
 
 import sys
 sys.path.append("..")
@@ -15,8 +16,8 @@ class WhenDecisionTest(unittest.TestCase):
               Loc(lat=53.0, lon=-3.0),
               Loc(lat=53.0, lon=-3.0),
               Loc(lat=53.0, lon=-3.0)]
-    whenDeltas = [datetime.timedelta(seconds=15*60)] * 5
-    now = datetime.datetime.now()
+    whenDeltas = [i*datetime.timedelta(seconds=15*60) for i in range(1,6)]
+    now = datetime.datetime.now(tz=pytz.UTC)
     whenFilter = [TimeSlot(now, now+datetime.timedelta(days=1)),
                   TimeSlot(now+datetime.timedelta(days=2), now+datetime.timedelta(days=4))]
 
@@ -24,8 +25,8 @@ class WhenDecisionTest(unittest.TestCase):
         aDecision = WhenDecision(self.whats, self.whatConfigFiles, self.wheres, self.whenDeltas, self.whenFilter)
         aDecision.generatePossibleActions(timeRes=datetime.timedelta(hours=3))
 
-        assertTrue(len(aDecision.possibleActions) > 0)
-        assertTrue(aDecision.possibleActions[0].score > aDecision.possibleActions[-1].score)
+        self.assertTrue(len(aDecision.possibleActions) > 0)
+        self.assertTrue(aDecision.possibleActions[0].score.value >= aDecision.possibleActions[-1].score.value)
 
 
 if __name__ == '__main__':
