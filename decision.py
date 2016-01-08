@@ -102,49 +102,64 @@ class Activity(object):
         return Score(combinedScoreValue)
 
 
+class WhenAction(object):
+    """
+    Information defining an Action performed at an unspecified time
+
+    """
+    def __init__(self, Action, actionConfigFile, loc, timeFromStart):
+        """
+        Args:
+            * Action (pointer): A class pointer to the type of Action being performed
+                i.e. an uninstantiated class
+            * actionConfigFile (str path): File defining information used in scoreing
+                the Action
+            * loc (Loc): Location of action
+            * timeFromStart (datetime.timedelta): Time after Activity start time at
+                which this Action will be performed.
+
+        """
+        self.Action = Action
+        self.config = actionConfigFile
+        self.loc = loc
+        self.timedelta = timeFromStart
+
+
 class WhenDecision(object):
     """
     A WhenDecision generates a set of possible Activities at different times
     and oders them by quality.
 
     """
-    def __init__(self, whats, whatConfigFiles, wheres, whenDeltas, whenFilter):
+    def __init__(self, templatePossibiltiy, whenFilter):
         """
-        whats is a list of pointers to particular Action classes
-        whatConfigFiles is a list of strings file paths of configs
-        wheres is a list of lat/lons
-        whenDeltas is a list of datetime.timedelta objects
-        These first three must be the same length
-
-        whenFilter is a list of TimeSlot objects
+        Args:
+            * templateAction (list): List of WhenAction objects
+            * whenFilter (list): List of TimeSlots in which Actions
+                can be performed
 
         """
-        self.whats = whats
-        self.whatConfigFiles = whatConfigFiles
-        self.wheres = wheres
-        self.whenDeltas = whenDeltas
-
+        self.templatePossibility = templatePossibiltiy
         self.whenFilter = whenFilter
+
         self.possibleActivities = []
 
     def generatePossibleActivities(self, timeRes):
         """
-        timeRes is a datetime.timedelta
-
-        Activitys ranked by quality
+        Populates possibleActivites with valid actions, ordered by quality.
+        Args:
+            * timeRes (datetime.timedelta): Defines the resolution for
+                generating Activities.
 
         """
-
         for timeSlot in self.whenFilter:
             thisMinTime = timeSlot.minTime
             thisStartTime = thisMinTime
-            while thisStartTime < timeSlot.maxTime:
-                thisWhens = [thisStartTime+whenDelta for whenDelta in self.whenDeltas]
-                if any(when>timeSlot.maxTime for when in thisWhens):
-                    break
+            while not any((thisStartTime+pt.timedelta)>timeSlot.maxTime for pt in self.templatePossibility):
                 possibility = []
-                for what, whatConfigFile, where, when in zip(self.whats, self.whatConfigFiles, self.wheres, thisWhens):
-                    possibility.append(what(when, where, whatConfigFile))
+                for templateAction in self.templatePossibility:
+                    thisWhen = thisStartTime+templateAction.timedelta
+                    possibility.append(templateAction.Action(thisWhen, templateAction.loc, templateAction.config))
 
                 self.possibleActivities.append(Activity(possibility)) 
 

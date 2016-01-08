@@ -29,7 +29,7 @@ class RunAction(Action):
                 actionForecast = self.cache.getForecast(self.time, self.loc, condition.variable)
             return actionForecast
 
-        normalizeDistance = lambda val, min, max: (val-min) / (max-min)
+        normalizeDistance = lambda val, minlim, maxlim: (val-minlim) / max((maxlim-minlim), 1e-8)
         toGaussianSpace = lambda x: 1.0/math.sqrt(2.0*math.pi) * math.e**(-0.5 * x**2)
         
         scores = []        
