@@ -7,7 +7,7 @@ class Condition(object):
         self.max = max
 
 tempCondition = Condition("temperature", 15, 10, 23)
-rainProbCondition = Condition("precipitation", 0.0, 0.0, 0.5)
+rainProbCondition = Condition("precipitation", 0, 0, 50)
 
 conditions = [tempCondition, rainProbCondition]
 

@@ -17,7 +17,7 @@ class TestChacheAndRetrieve(unittest.TestCase):
 
     def test_getVal(self):
         fc = self.cache.getForecast(self.timesteps[0].date, self.loc, "temperature")
-        self.assertEquals(fc, 3)
+        self.assertEquals(fc, 18.0)
 
 class TestRetrieveEmpty(unittest.TestCase):
     cache = ForecastCache()

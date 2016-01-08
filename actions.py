@@ -1,3 +1,5 @@
+from __future__ import division
+
 import math
 
 from decision import *
@@ -29,15 +31,26 @@ class GaussDistFromIdeal(Action):
                 actionForecast = self.cache.getForecast(self.time, self.loc, condition.variable)
             return actionForecast
 
-        normalizeDistance = lambda val, minlim, maxlim: (val-minlim) / max((maxlim-minlim), 1e-8)
-        toGaussianSpace = lambda x: 1.0/math.sqrt(2.0*math.pi) * math.e**(-0.5 * x**2)
+        def normalizedLinearScore(val, minlim, maxlim):
+            if val == minlim == maxlim:
+                dist = 1.0
+            elif not minlim < val < maxlim:
+                dist = 0.0
+            else:
+                dist = (val-minlim) / max((maxlim-minlim), 1e-8)
+            return dist
+
+        # magic numbers scale Guassian to unit amp and unit practial max/min,
+        # flip upside down and move up one
+        # i.e. an x of 1 gives a value of 0 and a x of 0 gives a value of 1.
+        toGaussianSpace = lambda x: 1.0-2.5066*1.0/math.sqrt(2.0*math.pi) * math.e**(-0.5 * (x*3)**2)
         
         scores = []        
         for condition in self.config.conditions:
             forecastCondition = getForecast(condition)
             thisMin = condition.ideal if forecastCondition > condition.ideal else condition.min
             thisMax = condition.max if forecastCondition > condition.ideal else condition.ideal
-            guassianDistance = toGaussianSpace(normalizeDistance(condition.ideal, thisMin, thisMax))
+            guassianDistance = toGaussianSpace(normalizedLinearScore(forecastCondition, thisMin, thisMax))
             scores.append(guassianDistance)
 
         combinedScoreValue = sum(scores)/len(scores)

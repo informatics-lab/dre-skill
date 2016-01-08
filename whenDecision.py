@@ -1,3 +1,5 @@
+from decision import *
+
 class TimeSlot(object):
     """ Struct to hold min and max times of a time period """
     def __init__(self, minTime=None, maxTime=None):
@@ -9,7 +11,7 @@ class WhenAction(object):
     Information defining an Action performed at an unspecified time
 
     """
-    def __init__(self, Action, actionConfigFile, loc, timeFromStart):
+    def __init__(self, Action, actionConfigFile, loc, timeFromStart, cache=None):
         """
         Args:
             * Action (pointer): A class pointer to the type of Action being performed
@@ -20,11 +22,15 @@ class WhenAction(object):
             * timeFromStart (datetime.timedelta): Time after Activity start time at
                 which this Action will be performed.
 
+        Kwargs:
+            * cache (forecastCache.cache): Forecast cache
+
         """
         self.Action = Action
         self.config = actionConfigFile
         self.loc = loc
         self.timedelta = timeFromStart
+        self.cache = cache
 
 
 class WhenDecision(object):

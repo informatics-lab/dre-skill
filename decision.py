@@ -49,15 +49,15 @@ class Action(object):
         """
         self.time = time
         self.loc = loc
-        self.config = self.loadConfig(configFile)
+        self.config = self.loadConfig(configFile, configFile)
         self.cache = forecastCache
         
         self.score = self.getScore()
 
     @staticmethod
-    def loadConfig(filename):
+    def loadConfig(filename, name):
         """ Loads the filename namespace into the config class variable """
-        return imp.load_source("", filename)
+        return imp.load_source(name, filename)
 
     @abc.abstractmethod
     def getScore(self):

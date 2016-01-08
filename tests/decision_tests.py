@@ -18,7 +18,8 @@ class WhenDecisionTest(unittest.TestCase):
     whenActions = [WhenAction(actions.GaussDistFromIdeal,
                               "myRunConf.py",
                               Loc(lat=53.0, lon=-3.0),
-                              i*datetime.timedelta(seconds=15*60))
+                              i*datetime.timedelta(seconds=15*60),
+                              cache=cache)
                       for i in range(5)]
     
     startTime = timesteps[0].date
@@ -43,9 +44,8 @@ class WhatDecisionTest(unittest.TestCase):
       mySunbathe = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, "mySunbatheConf.py", self.cache)])
       myRun = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, "myRunConf.py", self.cache)])
 
-      activities = [myRun, myRun]
-      # activities.sort(key=lambda v: v.score.value)
-      import pdb; pdb.set_trace()
+      activities = [mySunbathe, myRun]
+      activities.sort(key=lambda v: v.score.value, reverse=True)
 
       self.assertEqual(activities[0].possibility[0].config.name, "Run")
       self.assertEqual(activities[1].possibility[0].config.name, "Sunbathe")
