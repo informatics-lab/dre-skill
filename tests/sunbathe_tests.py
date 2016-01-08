@@ -6,7 +6,7 @@ import sys
 sys.path.append("..")
 
 from decision import *
-from actions import RunAction
+from actions import SunbatheAction
 
 class RunTest(unittest.TestCase):
     def testRunAction(self):
