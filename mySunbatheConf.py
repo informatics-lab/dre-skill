@@ -10,3 +10,5 @@ tempCondition = Condition("temperature", 28, 25, 40)
 rainProbCondition = Condition("precipitation", 0.0, 0.0, 0.0)
 
 conditions = [tempCondition, rainProbCondition]
+
+name = "Sunbathe"

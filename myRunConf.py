@@ -10,3 +10,5 @@ tempCondition = Condition("temperature", 15, 10, 23)
 rainProbCondition = Condition("precipitation", 0.0, 0.0, 0.5)
 
 conditions = [tempCondition, rainProbCondition]
+
+name = "Run"

@@ -3,7 +3,7 @@ import datetime
 import pytz
 import unittest
 
-from run import RunAction
+import actions
 from whenDecision import *
 from decision import *
 from forecastCache import ForecastCache
@@ -15,7 +15,7 @@ class WhenDecisionTest(unittest.TestCase):
         timesteps = pickle.load(f)
     cache.cacheForecast(timesteps, Loc(lat=53.0, lon=-3.0))
 
-    whenActions = [WhenAction(RunAction,
+    whenActions = [WhenAction(actions.GaussDistFromIdeal,
                               "myRunConf.py",
                               Loc(lat=53.0, lon=-3.0),
                               i*datetime.timedelta(seconds=15*60))
@@ -30,6 +30,25 @@ class WhenDecisionTest(unittest.TestCase):
         aDecision.generatePossibleActivities(timeRes=datetime.timedelta(hours=3))
         self.assertEquals(len(aDecision.possibleActivities), 24)
         self.assertEquals(aDecision.possibleActivities[0].score.value, 0.320456502460288)
+
+
+class WhatDecisionTest(unittest.TestCase):
+    loc = Loc(lat=53.0, lon=-3.0)
+    cache = ForecastCache()
+    with open("./tests/testForecast.pkl", "rb") as f:
+        timesteps = pickle.load(f)
+    cache.cacheForecast(timesteps, loc)
+
+    def testWhatDecision(self):
+      mySunbathe = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, "mySunbatheConf.py", self.cache)])
+      myRun = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, "myRunConf.py", self.cache)])
+
+      activities = [myRun, myRun]
+      # activities.sort(key=lambda v: v.score.value)
+      import pdb; pdb.set_trace()
+
+      self.assertEqual(activities[0].possibility[0].config.name, "Run")
+      self.assertEqual(activities[1].possibility[0].config.name, "Sunbathe")
 
 
 if __name__ == '__main__':
