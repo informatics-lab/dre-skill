@@ -1,6 +1,8 @@
 import abc
 import imp
 
+from forecastCache import ForecastCache
+
 class Loc(object):
     def __init__(self, lat=None, lon=None):
         self.lat = lat
@@ -21,11 +23,12 @@ class Score(object):
 
 class Action(object):
     __metaclass__ = abc.ABCMeta
-    def __init__(self, time, loc, configFile):
+    def __init__(self, time, loc, configFile, forecastCache=ForecastCache()):
         self.time = time
         self.loc = loc
         self.config = self.loadConfig(configFile)
-
+        self.cache = forecastCache
+        
         self.score = self.getScore()
 
     @staticmethod

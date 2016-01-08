@@ -1,7 +1,6 @@
-class forecastCache(object):
+class ForecastCache(object):
     def __init__(self):
         self.forecasts = []
-        self.timeThresh = 0
 
     def cacheForecast(self, forecast, loc):
         """
@@ -10,10 +9,11 @@ class forecastCache(object):
         """
         self.forecasts.append([forecast, loc])
 
-    def getForecast(self, time, loc):
+    def getForecast(self, time, loc, variable):
         for forecast, forecastLoc in self.forecasts:
             nearestForecast = min(forecast, key=lambda v: abs(v.date-time))
-            if abs(nearestForecast.date-time)<abs(forecast[0].date-forecast[1].date)\
+            if abs(nearestForecast.date-time) < abs(forecast[0].date-forecast[1].date)\
                  and forecastLoc.lat == loc.lat\
-                 and forecastLoc.lon == loc.lon:
-                return nearestForecast
+                 and forecastLoc.lon == loc.lon\
+                 and variable in nearestForecast.__dict__.keys():
+                return nearestForecast.__dict__[variable].value
