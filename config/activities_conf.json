@@ -1,0 +1,14 @@
+{
+	"run": {
+				"score": "GaussDistFromIdeal",
+				"score_conf": "gauss_config/run.py",
+				"total_time": 3600,
+				"filter": []
+			},
+	"sunbathe": {
+					"score": "GaussDistFromIdeal",
+					"score_conf": "gauss_config/sunbathe.py",
+					"total_time": 7200,
+					"filter": []
+				}
+}

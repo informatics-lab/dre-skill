@@ -15,7 +15,7 @@ class WhenDecisionTest(unittest.TestCase):
         timesteps = pickle.load(f)
     cache.cacheForecast(timesteps, Loc(lat=53.0, lon=-3.0))
 
-    whenActions = [WhenAction(actions.GaussDistFromIdeal,
+    whenActionBuilders = [WhenActionBuilder(actions.GaussDistFromIdeal,
                               "myRunConf.py",
                               Loc(lat=53.0, lon=-3.0),
                               i*datetime.timedelta(seconds=15*60),
@@ -27,7 +27,7 @@ class WhenDecisionTest(unittest.TestCase):
                   TimeSlot(startTime+datetime.timedelta(days=2), startTime+datetime.timedelta(days=4))]
 
     def testWhenRunDecision(self):
-        aDecision = WhenDecision(self.whenActions, self.whenFilter)
+        aDecision = WhenDecision(self.whenActionBuilders, self.whenFilter)
         aDecision.generatePossibleActivities(timeRes=datetime.timedelta(hours=3))
         self.assertEquals(len(aDecision.possibleActivities), 24)
         self.assertEquals(aDecision.possibleActivities[0].score.value, 0.320456502460288)
