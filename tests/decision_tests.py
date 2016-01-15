@@ -16,7 +16,7 @@ class WhenDecisionTest(unittest.TestCase):
     cache.cacheForecast(timesteps, Loc(lat=53.0, lon=-3.0))
 
     whenActionBuilders = [WhenActionBuilder(actions.GaussDistFromIdeal,
-                              "myRunConf.py",
+                              "gauss_config/run.py",
                               Loc(lat=53.0, lon=-3.0),
                               i*datetime.timedelta(seconds=15*60),
                               cache=cache)
@@ -41,8 +41,8 @@ class WhatDecisionTest(unittest.TestCase):
     cache.cacheForecast(timesteps, loc)
 
     def testWhatDecision(self):
-      mySunbathe = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, "mySunbatheConf.py", self.cache)])
-      myRun = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, "myRunConf.py", self.cache)])
+      mySunbathe = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, "gauss_config/sunbathe.py", self.cache)])
+      myRun = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, "gauss_config/run.py", self.cache)])
 
       activities = [mySunbathe, myRun]
       activities.sort(key=lambda v: v.score.value, reverse=True)

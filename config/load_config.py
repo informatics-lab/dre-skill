@@ -2,11 +2,18 @@ import json
 import os.path
 from activities_map import activities
 
-conffile = open('activities_conf.json', 'r')
+import sys
+sys.path.append(".")
+
+from decision import Loc
+
+base = os.path.split(__file__)[0]
+
+conffile = open(os.path.join(base, 'activities_conf.json'), 'r')
 conf = json.loads(conffile.read())
 conffile.close()
 
-uconffile = open('user/user_conf.json', 'r')
+uconffile = open(os.path.join(base, 'user/user_conf.json'), 'r')
 u_conf = json.loads(uconffile.read())
 uconffile.close()
 
@@ -28,9 +35,9 @@ def fake_config(intent_request, session):
 	return {'location': location,
 			'start_time': start_time,
 			'score': score,
-			'score_conf', score_conf,
-			'total_time', total_time,
-			'time_filter', time_filter
+			'score_conf': score_conf,
+			'total_time': total_time,
+			'time_filter': time_filter
 			}
 
 
@@ -51,7 +58,7 @@ def load_config_for_activity(intent_request, session):
 	time_filter = []
 
 	#activity config
-	if activity in activity_conf:
+	if activity in conf[activity]:
 		activity_conf = conf[activity]
 		score = try_loading(activity_conf, 'score', score)
 		score_conf = try_loading(activity_conf, 'score_conf', score_conf)
@@ -86,9 +93,9 @@ def load_config_for_activity(intent_request, session):
 	return {'location': location,
 			'start_time': start_time,
 			'score': score,
-			'score_conf', score_conf,
-			'total_time', total_time,
-			'time_filter', time_filter
+			'score_conf': score_conf,
+			'total_time': total_time,
+			'time_filter': time_filter
 			}
 
 

@@ -76,4 +76,4 @@ class WhenDecision(object):
 
                 thisStartTime += timeRes
 
-        self.possibleActivities.sort(key=lambda activity: activity.score.value)
+        self.possibleActivities.sort(key=lambda activity: activity.score.value, reverse=True)

@@ -11,11 +11,14 @@ from __future__ import print_function
 
 import math
 
+import datetime
+from dateutil.parser import *
+
 import actions
 from whenDecision import *
 from decision import *
 from forecastCache import ForecastCache
-from config.load_config import fake_config
+from config.load_config import fake_config, load_config_for_activity
 
 
 def lambda_handler(event, context):
@@ -122,9 +125,11 @@ def stationary_when_decision(intent_request, session):
     session_attributes = {}
     should_end_session = False
 
-    config = fake_config(intent_request, session)
+    config = load_config_for_activity(intent_request, session)
 
     timesteps = math.ceil(config['total_time']/float(15*60))
+    # startTime = datetime.datetime.strptime(config['start_time']+'GMT', '%Y-%m-%dT%H:%M:%S.%fZ%Z')
+    startTime = parse(config['start_time'])
 
     cache = ForecastCache()
 
@@ -133,7 +138,7 @@ def stationary_when_decision(intent_request, session):
                               config['location'],
                               i*datetime.timedelta(seconds=15*60),
                               cache=cache)
-                        for i in range(timesteps)]
+                        for i in range(int(timesteps))]
 
     whenFilter = [TimeSlot(startTime, startTime+datetime.timedelta(days=3))]
 
@@ -150,7 +155,16 @@ def stationary_when_decision(intent_request, session):
 
 def describe_options(possibilities):
     start = possibilities[0].possibility[0].time.isoformat()
-    return 'You could try ' + start           
+    answer = ''
+    answer += 'I found '+ str(len(possibilities)) + ' posibilities. '
+    answer += 'Your best options are: '
+    n = min(3, len(possibilities)) 
+    for pos in possibilities[0:n]:
+        answer += pos.possibility[0].time.strftime('%dth at %H')
+        answer += ' with a score of '
+        answer += str(pos.score.value)
+        answer += ', '
+    return answer
 
 # --------------- Helpers that build all of the responses ----------------------
 
