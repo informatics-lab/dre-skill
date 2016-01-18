@@ -61,7 +61,7 @@ def load_config_for_activity(intent_request, session):
 	'''
 	intent = intent_request['intent']
 	try:
-		activity_name = intent['slots']['activity']['value']
+		activity_name = intent['slots']['Activity']['value']
 		activity = activities[activity_name]
 	except:
 		raise
@@ -103,9 +103,9 @@ def load_config_for_activity(intent_request, session):
 			uaconffile.close()
 
 	#slots
-	location = try_loading(intent['slots'], 'location', location)
-	start_time = try_loading(intent['slots'], 'start_time', start_time)
-	total_time = try_loading(intent['slots'], 'length', total_time)
+	location = try_loading(intent['slots'], 'Location', location)
+	start_time = try_loading(intent['slots'], 'Time', start_time)
+	total_time = try_loading(intent['slots'], 'Length', total_time)
 
 	return {'location': location,
 			'start_time': start_time,
