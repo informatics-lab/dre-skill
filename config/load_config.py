@@ -9,21 +9,31 @@ from decision import Loc
 
 base = os.path.split(__file__)[0]
 
-conffile = open(os.path.join(base, 'activities_conf.json'), 'r')
-conf = json.loads(conffile.read())
-conffile.close()
+with open(os.path.join(base, 'activities_conf.json'), 'r') as conffile:
+	conf = json.loads(conffile.read())
 
-uconffile = open(os.path.join(base, 'user/user_conf.json'), 'r')
-u_conf = json.loads(uconffile.read())
-uconffile.close()
+with open(os.path.join(base, 'user/user_conf.json'), 'r') as uconffile:
+	u_conf = json.loads(uconffile.read())
 
-def try_loading(dictionary, key, var):
+
+def try_loading(dictionary, key, current):
+	'''
+	Returns dictionary[key] if this exists and is not blank (e.g. '', [])
+	otherwise returns current.
+	'''
 	if key in dictionary and dictionary[key]:
 		return dictionary[key]
 	else:
-		return var
+		return current
+
 
 def fake_config(intent_request, session):
+	'''
+	Loads some default config for debugging purposes.
+	Args:
+		* intent_request (dict): lambda event request
+		* session (dict): lambda event session
+	'''
 	#default config
 	location = Loc(lat=50.7, lon=-3.5)
 	start_time = intent_request['timestamp']
@@ -42,12 +52,19 @@ def fake_config(intent_request, session):
 
 
 def load_config_for_activity(intent_request, session):
+	'''
+	Loads the most appropriate config for an activity request using the 
+	order of preference: intent slots, user config, activity config, default.
+	Args:
+		* intent_request (dict): lambda event request
+		* session (dict): lambda event session
+	'''
 	intent = intent_request['intent']
-	if 'activity' in intent['slots']:
+	try:
 		activity_name = intent['slots']['activity']['value']
 		activity = activities[activity_name]
-	else:
-		raise RuntimeError('No activity found in intent slots.')
+	except:
+		raise
 
 	#default config
 	location = Loc(lat=50.7, lon=-3.5)

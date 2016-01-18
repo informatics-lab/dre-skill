@@ -55,6 +55,8 @@ def on_session_started(session_started_request, session):
     print("on_session_started requestId=" + session_started_request['requestId']
           + ", sessionId=" + session['sessionId'])
 
+    global cache = ForecastCache()
+
 
 def on_launch(launch_request, session):
     """ Called when the user launches the skill without specifying what they
@@ -130,8 +132,6 @@ def stationary_when_decision(intent_request, session):
     timesteps = math.ceil(config['total_time']/float(15*60))
     # startTime = datetime.datetime.strptime(config['start_time']+'GMT', '%Y-%m-%dT%H:%M:%S.%fZ%Z')
     startTime = parse(config['start_time'])
-
-    cache = ForecastCache()
 
     whenActionBuilders = [WhenActionBuilder(actions.GaussDistFromIdeal,
                               config['score_conf'],
