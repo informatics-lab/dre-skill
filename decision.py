@@ -1,5 +1,6 @@
 import abc
 import imp
+import os.path
 
 from forecastCache import ForecastCache
 
@@ -57,7 +58,7 @@ class Action(object):
     @staticmethod
     def loadConfig(filename, name):
         """ Loads the filename namespace into the config class variable """
-        return imp.load_source(name, filename)
+        return imp.load_source(name, os.path.join('config', filename))
 
     @abc.abstractmethod
     def getScore(self):
