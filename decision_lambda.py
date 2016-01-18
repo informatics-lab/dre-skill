@@ -14,10 +14,10 @@ import math
 import datetime
 from dateutil.parser import *
 
-import actions
-from whenDecision import *
-from decision import *
-from forecastCache import ForecastCache
+import dre.actions as actions
+from dre.whenDecision import *
+from dre.decision import *
+from dre.forecastCache import ForecastCache
 from config.load_config import fake_config, load_config_for_activity
 
 cache = ForecastCache()
