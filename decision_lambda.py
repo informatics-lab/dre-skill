@@ -20,6 +20,8 @@ from decision import *
 from forecastCache import ForecastCache
 from config.load_config import fake_config, load_config_for_activity
 
+cache = ForecastCache()
+
 
 def lambda_handler(event, context):
     """ Route the incoming request based on type (LaunchRequest, IntentRequest,
@@ -54,8 +56,6 @@ def on_session_started(session_started_request, session):
 
     print("on_session_started requestId=" + session_started_request['requestId']
           + ", sessionId=" + session['sessionId'])
-
-    global cache = ForecastCache()
 
 
 def on_launch(launch_request, session):
