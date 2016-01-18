@@ -34,7 +34,7 @@ class WhenActionBuilder(object):
         self.cache = cache
 
     def build(self, when):
-        return self.Action(when, self.loc, self.config)
+        return self.Action(when, self.loc, self.config, self.cache)
 
 
 class WhenDecision(object):
