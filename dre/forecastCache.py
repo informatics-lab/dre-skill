@@ -17,3 +17,6 @@ class ForecastCache(object):
                  and forecastLoc.lon == loc.lon\
                  and variable in nearestForecast.__dict__.keys():
                 return nearestForecast.__dict__[variable].value
+            else:
+                print loc.lat, loc.lon, time
+                print forecastLoc.lat, forecastLoc.lon, nearestForecast.date
