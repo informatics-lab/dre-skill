@@ -5,6 +5,7 @@ class TimeSlot(object):
     def __init__(self, minTime=None, maxTime=None):
         self.minTime = minTime
         self.maxTime = maxTime
+        
 
 class WhenActionBuilder(object):
     """

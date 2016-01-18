@@ -5,7 +5,7 @@ from activities_map import activities
 import sys
 sys.path.append(".")
 
-from decision import Loc
+from dre.decision import Loc
 
 base = os.path.split(__file__)[0]
 

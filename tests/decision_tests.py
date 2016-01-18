@@ -3,10 +3,10 @@ import datetime
 import pytz
 import unittest
 
-import actions
-from whenDecision import *
-from decision import *
-from forecastCache import ForecastCache
+import dre.actions as actions
+from dre.whenDecision import *
+from dre.decision import *
+from dre.forecastCache import ForecastCache
 
 
 class WhenDecisionTest(unittest.TestCase):
