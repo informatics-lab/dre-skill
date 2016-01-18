@@ -5,8 +5,8 @@ import unittest
 
 import datapoint
 
-from forecastCache import ForecastCache
-from decision import Loc
+from dre.forecastCache import ForecastCache
+from dre.decision import Loc
 
 class TestChacheAndRetrieve(unittest.TestCase):
     cache = ForecastCache()
