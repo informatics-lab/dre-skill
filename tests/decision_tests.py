@@ -30,7 +30,7 @@ class WhenDecisionTest(unittest.TestCase):
         aDecision = WhenDecision(self.whenActionBuilders, self.whenFilter)
         aDecision.generatePossibleActivities(timeRes=datetime.timedelta(hours=3))
         self.assertEquals(len(aDecision.possibleActivities), 24)
-        self.assertEquals(aDecision.possibleActivities[0].score.value, 0.320456502460288)
+        self.assertEquals(aDecision.possibleActivities[0].score.value, 0.491081617138855)
 
 
 class WhatDecisionTest(unittest.TestCase):
