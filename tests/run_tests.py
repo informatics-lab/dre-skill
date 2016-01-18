@@ -5,8 +5,8 @@ import pytz
 import sys
 sys.path.append("..")
 
-from decision import *
-import actions
+from dre.decision import *
+import dre.actions as actions
 
 class RunTest(unittest.TestCase):
     def testRunAction(self):
