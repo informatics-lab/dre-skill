@@ -10,9 +10,8 @@ from decision_lambda import *
 class LambdaDecisionTest(unittest.TestCase):
     base = os.path.split(__file__)[0]
 
-    evtfile = open(os.path.join(base, 'sample_event.json'), 'r')
-    event = json.loads(evtfile.read())
-    evtfile.close()
+    with open(os.path.join(base, 'sample_event.json'), 'r') as evtfile:
+        event = json.loads(evtfile.read())
 
     cache = ForecastCache()
     with open("./tests/testForecast.pkl", "rb") as f:
