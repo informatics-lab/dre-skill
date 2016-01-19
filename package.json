@@ -18,6 +18,8 @@
   "homepage": "https://github.com/met-office-lab/amy#readme",
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-aws-lambda": "0.*.*"
+    "grunt-aws-lambda": "0.*.*",
+    "grunt-shell": "^1.1.2",
+    "load-grunt-tasks": "^3.4.0"
   }
 }
