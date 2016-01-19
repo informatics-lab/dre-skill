@@ -5,7 +5,7 @@ import unittest
 
 import datapoint
 
-from dre.forecastCache import ForecastCache
+from dre.forecastCache import ForecastCache, ForecastNotCachedException
 from dre.decision import Loc
 
 class TestChacheAndRetrieve(unittest.TestCase):
@@ -24,8 +24,8 @@ class TestRetrieveEmpty(unittest.TestCase):
     loc = Loc(lat=53.0, lon=-3.0)
     
     def test_getVal(self):
-        fc = self.cache.getForecast(datetime.datetime.now(), self.loc, "temperature")
-        self.assertEquals(fc, None)
+        with self.assertRaises(ForecastNotCachedException):
+            self.cache.getForecast(datetime.datetime.now(), self.loc, "temperature")
 
 
 if __name__ == '__main__':
