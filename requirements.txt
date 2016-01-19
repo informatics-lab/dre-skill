@@ -1,2 +1,2 @@
 datapoint==0.3.0
-dateutil==2.4.2
+python-dateutil==2.4.2
