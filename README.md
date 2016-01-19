@@ -10,6 +10,7 @@ Here is the recipie to set up and develop this repo. You need Grunt, NPM and Pip
 To test the repo run `grunt test`
 
 To deploy to AWS Lambda
+
 1. Edit/create your credentials in `~/.aws/credentials`
 2. Add an entry like this
 
