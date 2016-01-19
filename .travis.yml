@@ -7,3 +7,5 @@ script:
   - grunt test
 after_success:
   - grunt deploy
+notifications:
+  email: false
