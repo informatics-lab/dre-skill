@@ -3,6 +3,7 @@ from __future__ import division
 import math
 
 from decision import *
+from forecastCache import ForecastNotCachedException
 
 import sys
 sys.path.append("./lib")
@@ -20,10 +21,9 @@ class GaussDistFromIdeal(Action):
         """
 
         def getForecast(condition):
-            cachedForecast = self.cache.getForecast(self.time, self.loc, condition.variable)
-            if cachedForecast:
-                actionForecast = cachedForecast
-            else:
+            try:
+                actionForecast = self.cache.getForecast(self.time, self.loc, condition.variable)
+            except ForecastNotCachedException:
                 conn = datapoint.connection(api_key=DATAPOINT_KEY)
                 site = conn.get_nearest_site(latitude=self.loc.lat, longitude=self.loc.lon)
                 forecast = conn.get_forecast_for_site(site.id, frequency=DP_FORECAST_FREQUENCY)
