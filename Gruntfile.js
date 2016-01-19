@@ -1,11 +1,8 @@
 var grunt = require('grunt');
 grunt.loadNpmTasks('grunt-aws-lambda');
+grunt.loadNpmTasks('grunt-shell');
 
 grunt.initConfig({
-    lambda_invoke: {
-        default: {
-        }
-    },
     lambda_deploy: {
         default: {
             arn: 'arn:aws:lambda:us-east-1:536099501702:function:moDRE',
@@ -17,7 +14,17 @@ grunt.initConfig({
     lambda_package: {
         default: {
         }
+    },
+    shell: {
+        pip: {
+            command: 'mkdir -p ./lib/ && pip install -r requirements.txt -t ./lib/ && export PYTHONPATH=$PYTHONPATH:./lib/'
+        },
+        pytest: {
+            command: 'nosetests'
+        }
     }
 });
 
-grunt.registerTask('deploy', ['lambda_package', 'lambda_deploy']);
+grunt.registerTask('deps', ['shell:pip']);
+grunt.registerTask('test', ['deps', 'shell:pytest']);
+grunt.registerTask('deploy', ['test', 'lambda_package', 'lambda_deploy']);
