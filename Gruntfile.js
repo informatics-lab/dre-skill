@@ -17,7 +17,7 @@ grunt.initConfig({
     },
     shell: {
         pip: {
-            command: 'mkdir -p ./lib/ && pip install -r requirements.txt -t ./lib/ && export PYTHONPATH=$PYTHONPATH:./lib/'
+            command: 'mkdir -p ./lib/ && touch ./lib/__init__.py && pip install -r requirements.txt -t ./lib/'
         },
         pytest: {
             command: 'nosetests'

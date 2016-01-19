@@ -4,6 +4,8 @@ import math
 
 from decision import *
 
+import sys
+sys.path.append("./lib")
 import datapoint
 
 DATAPOINT_KEY = "41bf616e-7dbc-4066-826a-7270b8da4b93"
