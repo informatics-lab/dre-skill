@@ -20,10 +20,10 @@ from dre.decision import *
 from dre.forecastCache import ForecastCache
 from config.load_config import fake_config, load_config_for_activity
 
-cache = ForecastCache()
+cache = None
 
 
-def lambda_handler(event, context):
+def lambda_handler(event, context, thisCache=ForecastCache()):
     """ Route the incoming request based on type (LaunchRequest, IntentRequest,
     etc.) The JSON body of the request is provided in the event parameter.
     """
@@ -38,6 +38,8 @@ def lambda_handler(event, context):
     # if (event['session']['application']['applicationId'] !=
     #         "amzn1.echo-sdk-ams.app.[unique-value-here]"):
     #     raise ValueError("Invalid Application ID")
+    global cache
+    cache = thisCache
 
     if event['session']['new']:
         on_session_started({'requestId': event['request']['requestId']},
