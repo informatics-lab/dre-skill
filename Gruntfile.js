@@ -8,7 +8,10 @@ grunt.initConfig({
     },
     lambda_deploy: {
         default: {
-            arn: 'arn:aws:lambda:us-east-1:536099501702:function:moDR'
+            arn: 'arn:aws:lambda:us-east-1:536099501702:function:moDRE',
+        options: {
+                profile: "dre"
+            }
         }
     },
     lambda_package: {
