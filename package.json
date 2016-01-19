@@ -1,21 +1,21 @@
 {
-  "name": "amy",
+  "name": "dre",
   "version": "0.0.1",
-  "description": "AWS Lambda function to let users interact with Met Office data",
+  "description": "AWS Decision Recommendation Engine to let users interact with Met Office data",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/met-office-lab/amy.git"
+    "url": "git+https://github.com/met-office-lab/dre.git"
   },
   "author": "Niall Robinson",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/met-office-lab/amy/issues"
+    "url": "https://github.com/met-office-lab/dre/issues"
   },
-  "homepage": "https://github.com/met-office-lab/amy#readme",
+  "homepage": "https://github.com/met-office-lab/dre#readme",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-aws-lambda": "0.*.*",
