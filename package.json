@@ -1,5 +1,5 @@
 {
-  "name": "dre",
+  "name": "modre",
   "version": "0.0.1",
   "description": "AWS Decision Recommendation Engine to let users interact with Met Office data",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/met-office-lab/dre.git"
+    "url": "git+https://github.com/met-office-lab/modre.git"
   },
   "author": "Niall Robinson",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/met-office-lab/dre/issues"
+    "url": "https://github.com/met-office-lab/modre/issues"
   },
-  "homepage": "https://github.com/met-office-lab/dre#readme",
+  "homepage": "https://github.com/met-office-lab/modre#readme",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-aws-lambda": "0.*.*",
