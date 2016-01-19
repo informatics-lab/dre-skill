@@ -1,0 +1,9 @@
+language: python
+python:
+  - "2.7"
+before_script:
+  - npm install
+script:
+  - grunt test
+after_success:
+  - grunt deploy
