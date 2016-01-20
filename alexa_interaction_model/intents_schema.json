@@ -1,0 +1,13 @@
+{
+  "intents": [
+    {
+      "intent": "StationaryWhenIntent",
+      "slots": [
+        {
+          "name": "Activity",
+          "type": "ACTIVITY"
+        }
+      ]
+    }
+  ]
+}

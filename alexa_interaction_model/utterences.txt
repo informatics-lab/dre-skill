@@ -1,0 +1,466 @@
+StationaryWhenIntent when should i go out on a {Activity}
+StationaryWhenIntent when should i go out on an {Activity}
+StationaryWhenIntent when should i go out for a {Activity}
+StationaryWhenIntent when should i go out for an {Activity}
+StationaryWhenIntent when should i go on a {Activity}
+StationaryWhenIntent when should i go on an {Activity}
+StationaryWhenIntent when should i go for a {Activity}
+StationaryWhenIntent when should i go for an {Activity}
+StationaryWhenIntent when could i go out on a {Activity}
+StationaryWhenIntent when could i go out on an {Activity}
+StationaryWhenIntent when could i go out for a {Activity}
+StationaryWhenIntent when could i go out for an {Activity}
+StationaryWhenIntent when could i go on a {Activity}
+StationaryWhenIntent when could i go on an {Activity}
+StationaryWhenIntent when could i go for a {Activity}
+StationaryWhenIntent when could i go for an {Activity}
+StationaryWhenIntent when shall i go out on a {Activity}
+StationaryWhenIntent when shall i go out on an {Activity}
+StationaryWhenIntent when shall i go out for a {Activity}
+StationaryWhenIntent when shall i go out for an {Activity}
+StationaryWhenIntent when shall i go on a {Activity}
+StationaryWhenIntent when shall i go on an {Activity}
+StationaryWhenIntent when shall i go for a {Activity}
+StationaryWhenIntent when shall i go for an {Activity}
+StationaryWhenIntent what time should i go out on a {Activity}
+StationaryWhenIntent what time should i go out on an {Activity}
+StationaryWhenIntent what time should i go out for a {Activity}
+StationaryWhenIntent what time should i go out for an {Activity}
+StationaryWhenIntent what time should i go on a {Activity}
+StationaryWhenIntent what time should i go on an {Activity}
+StationaryWhenIntent what time should i go for a {Activity}
+StationaryWhenIntent what time should i go for an {Activity}
+StationaryWhenIntent what time could i go out on a {Activity}
+StationaryWhenIntent what time could i go out on an {Activity}
+StationaryWhenIntent what time could i go out for a {Activity}
+StationaryWhenIntent what time could i go out for an {Activity}
+StationaryWhenIntent what time could i go on a {Activity}
+StationaryWhenIntent what time could i go on an {Activity}
+StationaryWhenIntent what time could i go for a {Activity}
+StationaryWhenIntent what time could i go for an {Activity}
+StationaryWhenIntent what time shall i go out on a {Activity}
+StationaryWhenIntent what time shall i go out on an {Activity}
+StationaryWhenIntent what time shall i go out for a {Activity}
+StationaryWhenIntent what time shall i go out for an {Activity}
+StationaryWhenIntent what time shall i go on a {Activity}
+StationaryWhenIntent what time shall i go on an {Activity}
+StationaryWhenIntent what time shall i go for a {Activity}
+StationaryWhenIntent what time shall i go for an {Activity}
+StationaryWhenIntent when i should go out on a {Activity}
+StationaryWhenIntent when i should go out on an {Activity}
+StationaryWhenIntent when i should go out for a {Activity}
+StationaryWhenIntent when i should go out for an {Activity}
+StationaryWhenIntent when i should go on a {Activity}
+StationaryWhenIntent when i should go on an {Activity}
+StationaryWhenIntent when i should go for a {Activity}
+StationaryWhenIntent when i should go for an {Activity}
+StationaryWhenIntent when i could go out on a {Activity}
+StationaryWhenIntent when i could go out on an {Activity}
+StationaryWhenIntent when i could go out for a {Activity}
+StationaryWhenIntent when i could go out for an {Activity}
+StationaryWhenIntent when i could go on a {Activity}
+StationaryWhenIntent when i could go on an {Activity}
+StationaryWhenIntent when i could go for a {Activity}
+StationaryWhenIntent when i could go for an {Activity}
+StationaryWhenIntent what time i should go out on a {Activity}
+StationaryWhenIntent what time i should go out on an {Activity}
+StationaryWhenIntent what time i should go out for a {Activity}
+StationaryWhenIntent what time i should go out for an {Activity}
+StationaryWhenIntent what time i should go on a {Activity}
+StationaryWhenIntent what time i should go on an {Activity}
+StationaryWhenIntent what time i should go for a {Activity}
+StationaryWhenIntent what time i should go for an {Activity}
+StationaryWhenIntent what time i could go out on a {Activity}
+StationaryWhenIntent what time i could go out on an {Activity}
+StationaryWhenIntent what time i could go out for a {Activity}
+StationaryWhenIntent what time i could go out for an {Activity}
+StationaryWhenIntent what time i could go on a {Activity}
+StationaryWhenIntent what time i could go on an {Activity}
+StationaryWhenIntent what time i could go for a {Activity}
+StationaryWhenIntent what time i could go for an {Activity}
+StationaryWhenIntent when's the best time to go out on a {Activity}
+StationaryWhenIntent when's the best time to go out on an {Activity}
+StationaryWhenIntent when's the best time to go out for a {Activity}
+StationaryWhenIntent when's the best time to go out for an {Activity}
+StationaryWhenIntent when's the best time to go on a {Activity}
+StationaryWhenIntent when's the best time to go on an {Activity}
+StationaryWhenIntent when's the best time to go for a {Activity}
+StationaryWhenIntent when's the best time to go for an {Activity}
+StationaryWhenIntent when's a good time to go out on a {Activity}
+StationaryWhenIntent when's a good time to go out on an {Activity}
+StationaryWhenIntent when's a good time to go out for a {Activity}
+StationaryWhenIntent when's a good time to go out for an {Activity}
+StationaryWhenIntent when's a good time to go on a {Activity}
+StationaryWhenIntent when's a good time to go on an {Activity}
+StationaryWhenIntent when's a good time to go for a {Activity}
+StationaryWhenIntent when's a good time to go for an {Activity}
+StationaryWhenIntent when's a nice time to go out on a {Activity}
+StationaryWhenIntent when's a nice time to go out on an {Activity}
+StationaryWhenIntent when's a nice time to go out for a {Activity}
+StationaryWhenIntent when's a nice time to go out for an {Activity}
+StationaryWhenIntent when's a nice time to go on a {Activity}
+StationaryWhenIntent when's a nice time to go on an {Activity}
+StationaryWhenIntent when's a nice time to go for a {Activity}
+StationaryWhenIntent when's a nice time to go for an {Activity}
+StationaryWhenIntent when is the best time to go out on a {Activity}
+StationaryWhenIntent when is the best time to go out on an {Activity}
+StationaryWhenIntent when is the best time to go out for a {Activity}
+StationaryWhenIntent when is the best time to go out for an {Activity}
+StationaryWhenIntent when is the best time to go on a {Activity}
+StationaryWhenIntent when is the best time to go on an {Activity}
+StationaryWhenIntent when is the best time to go for a {Activity}
+StationaryWhenIntent when is the best time to go for an {Activity}
+StationaryWhenIntent when is a good time to go out on a {Activity}
+StationaryWhenIntent when is a good time to go out on an {Activity}
+StationaryWhenIntent when is a good time to go out for a {Activity}
+StationaryWhenIntent when is a good time to go out for an {Activity}
+StationaryWhenIntent when is a good time to go on a {Activity}
+StationaryWhenIntent when is a good time to go on an {Activity}
+StationaryWhenIntent when is a good time to go for a {Activity}
+StationaryWhenIntent when is a good time to go for an {Activity}
+StationaryWhenIntent when is a nice time to go out on a {Activity}
+StationaryWhenIntent when is a nice time to go out on an {Activity}
+StationaryWhenIntent when is a nice time to go out for a {Activity}
+StationaryWhenIntent when is a nice time to go out for an {Activity}
+StationaryWhenIntent when is a nice time to go on a {Activity}
+StationaryWhenIntent when is a nice time to go on an {Activity}
+StationaryWhenIntent when is a nice time to go for a {Activity}
+StationaryWhenIntent when is a nice time to go for an {Activity}
+StationaryWhenIntent when would be the best time to go out on a {Activity}
+StationaryWhenIntent when would be the best time to go out on an {Activity}
+StationaryWhenIntent when would be the best time to go out for a {Activity}
+StationaryWhenIntent when would be the best time to go out for an {Activity}
+StationaryWhenIntent when would be the best time to go on a {Activity}
+StationaryWhenIntent when would be the best time to go on an {Activity}
+StationaryWhenIntent when would be the best time to go for a {Activity}
+StationaryWhenIntent when would be the best time to go for an {Activity}
+StationaryWhenIntent when would be a good time to go out on a {Activity}
+StationaryWhenIntent when would be a good time to go out on an {Activity}
+StationaryWhenIntent when would be a good time to go out for a {Activity}
+StationaryWhenIntent when would be a good time to go out for an {Activity}
+StationaryWhenIntent when would be a good time to go on a {Activity}
+StationaryWhenIntent when would be a good time to go on an {Activity}
+StationaryWhenIntent when would be a good time to go for a {Activity}
+StationaryWhenIntent when would be a good time to go for an {Activity}
+StationaryWhenIntent when would be a nice time to go out on a {Activity}
+StationaryWhenIntent when would be a nice time to go out on an {Activity}
+StationaryWhenIntent when would be a nice time to go out for a {Activity}
+StationaryWhenIntent when would be a nice time to go out for an {Activity}
+StationaryWhenIntent when would be a nice time to go on a {Activity}
+StationaryWhenIntent when would be a nice time to go on an {Activity}
+StationaryWhenIntent when would be a nice time to go for a {Activity}
+StationaryWhenIntent when would be a nice time to go for an {Activity}
+StationaryWhenIntent what's the best time to go out on a {Activity}
+StationaryWhenIntent what's the best time to go out on an {Activity}
+StationaryWhenIntent what's the best time to go out for a {Activity}
+StationaryWhenIntent what's the best time to go out for an {Activity}
+StationaryWhenIntent what's the best time to go on a {Activity}
+StationaryWhenIntent what's the best time to go on an {Activity}
+StationaryWhenIntent what's the best time to go for a {Activity}
+StationaryWhenIntent what's the best time to go for an {Activity}
+StationaryWhenIntent what's a good time to go out on a {Activity}
+StationaryWhenIntent what's a good time to go out on an {Activity}
+StationaryWhenIntent what's a good time to go out for a {Activity}
+StationaryWhenIntent what's a good time to go out for an {Activity}
+StationaryWhenIntent what's a good time to go on a {Activity}
+StationaryWhenIntent what's a good time to go on an {Activity}
+StationaryWhenIntent what's a good time to go for a {Activity}
+StationaryWhenIntent what's a good time to go for an {Activity}
+StationaryWhenIntent what's a nice time to go out on a {Activity}
+StationaryWhenIntent what's a nice time to go out on an {Activity}
+StationaryWhenIntent what's a nice time to go out for a {Activity}
+StationaryWhenIntent what's a nice time to go out for an {Activity}
+StationaryWhenIntent what's a nice time to go on a {Activity}
+StationaryWhenIntent what's a nice time to go on an {Activity}
+StationaryWhenIntent what's a nice time to go for a {Activity}
+StationaryWhenIntent what's a nice time to go for an {Activity}
+StationaryWhenIntent what is the best time to go out on a {Activity}
+StationaryWhenIntent what is the best time to go out on an {Activity}
+StationaryWhenIntent what is the best time to go out for a {Activity}
+StationaryWhenIntent what is the best time to go out for an {Activity}
+StationaryWhenIntent what is the best time to go on a {Activity}
+StationaryWhenIntent what is the best time to go on an {Activity}
+StationaryWhenIntent what is the best time to go for a {Activity}
+StationaryWhenIntent what is the best time to go for an {Activity}
+StationaryWhenIntent what is a good time to go out on a {Activity}
+StationaryWhenIntent what is a good time to go out on an {Activity}
+StationaryWhenIntent what is a good time to go out for a {Activity}
+StationaryWhenIntent what is a good time to go out for an {Activity}
+StationaryWhenIntent what is a good time to go on a {Activity}
+StationaryWhenIntent what is a good time to go on an {Activity}
+StationaryWhenIntent what is a good time to go for a {Activity}
+StationaryWhenIntent what is a good time to go for an {Activity}
+StationaryWhenIntent what is a nice time to go out on a {Activity}
+StationaryWhenIntent what is a nice time to go out on an {Activity}
+StationaryWhenIntent what is a nice time to go out for a {Activity}
+StationaryWhenIntent what is a nice time to go out for an {Activity}
+StationaryWhenIntent what is a nice time to go on a {Activity}
+StationaryWhenIntent what is a nice time to go on an {Activity}
+StationaryWhenIntent what is a nice time to go for a {Activity}
+StationaryWhenIntent what is a nice time to go for an {Activity}
+StationaryWhenIntent what would be the best time to go out on a {Activity}
+StationaryWhenIntent what would be the best time to go out on an {Activity}
+StationaryWhenIntent what would be the best time to go out for a {Activity}
+StationaryWhenIntent what would be the best time to go out for an {Activity}
+StationaryWhenIntent what would be the best time to go on a {Activity}
+StationaryWhenIntent what would be the best time to go on an {Activity}
+StationaryWhenIntent what would be the best time to go for a {Activity}
+StationaryWhenIntent what would be the best time to go for an {Activity}
+StationaryWhenIntent what would be a good time to go out on a {Activity}
+StationaryWhenIntent what would be a good time to go out on an {Activity}
+StationaryWhenIntent what would be a good time to go out for a {Activity}
+StationaryWhenIntent what would be a good time to go out for an {Activity}
+StationaryWhenIntent what would be a good time to go on a {Activity}
+StationaryWhenIntent what would be a good time to go on an {Activity}
+StationaryWhenIntent what would be a good time to go for a {Activity}
+StationaryWhenIntent what would be a good time to go for an {Activity}
+StationaryWhenIntent what would be a nice time to go out on a {Activity}
+StationaryWhenIntent what would be a nice time to go out on an {Activity}
+StationaryWhenIntent what would be a nice time to go out for a {Activity}
+StationaryWhenIntent what would be a nice time to go out for an {Activity}
+StationaryWhenIntent what would be a nice time to go on a {Activity}
+StationaryWhenIntent what would be a nice time to go on an {Activity}
+StationaryWhenIntent what would be a nice time to go for a {Activity}
+StationaryWhenIntent what would be a nice time to go for an {Activity}
+StationaryWhenIntent for the best time to go out on a {Activity}
+StationaryWhenIntent for the best time to go out on an {Activity}
+StationaryWhenIntent for the best time to go out for a {Activity}
+StationaryWhenIntent for the best time to go out for an {Activity}
+StationaryWhenIntent for the best time to go on a {Activity}
+StationaryWhenIntent for the best time to go on an {Activity}
+StationaryWhenIntent for the best time to go for a {Activity}
+StationaryWhenIntent for the best time to go for an {Activity}
+StationaryWhenIntent for a good time to go out on a {Activity}
+StationaryWhenIntent for a good time to go out on an {Activity}
+StationaryWhenIntent for a good time to go out for a {Activity}
+StationaryWhenIntent for a good time to go out for an {Activity}
+StationaryWhenIntent for a good time to go on a {Activity}
+StationaryWhenIntent for a good time to go on an {Activity}
+StationaryWhenIntent for a good time to go for a {Activity}
+StationaryWhenIntent for a good time to go for an {Activity}
+StationaryWhenIntent for a nice time to go out on a {Activity}
+StationaryWhenIntent for a nice time to go out on an {Activity}
+StationaryWhenIntent for a nice time to go out for a {Activity}
+StationaryWhenIntent for a nice time to go out for an {Activity}
+StationaryWhenIntent for a nice time to go on a {Activity}
+StationaryWhenIntent for a nice time to go on an {Activity}
+StationaryWhenIntent for a nice time to go for a {Activity}
+StationaryWhenIntent for a nice time to go for an {Activity}
+StationaryWhenIntent the best time to go out on a {Activity}
+StationaryWhenIntent the best time to go out on an {Activity}
+StationaryWhenIntent the best time to go out for a {Activity}
+StationaryWhenIntent the best time to go out for an {Activity}
+StationaryWhenIntent the best time to go on a {Activity}
+StationaryWhenIntent the best time to go on an {Activity}
+StationaryWhenIntent the best time to go for a {Activity}
+StationaryWhenIntent the best time to go for an {Activity}
+StationaryWhenIntent a good time to go out on a {Activity}
+StationaryWhenIntent a good time to go out on an {Activity}
+StationaryWhenIntent a good time to go out for a {Activity}
+StationaryWhenIntent a good time to go out for an {Activity}
+StationaryWhenIntent a good time to go on a {Activity}
+StationaryWhenIntent a good time to go on an {Activity}
+StationaryWhenIntent a good time to go for a {Activity}
+StationaryWhenIntent a good time to go for an {Activity}
+StationaryWhenIntent a nice time to go out on a {Activity}
+StationaryWhenIntent a nice time to go out on an {Activity}
+StationaryWhenIntent a nice time to go out for a {Activity}
+StationaryWhenIntent a nice time to go out for an {Activity}
+StationaryWhenIntent a nice time to go on a {Activity}
+StationaryWhenIntent a nice time to go on an {Activity}
+StationaryWhenIntent a nice time to go for a {Activity}
+StationaryWhenIntent a nice time to go for an {Activity}
+StationaryWhenIntent when's the best time for a {Activity}
+StationaryWhenIntent when's the best time for an {Activity}
+StationaryWhenIntent when's a good time for a {Activity}
+StationaryWhenIntent when's a good time for an {Activity}
+StationaryWhenIntent when's a nice time for a {Activity}
+StationaryWhenIntent when's a nice time for an {Activity}
+StationaryWhenIntent when is the best time for a {Activity}
+StationaryWhenIntent when is the best time for an {Activity}
+StationaryWhenIntent when is a good time for a {Activity}
+StationaryWhenIntent when is a good time for an {Activity}
+StationaryWhenIntent when is a nice time for a {Activity}
+StationaryWhenIntent when is a nice time for an {Activity}
+StationaryWhenIntent when would be the best time for a {Activity}
+StationaryWhenIntent when would be the best time for an {Activity}
+StationaryWhenIntent when would be a good time for a {Activity}
+StationaryWhenIntent when would be a good time for an {Activity}
+StationaryWhenIntent when would be a nice time for a {Activity}
+StationaryWhenIntent when would be a nice time for an {Activity}
+StationaryWhenIntent what's the best time for a {Activity}
+StationaryWhenIntent what's the best time for an {Activity}
+StationaryWhenIntent what's a good time for a {Activity}
+StationaryWhenIntent what's a good time for an {Activity}
+StationaryWhenIntent what's a nice time for a {Activity}
+StationaryWhenIntent what's a nice time for an {Activity}
+StationaryWhenIntent what is the best time for a {Activity}
+StationaryWhenIntent what is the best time for an {Activity}
+StationaryWhenIntent what is a good time for a {Activity}
+StationaryWhenIntent what is a good time for an {Activity}
+StationaryWhenIntent what is a nice time for a {Activity}
+StationaryWhenIntent what is a nice time for an {Activity}
+StationaryWhenIntent what would be the best time for a {Activity}
+StationaryWhenIntent what would be the best time for an {Activity}
+StationaryWhenIntent what would be a good time for a {Activity}
+StationaryWhenIntent what would be a good time for an {Activity}
+StationaryWhenIntent what would be a nice time for a {Activity}
+StationaryWhenIntent what would be a nice time for an {Activity}
+StationaryWhenIntent for the best time to go out on a {Activity}
+StationaryWhenIntent for the best time to go out on an {Activity}
+StationaryWhenIntent for the best time to go out for a {Activity}
+StationaryWhenIntent for the best time to go out for an {Activity}
+StationaryWhenIntent for the best time to go on a {Activity}
+StationaryWhenIntent for the best time to go on an {Activity}
+StationaryWhenIntent for the best time to go for a {Activity}
+StationaryWhenIntent for the best time to go for an {Activity}
+StationaryWhenIntent for a good time to go out on a {Activity}
+StationaryWhenIntent for a good time to go out on an {Activity}
+StationaryWhenIntent for a good time to go out for a {Activity}
+StationaryWhenIntent for a good time to go out for an {Activity}
+StationaryWhenIntent for a good time to go on a {Activity}
+StationaryWhenIntent for a good time to go on an {Activity}
+StationaryWhenIntent for a good time to go for a {Activity}
+StationaryWhenIntent for a good time to go for an {Activity}
+StationaryWhenIntent for a nice time to go out on a {Activity}
+StationaryWhenIntent for a nice time to go out on an {Activity}
+StationaryWhenIntent for a nice time to go out for a {Activity}
+StationaryWhenIntent for a nice time to go out for an {Activity}
+StationaryWhenIntent for a nice time to go on a {Activity}
+StationaryWhenIntent for a nice time to go on an {Activity}
+StationaryWhenIntent for a nice time to go for a {Activity}
+StationaryWhenIntent for a nice time to go for an {Activity}
+StationaryWhenIntent the best time to go out on a {Activity}
+StationaryWhenIntent the best time to go out on an {Activity}
+StationaryWhenIntent the best time to go out for a {Activity}
+StationaryWhenIntent the best time to go out for an {Activity}
+StationaryWhenIntent the best time to go on a {Activity}
+StationaryWhenIntent the best time to go on an {Activity}
+StationaryWhenIntent the best time to go for a {Activity}
+StationaryWhenIntent the best time to go for an {Activity}
+StationaryWhenIntent a good time to go out on a {Activity}
+StationaryWhenIntent a good time to go out on an {Activity}
+StationaryWhenIntent a good time to go out for a {Activity}
+StationaryWhenIntent a good time to go out for an {Activity}
+StationaryWhenIntent a good time to go on a {Activity}
+StationaryWhenIntent a good time to go on an {Activity}
+StationaryWhenIntent a good time to go for a {Activity}
+StationaryWhenIntent a good time to go for an {Activity}
+StationaryWhenIntent a nice time to go out on a {Activity}
+StationaryWhenIntent a nice time to go out on an {Activity}
+StationaryWhenIntent a nice time to go out for a {Activity}
+StationaryWhenIntent a nice time to go out for an {Activity}
+StationaryWhenIntent a nice time to go on a {Activity}
+StationaryWhenIntent a nice time to go on an {Activity}
+StationaryWhenIntent a nice time to go for a {Activity}
+StationaryWhenIntent a nice time to go for an {Activity}
+StationaryWhenIntent for the best time for a {Activity}
+StationaryWhenIntent for the best time for an {Activity}
+StationaryWhenIntent for a good time for a {Activity}
+StationaryWhenIntent for a good time for an {Activity}
+StationaryWhenIntent for a nice time for a {Activity}
+StationaryWhenIntent for a nice time for an {Activity}
+StationaryWhenIntent the best time for a {Activity}
+StationaryWhenIntent the best time for an {Activity}
+StationaryWhenIntent a good time for a {Activity}
+StationaryWhenIntent a good time for an {Activity}
+StationaryWhenIntent a nice time for a {Activity}
+StationaryWhenIntent a nice time for an {Activity}
+StationaryWhenIntent when's good for a run
+StationaryWhenIntent when's good for a jog
+StationaryWhenIntent when's best for a run
+StationaryWhenIntent when's best for a jog
+StationaryWhenIntent when's nice for a run
+StationaryWhenIntent when's nice for a jog
+StationaryWhenIntent when is good for a run
+StationaryWhenIntent when is good for a jog
+StationaryWhenIntent when is best for a run
+StationaryWhenIntent when is best for a jog
+StationaryWhenIntent when is nice for a run
+StationaryWhenIntent when is nice for a jog
+StationaryWhenIntent when would be good for a run
+StationaryWhenIntent when would be good for a jog
+StationaryWhenIntent when would be best for a run
+StationaryWhenIntent when would be best for a jog
+StationaryWhenIntent when would be nice for a run
+StationaryWhenIntent when would be nice for a jog
+StationaryWhenIntent when would be good for a {Activity}
+StationaryWhenIntent when would be good for an {Activity}
+StationaryWhenIntent when would be best for a {Activity}
+StationaryWhenIntent when would be best for an {Activity}
+StationaryWhenIntent when would be nice for a {Activity}
+StationaryWhenIntent when would be nice for an {Activity}
+StationaryWhenIntent when could be good for a {Activity}
+StationaryWhenIntent when could be good for an {Activity}
+StationaryWhenIntent when could be best for a {Activity}
+StationaryWhenIntent when could be best for an {Activity}
+StationaryWhenIntent when could be nice for a {Activity}
+StationaryWhenIntent when could be nice for an {Activity}
+StationaryWhenIntent when should be good for a {Activity}
+StationaryWhenIntent when should be good for an {Activity}
+StationaryWhenIntent when should be best for a {Activity}
+StationaryWhenIntent when should be best for an {Activity}
+StationaryWhenIntent when should be nice for a {Activity}
+StationaryWhenIntent when should be nice for an {Activity}
+StationaryWhenIntent when might be good for a {Activity}
+StationaryWhenIntent when might be good for an {Activity}
+StationaryWhenIntent when might be best for a {Activity}
+StationaryWhenIntent when might be best for an {Activity}
+StationaryWhenIntent when might be nice for a {Activity}
+StationaryWhenIntent when might be nice for an {Activity}
+StationaryWhenIntent what time would be good for a {Activity}
+StationaryWhenIntent what time would be good for an {Activity}
+StationaryWhenIntent what time would be best for a {Activity}
+StationaryWhenIntent what time would be best for an {Activity}
+StationaryWhenIntent what time would be nice for a {Activity}
+StationaryWhenIntent what time would be nice for an {Activity}
+StationaryWhenIntent what time could be good for a {Activity}
+StationaryWhenIntent what time could be good for an {Activity}
+StationaryWhenIntent what time could be best for a {Activity}
+StationaryWhenIntent what time could be best for an {Activity}
+StationaryWhenIntent what time could be nice for a {Activity}
+StationaryWhenIntent what time could be nice for an {Activity}
+StationaryWhenIntent what time should be good for a {Activity}
+StationaryWhenIntent what time should be good for an {Activity}
+StationaryWhenIntent what time should be best for a {Activity}
+StationaryWhenIntent what time should be best for an {Activity}
+StationaryWhenIntent what time should be nice for a {Activity}
+StationaryWhenIntent what time should be nice for an {Activity}
+StationaryWhenIntent what time might be good for a {Activity}
+StationaryWhenIntent what time might be good for an {Activity}
+StationaryWhenIntent what time might be best for a {Activity}
+StationaryWhenIntent what time might be best for an {Activity}
+StationaryWhenIntent what time might be nice for a {Activity}
+StationaryWhenIntent what time might be nice for an {Activity}
+StationaryWhenIntent when the best time for going on a {Activity} would be
+StationaryWhenIntent when the best time for going on a {Activity} might be
+StationaryWhenIntent when the best time for going on an {Activity} would be
+StationaryWhenIntent when the best time for going on an {Activity} might be
+StationaryWhenIntent when the best time for a {Activity} would be
+StationaryWhenIntent when the best time for a {Activity} might be
+StationaryWhenIntent when the best time for an {Activity} would be
+StationaryWhenIntent when the best time for an {Activity} might be
+StationaryWhenIntent when a good time for going on a {Activity} would be
+StationaryWhenIntent when a good time for going on a {Activity} might be
+StationaryWhenIntent when a good time for going on an {Activity} would be
+StationaryWhenIntent when a good time for going on an {Activity} might be
+StationaryWhenIntent when a good time for a {Activity} would be
+StationaryWhenIntent when a good time for a {Activity} might be
+StationaryWhenIntent when a good time for an {Activity} would be
+StationaryWhenIntent when a good time for an {Activity} might be
+StationaryWhenIntent what the best time for going on a {Activity} would be
+StationaryWhenIntent what the best time for going on a {Activity} might be
+StationaryWhenIntent what the best time for going on an {Activity} would be
+StationaryWhenIntent what the best time for going on an {Activity} might be
+StationaryWhenIntent what the best time for a {Activity} would be
+StationaryWhenIntent what the best time for a {Activity} might be
+StationaryWhenIntent what the best time for an {Activity} would be
+StationaryWhenIntent what the best time for an {Activity} might be
+StationaryWhenIntent what a good time for going on a {Activity} would be
+StationaryWhenIntent what a good time for going on a {Activity} might be
+StationaryWhenIntent what a good time for going on an {Activity} would be
+StationaryWhenIntent what a good time for going on an {Activity} might be
+StationaryWhenIntent what a good time for a {Activity} would be
+StationaryWhenIntent what a good time for a {Activity} might be
+StationaryWhenIntent what a good time for an {Activity} would be
+StationaryWhenIntent what a good time for an {Activity} might be
