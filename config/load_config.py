@@ -1,4 +1,4 @@
-import json
+import yaml
 import os.path
 from activities_map import activities
 
@@ -10,10 +10,10 @@ from dre.decision import Loc
 base = os.path.split(__file__)[0]
 
 with open(os.path.join(base, 'activities_conf.json'), 'r') as conffile:
-	conf = json.loads(conffile.read())
+	conf = yaml.safe_load(conffile.read())
 
 with open(os.path.join(base, 'user/user_conf.json'), 'r') as uconffile:
-	u_conf = json.loads(uconffile.read())
+	u_conf = yaml.safe_load(uconffile.read())
 
 
 def try_loading(dictionary, key, current):
@@ -22,8 +22,10 @@ def try_loading(dictionary, key, current):
 	otherwise returns current.
 	'''
 	if key in dictionary and dictionary[key]:
+		print('Loaded %s from %s'%(key, dictionary))
 		return dictionary[key]
 	else:
+		print('Failed to load %s from %s; using %s'%(key, dictionary, current))
 		return current
 
 
@@ -75,16 +77,21 @@ def load_config_for_activity(intent_request, session):
 	time_filter = []
 
 	#activity config
-	if activity in conf[activity]:
+	if activity in conf:
+		print('Loading activity config')
 		activity_conf = conf[activity]
 		score = try_loading(activity_conf, 'score', score)
 		score_conf = try_loading(activity_conf, 'score_conf', score_conf)
 		total_time = try_loading(activity_conf, 'total_time', total_time)
 		time_filter = try_loading(activity_conf, 'filter', time_filter)
+	else:
+		print('Not loading activity config')
+		print(activity, str(conf))
 
 	#user config
 	userId = session['user']['userId']
 	if userId in u_conf:
+		print('Loading user config')
 		user_config = u_conf[userId]
 		time_filter = try_loading(user_config, 'filter', time_filter)
 		if 'latitude' in user_config and 'longitude' in user_config:
@@ -101,6 +108,9 @@ def load_config_for_activity(intent_request, session):
 			if activity in user_activities_conf:
 				total_time = try_loading(user_activities_conf[activity], 'total_time', total_time)
 			uaconffile.close()
+	else:
+		print('Not loading user config')
+		print(userId, str(u_conf))
 
 	#slots
 	location = try_loading(intent['slots'], 'Location', location)

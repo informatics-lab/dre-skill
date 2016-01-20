@@ -1,7 +1,7 @@
 {
-	"user1": {
-				"latitude": 50.7,
-				"longitude": -3.5,
-				"filter": []
-			} 
+    "user1": {
+                "latitude": 50.7,
+                "longitude": -3.5,
+                "filter": []
+            } 
 }

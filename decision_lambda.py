@@ -134,6 +134,8 @@ def stationary_when_decision(intent_request, session):
 
     config = load_config_for_activity(intent_request, session)
 
+    print('Loaded config: '+str(config))
+
     timesteps = math.ceil(config['total_time']/float(15*60))
     # startTime = datetime.datetime.strptime(config['start_time']+'GMT', '%Y-%m-%dT%H:%M:%S.%fZ%Z')
     startTime = parse(config['start_time'])
