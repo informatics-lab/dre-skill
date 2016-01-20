@@ -23,6 +23,9 @@ from config.load_config import fake_config, load_config_for_activity
 cache = None
 
 
+ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+
+
 def lambda_handler(event, context, thisCache=ForecastCache()):
     """ Route the incoming request based on type (LaunchRequest, IntentRequest,
     etc.) The JSON body of the request is provided in the event parameter.
@@ -148,24 +151,27 @@ def stationary_when_decision(intent_request, session):
     aDecision.generatePossibleActivities(timeRes=datetime.timedelta(hours=3))
     possibilities = aDecision.possibleActivities    
 
-    speech_output = describe_options(possibilities)
+    speech_output = describe_options(possibilities, config['activity'])
     reprompt_text = ""
 
     return build_response(session_attributes, build_speechlet_response(
          card_title, speech_output, reprompt_text, should_end_session))
 
 
-def describe_options(possibilities):
+def describe_options(possibilities, activity):
     start = possibilities[0].possibility[0].time.isoformat()
     answer = ''
-    answer += 'I found '+ str(len(possibilities)) + ' posibilities. '
-    answer += 'Your best options are: '
     n = min(3, len(possibilities)) 
-    for pos in possibilities[0:n]:
-        answer += pos.possibility[0].time.strftime('%dth at %H')
-        answer += ' with a score of '
-        answer += str(pos.score.value)
-        answer += ', '
+    if n > 0:
+        answer += 'Your best options for a %s are: '%activity
+        for pos in possibilities[0:n]:
+            answer += pos.possibility[0].time.strftime(ordinal(pos.possibility[0].time.day)+' at %H:00')
+            answer += ' with a score of '
+            answer += '%.2f'%round(pos.score.value, 2)
+            answer += ', '
+        answer = answer[:-2]+'.'
+    else: 
+        answer += "I couldn't find a good time for that activity."
     return answer
 
 # --------------- Helpers that build all of the responses ----------------------
