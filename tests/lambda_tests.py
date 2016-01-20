@@ -19,9 +19,9 @@ class LambdaDecisionTest(unittest.TestCase):
     cache.cacheForecast(timesteps, Loc(lat=50.7, lon=-3.5))
 
     def testLambda(self):
-        answer = 'I found'
+        answer = 'Your'
         result = lambda_handler(self.event, None, self.cache)
-        self.assertEquals(result['response']['outputSpeech']['text'][:7], answer)
+        self.assertEquals(result['response']['outputSpeech']['text'][:4], answer)
 
 if __name__ == '__main__':
     unittest.main()

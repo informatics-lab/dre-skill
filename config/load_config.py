@@ -112,7 +112,8 @@ def load_config_for_activity(intent_request, session):
 			'score': score,
 			'score_conf': score_conf,
 			'total_time': total_time,
-			'time_filter': time_filter
+			'time_filter': time_filter,
+			'activity': activity
 			}
 
 
