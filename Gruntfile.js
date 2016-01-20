@@ -8,9 +8,7 @@ if (fs.existsSync(process.env.HOME+"/.aws/credentials")) {
     console.log("using AWS credentials file")
 } else {
     // if credentials file doesn't exists (presumes using environmental variables
-    theseOptions = {region: "us-east-1",
-                    accessKeyId: "$AWS_ACCESS_KEY_ID",
-                    secretAccessKey: "$AWS_SECRET_ACCESS_KEY"};
+    theseOptions = null;
     console.log("using AWS environmental variables")
 }
 
@@ -37,4 +35,5 @@ grunt.initConfig({
 
 grunt.registerTask('deps', ['shell:pip']);
 grunt.registerTask('test', ['deps', 'shell:pytest']);
+grunt.registerTask('quickdeploy', ['lambda_package', 'lambda_deploy']);
 grunt.registerTask('deploy', ['test', 'lambda_package', 'lambda_deploy']);
