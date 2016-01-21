@@ -11,7 +11,11 @@ from __future__ import print_function
 
 import math
 
+import sys
+sys.path.append("./lib")
+
 import datetime
+import pytz
 from dateutil.parser import *
 
 import dre.actions as actions
@@ -137,8 +141,8 @@ def stationary_when_decision(intent_request, session):
     print('Loaded config: '+str(config))
 
     timesteps = math.ceil(config['total_time']/float(15*60))
-    # startTime = datetime.datetime.strptime(config['start_time']+'GMT', '%Y-%m-%dT%H:%M:%S.%fZ%Z')
-    startTime = parse(config['start_time'])
+    t = parse(config['start_time'])
+    startTime = t.replace(tzinfo=pytz.utc)
 
     whenActionBuilders = [WhenActionBuilder(actions.GaussDistFromIdeal,
                               config['score_conf'],
