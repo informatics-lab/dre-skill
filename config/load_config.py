@@ -22,10 +22,15 @@ def try_loading(dictionary, key, current):
 	otherwise returns current.
 	'''
 	if key in dictionary and dictionary[key]:
-		print('Loaded %s from %s'%(key, dictionary))
 		return dictionary[key]
 	else:
-		print('Failed to load %s from %s; using %s'%(key, dictionary, current))
+		return current
+
+
+def try_loading_slot(slots, key, current):
+	if key in slots and 'value' in slots[key]:
+		return slots[key]['value']
+	else:
 		return current
 
 
@@ -86,7 +91,6 @@ def load_config_for_activity(intent_request, session):
 		time_filter = try_loading(activity_conf, 'filter', time_filter)
 	else:
 		print('Not loading activity config')
-		print(activity, str(conf))
 
 	#user config
 	userId = session['user']['userId']
@@ -110,12 +114,11 @@ def load_config_for_activity(intent_request, session):
 			uaconffile.close()
 	else:
 		print('Not loading user config')
-		print(userId, str(u_conf))
 
 	#slots
-	location = try_loading(intent['slots'], 'Location', location)
-	start_time = try_loading(intent['slots'], 'Time', start_time)
-	total_time = try_loading(intent['slots'], 'Length', total_time)
+	location = try_loading_slot(intent['slots'], 'Location', location)
+	start_time = try_loading_slot(intent['slots'], 'Time', start_time)
+	total_time = try_loading_slot(intent['slots'], 'Length', total_time)
 
 	return {'location': location,
 			'start_time': start_time,

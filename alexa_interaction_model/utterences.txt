@@ -464,3 +464,51 @@ StationaryWhenIntent what a good time for a {Activity} would be
 StationaryWhenIntent what a good time for a {Activity} might be
 StationaryWhenIntent what a good time for an {Activity} would be
 StationaryWhenIntent what a good time for an {Activity} might be
+StationaryWhenIntent when should i go out on a {Activity} on {Time}
+StationaryWhenIntent when should i go out on an {Activity} on {Time}
+StationaryWhenIntent when should i go out for a {Activity} on {Time}
+StationaryWhenIntent when should i go out for an {Activity} on {Time}
+StationaryWhenIntent when should i go on a {Activity} on {Time}
+StationaryWhenIntent when should i go on an {Activity} on {Time}
+StationaryWhenIntent when should i go for a {Activity} on {Time}
+StationaryWhenIntent when should i go for an {Activity} on {Time}
+StationaryWhenIntent when could i go out on a {Activity} on {Time}
+StationaryWhenIntent when could i go out on an {Activity} on {Time}
+StationaryWhenIntent when could i go out for a {Activity} on {Time}
+StationaryWhenIntent when could i go out for an {Activity} on {Time}
+StationaryWhenIntent when could i go on a {Activity} on {Time}
+StationaryWhenIntent when could i go on an {Activity} on {Time}
+StationaryWhenIntent when could i go for a {Activity} on {Time}
+StationaryWhenIntent when could i go for an {Activity} on {Time}
+StationaryWhenIntent when shall i go out on a {Activity} on {Time}
+StationaryWhenIntent when shall i go out on an {Activity} on {Time}
+StationaryWhenIntent when shall i go out for a {Activity} on {Time}
+StationaryWhenIntent when shall i go out for an {Activity} on {Time}
+StationaryWhenIntent when shall i go on a {Activity} on {Time}
+StationaryWhenIntent when shall i go on an {Activity} on {Time}
+StationaryWhenIntent when shall i go for a {Activity} on {Time}
+StationaryWhenIntent when shall i go for an {Activity} on {Time}
+StationaryWhenIntent what time should i go out on a {Activity} on {Time}
+StationaryWhenIntent what time should i go out on an {Activity} on {Time}
+StationaryWhenIntent what time should i go out for a {Activity} on {Time}
+StationaryWhenIntent what time should i go out for an {Activity} on {Time}
+StationaryWhenIntent what time should i go on a {Activity} on {Time}
+StationaryWhenIntent what time should i go on an {Activity} on {Time}
+StationaryWhenIntent what time should i go for a {Activity} on {Time}
+StationaryWhenIntent what time should i go for an {Activity} on {Time}
+StationaryWhenIntent what time could i go out on a {Activity} on {Time}
+StationaryWhenIntent what time could i go out on an {Activity} on {Time}
+StationaryWhenIntent what time could i go out for a {Activity} on {Time}
+StationaryWhenIntent what time could i go out for an {Activity} on {Time}
+StationaryWhenIntent what time could i go on a {Activity} on {Time}
+StationaryWhenIntent what time could i go on an {Activity} on {Time}
+StationaryWhenIntent what time could i go for a {Activity} on {Time}
+StationaryWhenIntent what time could i go for an {Activity} on {Time}
+StationaryWhenIntent what time shall i go out on a {Activity} on {Time}
+StationaryWhenIntent what time shall i go out on an {Activity} on {Time}
+StationaryWhenIntent what time shall i go out for a {Activity} on {Time}
+StationaryWhenIntent what time shall i go out for an {Activity} on {Time}
+StationaryWhenIntent what time shall i go on a {Activity} on {Time}
+StationaryWhenIntent what time shall i go on an {Activity} on {Time}
+StationaryWhenIntent what time shall i go for a {Activity} on {Time}
+StationaryWhenIntent what time shall i go for an {Activity} on {Time}
