@@ -1,11 +1,13 @@
 import json
 import unittest
 import pickle
+import os
 
 import sys
 sys.path.append("..")
 
 from decision_lambda import *
+from dre.actions import Loc
 
 class LambdaDecisionTest(unittest.TestCase):
     base = os.path.split(__file__)[0]

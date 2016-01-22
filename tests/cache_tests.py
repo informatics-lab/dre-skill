@@ -5,7 +5,7 @@ import unittest
 
 import datapoint
 
-from dre.forecastCache import ForecastCache, ForecastNotCachedException
+from dre.forecast_cache import ForecastCache, ForecastNotCachedException
 from dre.decision import Loc
 
 class TestChacheAndRetrieve(unittest.TestCase):

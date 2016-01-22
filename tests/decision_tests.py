@@ -4,9 +4,9 @@ import pytz
 import unittest
 
 import dre.actions as actions
-from dre.whenDecision import *
+from dre.when_decision import *
 from dre.decision import *
-from dre.forecastCache import ForecastCache
+from dre.forecast_cache import ForecastCache
 
 
 class WhenDecisionTest(unittest.TestCase):

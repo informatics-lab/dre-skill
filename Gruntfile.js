@@ -35,5 +35,6 @@ grunt.initConfig({
 
 grunt.registerTask('deps', ['shell:pip']);
 grunt.registerTask('test', ['deps', 'shell:pytest']);
-grunt.registerTask('quickdeploy', ['lambda_package', 'lambda_deploy']);
+grunt.registerTask('quicktest', ['shell:pytest'])
 grunt.registerTask('deploy', ['test', 'lambda_package', 'lambda_deploy']);
+grunt.registerTask('quickdeploy', ['lambda_package', 'lambda_deploy']);

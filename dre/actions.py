@@ -3,7 +3,7 @@ from __future__ import division
 import math
 
 from decision import *
-from forecastCache import ForecastNotCachedException
+from forecast_cache import ForecastNotCachedException
 
 import sys
 sys.path.append("./lib")

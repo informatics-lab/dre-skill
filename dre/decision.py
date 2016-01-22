@@ -2,7 +2,7 @@ import abc
 import imp
 import os.path
 
-from forecastCache import ForecastCache
+from forecast_cache import ForecastCache
 
 
 class Loc(object):
