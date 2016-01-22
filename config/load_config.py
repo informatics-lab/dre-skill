@@ -2,6 +2,8 @@ import yaml
 import os.path
 from activities_map import activities
 
+from dotmap import DotMap
+
 import sys
 sys.path.append(".")
 
@@ -120,14 +122,14 @@ def load_config_for_activity(intent_request, session):
 	start_time = try_loading_slot(intent['slots'], 'Time', start_time)
 	total_time = try_loading_slot(intent['slots'], 'Length', total_time)
 
-	return {'location': location,
+	return Dotmap({'location': location,
 			'start_time': start_time,
 			'score': score,
 			'score_conf': score_conf,
 			'total_time': total_time,
 			'time_filter': time_filter,
 			'activity': activity
-			}
+			})
 
 
 
