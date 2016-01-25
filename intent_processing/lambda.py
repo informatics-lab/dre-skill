@@ -3,9 +3,22 @@ from dotmap import DotMap
 from forecast_cache import ForecastCache
 from intent_request_handlers import IntentRequestHandlers
 
-def go(event, context):
-    mySession = Session(event, context, cache)
-    return mySession.respond()
+from __future__ import print_function
+
+import math
+
+import sys
+sys.path.append("./lib")
+
+import datetime
+import pytz
+from dateutil.parser import *
+
+import dre.actions as actions
+from dre.whenDecision import *
+from dre.decision import *
+from dre.forecastCache import ForecastCache
+from config.load_config import fake_config, load_config_for_activity
 
 
 class Session(IntentRequestHandlers):
@@ -138,3 +151,8 @@ class SlotInteraction(object):
     @help.setter
     def help(self, text):
         self._help = text
+
+
+def go(event, context, cache=ForecastCache()):
+    session = Session(event, context, cache)
+    return session.respond()
