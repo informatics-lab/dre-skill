@@ -3,7 +3,7 @@ class IntentRequestHandlers(object):
         self._intent_request_map = {"AMAZON.HelpIntent": (lambda: self.say(self._help)), 
                                     "StationaryWhenIntent": self.stationary_when_decision}
 
-    def stationary_when_decision():
+    def stationary_when_decision(slots):
         """ """
         def describe_options(possibilities, activity):
             start = possibilities[0].possibility[0].time.isoformat()
@@ -21,15 +21,13 @@ class IntentRequestHandlers(object):
                 answer += "I couldn't find a good time for that activity."
             return answer
 
-        config = load_config_for_activity(self.event.request, self.event.session)
-
-        timesteps = math.ceil(config.total_time/float(15*60))
-        t = parse(config.start_time)
+        timesteps = math.ceil(slots.total_time/float(15*60))
+        t = parse(slots.start_time)
         startTime = t.replace(tzinfo=pytz.utc)
 
-        whenActionBuilders = [WhenActionBuilder(actions.GaussDistFromIdeal,
-                                  config.score_conf,
-                                  config.location,
+        whenActionBuilders = [WhenActionBuilder(slots.score,
+                                  slots.conditions,
+                                  slots.location,
                                   i*datetime.timedelta(seconds=15*60),
                                   cache=self._cache)
                               for i in range(int(timesteps))]
@@ -41,7 +39,7 @@ class IntentRequestHandlers(object):
         possibilities = aDecision.possibleActivities    
 
 
-        speech_output = describe_options(possibilities, config.activity)
+        speech_output = describe_options(possibilities, slots.activity)
         reprompt_text = ""
 
-        return self.say(self.event.internt.name, speech_output, reprompt_text)
+        return self.say(self.event.request.intent.name, speech_output, reprompt_text)
