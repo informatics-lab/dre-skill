@@ -47,7 +47,7 @@ class GaussDistFromIdeal(Action):
         # i.e. an x of 1 gives a value of 0 and a x of 0 gives a value of 1.
         toGaussianSpace = lambda x: 1.0-2.5066*1.0/math.sqrt(2.0*math.pi) * math.e**(-0.5 * (x*3)**2)
         
-        scores = []        
+        scores = []
         for condition in self.conditions:
             forecastCondition = getForecast(condition)
             thisMin = condition.ideal if forecastCondition > condition.ideal else condition.min
