@@ -48,7 +48,7 @@ class GaussDistFromIdeal(Action):
         toGaussianSpace = lambda x: 1.0-2.5066*1.0/math.sqrt(2.0*math.pi) * math.e**(-0.5 * (x*3)**2)
         
         scores = []        
-        for condition in self.config.conditions:
+        for condition in self.conditions:
             forecastCondition = getForecast(condition)
             thisMin = condition.ideal if forecastCondition > condition.ideal else condition.min
             thisMax = condition.max if forecastCondition > condition.ideal else condition.ideal
@@ -57,4 +57,4 @@ class GaussDistFromIdeal(Action):
 
         combinedScoreValue = sum(scores)/len(scores)
         return Score(combinedScoreValue, metadata={"log": "Score for each variable is distance between ideal an limit in gaussian space Multiplicitavely combines scores for different variables",
-                                                   "conditions": self.config.conditions})
+                                                   "conditions": self.conditions})
