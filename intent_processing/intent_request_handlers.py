@@ -31,7 +31,7 @@ class IntentRequestHandlers(object):
                                   config.score_conf,
                                   config.location,
                                   i*datetime.timedelta(seconds=15*60),
-                                  cache=cache)
+                                  cache=self._cache)
                               for i in range(int(timesteps))]
 
         whenFilter = [TimeSlot(startTime, startTime+datetime.timedelta(days=3))]
