@@ -24,5 +24,5 @@ sunbathe = {"score": GaussDistFromIdeal,
             "total_time": 7200,
             "filter": []}
 
-def get_config(action_name, userID=None):
-	return __dict__[activities[action_name]]
+def get_config(slot, action_name, userID=None):
+	return globals()[activities[action_name]][slot]
