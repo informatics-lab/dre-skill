@@ -41,7 +41,7 @@ class IntentRequestHandlers(object):
         possibilities = aDecision.possibleActivities    
 
 
-        speech_output = describe_options(possibilities, slots.activity)
+        speech_output = describe_options(possibilities, slots.Activity)
         reprompt_text = ""
 
         return self.say(self.event.request.intent.name, speech_output, reprompt_text)
