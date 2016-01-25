@@ -19,6 +19,21 @@
         "Activity": {
           "name": "Activity",
           "value": "run"
+        },
+        "total_time": {
+          "name": "total_time"
+        },
+        "start_time": {
+          "name": "start_time"
+        },
+        "score": {
+          "name": "score"
+        },
+        "conditions": {
+          "name": "conditions"
+        },
+        "location": {
+          "name": "location"
         }
       }
     }

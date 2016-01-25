@@ -1,9 +1,11 @@
+import math
+
 class IntentRequestHandlers(object):
     def __init__(self):
         self._intent_request_map = {"AMAZON.HelpIntent": (lambda: self.say(self._help)), 
                                     "StationaryWhenIntent": self.stationary_when_decision}
 
-    def stationary_when_decision(slots):
+    def stationary_when_decision(self, slots):
         """ """
         def describe_options(possibilities, activity):
             start = possibilities[0].possibility[0].time.isoformat()

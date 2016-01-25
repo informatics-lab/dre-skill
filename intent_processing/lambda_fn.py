@@ -55,12 +55,18 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self._context = context
         self._cache = cache
 
-        self.event.session.slot_interactions = [SlotInteraction(s) for s in self.event.request.intent.slots]
+        print('a', [s for s in self.event.request.intent.slots.values()])
+
+        self.event.session.slot_interactions = [SlotInteraction(s,
+                                                        self.event.request.intent.slots.Activity.value,
+                                                        self.event.session.user.userId) for s in self.event.request.intent.slots.values()]
 
         self.greeting = speech_config.session.greeting
         self.reprompt = speech_config.session.reprompt
         self.sign_off = speech_config.session.sign_off
         self.help = speech_config.session.help
+
+        IntentRequestHandlers.__init__(self)
 
     def respond(self):
         if self.event.request.type == "LaunchRequest":
@@ -79,7 +85,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             self._help = this_unset_si.help
             speech = this_unset_si.ask()
         except StopIteration:
-            ir_handler = intent_request_handlers[self.event.request.intent.name]
+            ir_handler = self._intent_request_map[self.event.request.intent.name]
             # we might need to combine slot_interactions with other config
             # or else define some decent slot_interactions for pure config variables
             inputs = DotMap({i.slot.name: i.slot.value for i in self.event.session.slot_interactions})
@@ -119,13 +125,14 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
 class SlotInteraction(ConstructSpeechMixin):
     def __init__(self, slot, action_name, user_id):
+        print(slot)
         self.slot = slot
         self.action_name = action_name
         self.user_id = user_id
 
         if not 'value' in slot:
             try:
-                self.slot.value = activities_config.get_config(slot, action_name, user_id)
+                self.slot.value = activities_config.get_config(action_name, user_id)
             except KeyError:
                 self.slot.value = None
 

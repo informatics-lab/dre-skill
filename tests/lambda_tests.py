@@ -1,4 +1,4 @@
-import json
+import yaml
 import unittest
 import pickle
 
@@ -11,7 +11,7 @@ class LambdaDecisionTest(unittest.TestCase):
     base = os.path.split(__file__)[0]
 
     with open(os.path.join(base, 'sample_event.json'), 'r') as evtfile:
-        event = json.loads(evtfile.read())
+        event = yaml.safe_load(evtfile.read())
 
     cache = ForecastCache()
     with open("./tests/testForecast.pkl", "rb") as f:
