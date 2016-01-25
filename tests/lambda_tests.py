@@ -5,7 +5,7 @@ import pickle
 import sys
 sys.path.append("..")
 
-from decision_lambda import *
+from intent_processing.lambda_fn import *
 
 class LambdaDecisionTest(unittest.TestCase):
     base = os.path.split(__file__)[0]
@@ -20,7 +20,7 @@ class LambdaDecisionTest(unittest.TestCase):
 
     def testLambda(self):
         answer = 'Your'
-        result = lambda_handler(self.event, None, self.cache)
+        result = go(self.event, None, self.cache)
         self.assertEquals(result['response']['outputSpeech']['text'][:4], answer)
 
 if __name__ == '__main__':

@@ -1,7 +1,4 @@
-import sys
-sys.path.append("../dre")
-
-from actions import GaussDistFromIdeal
+from dre.actions import GaussDistFromIdeal
 
 class Condition(object):
     def __init__(self, variable, ideal, min, max):

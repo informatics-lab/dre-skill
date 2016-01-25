@@ -1,9 +1,8 @@
+from __future__ import print_function
+
 from dotmap import DotMap
 
-from forecast_cache import ForecastCache
 from intent_request_handlers import IntentRequestHandlers
-
-from __future__ import print_function
 
 import math
 
@@ -19,14 +18,39 @@ import dre.actions as actions
 from dre.whenDecision import *
 from dre.decision import *
 from dre.forecastCache import ForecastCache
-from config.load_config import fake_config, load_config_for_activity
 
 import speech_config
 import activities_config
 
 
+class ConstructSpeechMixin(object):
+    def say(self, title, output, reprompt_text, should_end_session=False):
+        return {
+            'version': '1.0',
+            'sessionAttributes': self.event.session,
+            'response': {
+                'outputSpeech': {
+                    'type': 'PlainText',
+                    'text': output
+                },
+                'card': {
+                    'type': 'Simple',
+                    'title': 'SessionSpeechlet - ' + title,
+                    'content': 'SessionSpeechlet - ' + output
+                },
+                'reprompt': {
+                    'outputSpeech': {
+                        'type': 'PlainText',
+                        'text': reprompt_text
+                    }
+                },
+                'shouldEndSession': should_end_session
+            }
+        }
+
+
 class Session(IntentRequestHandlers, ConstructSpeechMixin):
-    def __init__(event, context, cache=ForecastCache()):
+    def __init__(self, event, context, cache=ForecastCache()):
         self._event = event
         self._context = context
         self._cache = cache
@@ -38,7 +62,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.sign_off = speech_config.session.sign_off
         self.help = speech_config.session.help
 
-    def respond():
+    def respond(self):
         if self.event.request.type == "LaunchRequest":
             speech = self.greeting_speech
         elif self.event.request.type == "IntentRequest":
@@ -48,7 +72,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
         return speech
 
-    def attempt_intent():
+    def attempt_intent(self):
         unset_sis = (si for si in self.event.session.slot_interactions if si.slot.value==None)
         try:
             this_unset_si = unset_sis.next()
@@ -109,34 +133,8 @@ class SlotInteraction(ConstructSpeechMixin):
         self.reprompt = speech_config.__dict__[self.slot.name].reprompt
         self.help = speech_config.__dict__[self.slot.name].help
 
-    def ask():
+    def ask(self):
         return self.say(this_unset_si.title, this_unset_si.question, this_unset_si.reprompt_text)
-
-
-class ConstructSpeechMixin(object):
-    def say(self, title, output, reprompt_text, should_end_session=False):
-        return {
-            'version': '1.0',
-            'sessionAttributes': self.event.session,
-            'response': {
-                'outputSpeech': {
-                    'type': 'PlainText',
-                    'text': output
-                },
-                'card': {
-                    'type': 'Simple',
-                    'title': 'SessionSpeechlet - ' + title,
-                    'content': 'SessionSpeechlet - ' + output
-                },
-                'reprompt': {
-                    'outputSpeech': {
-                        'type': 'PlainText',
-                        'text': reprompt_text
-                    }
-                },
-                'shouldEndSession': should_end_session
-            }
-        }
 
 
 def go(event, context, cache=ForecastCache()):
