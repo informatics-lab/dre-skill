@@ -25,9 +25,41 @@ import activities_config
 
 class ConstructSpeechMixin(object):
     def say(self, title, output, reprompt_text, should_end_session=False):
+        test = {
+                "sessionId": "SessionId.611f8414-6db4-4b80-9aa0-8fe46691bdcd",
+                "application": {
+                  "applicationId": "amzn1.echo-sdk-ams.app.c9cd59b8-e3d4-44a2-841e-6edfbd8ce8ee"
+                },
+                "user": {
+                  "userId": "amzn1.account.AHFLEUL3HXS2JI5UNQFTDSPZRTGA"
+                },
+                "new": "true"
+              }
+        print({
+            'version': '1.0',
+            'sessionAttributes': test,
+            'response': {
+                'outputSpeech': {
+                    'type': 'PlainText',
+                    'text': output
+                },
+                'card': {
+                    'type': 'Simple',
+                    'title': 'SessionSpeechlet - ' + title,
+                    'content': 'SessionSpeechlet - ' + output
+                },
+                'reprompt': {
+                    'outputSpeech': {
+                        'type': 'PlainText',
+                        'text': reprompt_text
+                    }
+                },
+                'shouldEndSession': should_end_session
+            }
+        })
         return {
             'version': '1.0',
-            'sessionAttributes': self.event.session,
+            'sessionAttributes': test,
             'response': {
                 'outputSpeech': {
                     'type': 'PlainText',
