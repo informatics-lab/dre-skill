@@ -26,12 +26,6 @@
         "startTime": {
           "name": "startTime"
         },
-        "score": {
-          "name": "score"
-        },
-        "conditions": {
-          "name": "conditions"
-        },
         "location": {
           "name": "location"
         }
