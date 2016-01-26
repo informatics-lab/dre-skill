@@ -16,15 +16,15 @@
     "intent": {
       "name": "StationaryWhenIntent",
       "slots": {
-        "Activity": {
-          "name": "Activity",
+        "activity": {
+          "name": "activity",
           "value": "run"
         },
-        "total_time": {
-          "name": "total_time"
+        "totalTime": {
+          "name": "totalTime"
         },
-        "start_time": {
-          "name": "start_time"
+        "startTime": {
+          "name": "startTime"
         },
         "score": {
           "name": "score"
