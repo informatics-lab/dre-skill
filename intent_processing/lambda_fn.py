@@ -29,7 +29,7 @@ class ConstructSpeechMixin(object):
     def say(self, title, output, reprompt_text, should_end_session=False):
         return {
             'version': '1.0',
-            'sessionAttributes': self.event.session.attribtues.toDict(),
+            'sessionAttributes': self.event.session.toDict(),
             'response': {
                 'outputSpeech': {
                     'type': 'PlainText',
@@ -60,26 +60,32 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.event = DotMap(event)
         self.context = DotMap(context)
 
-        combined = self.event.request.intent.slots.values()
-        if "slots" in self.event.session.attributes:
-            for slot in self.event.session.attributes.slots:
-                if slot.name in [ns.name for ns in combined]:
-                    pass
-                else:
-                    combined.append(slot)
+        original = self.event.request.intent.slots.values()
+        combined = original[:]
 
-        print('original', self.event.session.slots)
-        print('attributes', self.event.session.attributes)
-        print('new', self.event.request.intent.slots.values())
+        if self.event.session.attributes and "slots" in self.event.session.attributes:
+            for slot in self.event.session.attributes.slots:
+                if slot in [ns.name for ns in original]:
+                    if self.event.session.attributes.slots[slot].value:
+                        # if value is not none, replace
+                        for c in combined:
+                            if c.name == slot:
+                                combined[combined.index(c)] = self.event.session.attributes.slots[slot]
+                    else:
+                        pass # otherwise, ignore
+                else:
+                    combined.append(self.event.session.attributes.slots[slot])
+
         print('combined', combined)
 
         self.event.session.slots = DotMap({c.name: c.toDict() for c in combined})
+        self.event.session.attributes = {}
 
-        self.slot_interactions = [SlotInteraction(self.event, s, self.event.request.intent.slots.activity.value,
+        self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
                                                 self.event.session.user.userId) for s in self.event.session.slots.values()]
 
         config_slots = [{"name": "score"}, {"name": "conditions"}]
-        self.slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.request.intent.slots.activity.value,
+        self.slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.session.slots.activity.value,
                                                 self.event.session.user.userId) for s in config_slots])
 
         self.greeting = speech_config.session.greeting
@@ -136,12 +142,15 @@ class SlotInteraction(ConstructSpeechMixin):
         self.slot = slot
         self.action_name = action_name
         self.user_id = user_id
+        print(self.slot)
 
-        if not 'value' in slot:
+        if not 'value' in slot or slot['value']==None:
             try:
                 self.slot.value = activities_config.get_config(slot.name, action_name, user_id)
             except KeyError:
                 self.slot.value = None
+
+                print(self.slot.name, speech_config.__dict__[self.slot.name])
 
                 self.title = speech_config.__dict__[self.slot.name].title
                 self.question = speech_config.__dict__[self.slot.name].question

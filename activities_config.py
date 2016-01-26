@@ -9,8 +9,8 @@ class Condition(object):
         self.max = max
 
 activities_map = {
-	'run': ['run', 'jog', 'running', 'jogging'],
-	'sunbathe': ['sunbathe', 'sunbathing']
+    'run': ['run', 'jog', 'running', 'jogging'],
+    'sunbathe': ['sunbathe', 'sunbathing']
 }
 activities = dict((i, k) for k in activities_map for i in activities_map[k])
 
@@ -25,4 +25,4 @@ sunbathe = {"score": GaussDistFromIdeal,
             "filter": []}
 
 def get_config(slot, action_name, userID=None):
-	return globals()[activities[action_name]][slot]
+    return globals()[activities[action_name]][slot]
