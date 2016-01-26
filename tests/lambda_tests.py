@@ -19,7 +19,7 @@ class LambdaDecisionTest(unittest.TestCase):
     cache.cacheForecast(timesteps, Loc(lat=50.7, lon=-3.5))
 
     def testLambda(self):
-        answer = 'Your'
+        answer = 'Wher'
         result = go(self.event, None, self.cache)
         self.assertEquals(result['response']['outputSpeech']['text'][:4], answer)
 

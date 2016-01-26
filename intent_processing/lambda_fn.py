@@ -55,11 +55,11 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self._context = context
         self._cache = cache
 
-        print('a', [s for s in self.event.request.intent.slots.values()])
+        self.event = DotMap(event)
+        self.context = DotMap(context)
 
-        self.event.session.slot_interactions = [SlotInteraction(s,
-                                                        self.event.request.intent.slots.Activity.value,
-                                                        self.event.session.user.userId) for s in self.event.request.intent.slots.values()]
+        self.event.session.slot_interactions = [SlotInteraction(self.event, s, self.event.request.intent.slots.Activity.value,
+                                                self.event.session.user.userId) for s in self.event.request.intent.slots.values()]
 
         self.greeting = speech_config.session.greeting
         self.reprompt = speech_config.session.reprompt
@@ -92,22 +92,6 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             speech = ir_handler(inputs)
 
         return speech
-    
-    @property
-    def event(self):
-        return DotMap(self._event)
-
-    @event.setter
-    def event(self, event_dict):
-        self._event = event_dict
-
-    @property
-    def context(self):
-        return DotMap(self._context)
-
-    @context.setter
-    def context(self, context_dict):
-        self._context = context_dict
 
     @property
     def greeting_speech(self):
@@ -124,24 +108,25 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         
 
 class SlotInteraction(ConstructSpeechMixin):
-    def __init__(self, slot, action_name, user_id):
-        print(slot)
+    def __init__(self, event, slot, action_name, user_id):
+        self.event = event
         self.slot = slot
         self.action_name = action_name
         self.user_id = user_id
 
         if not 'value' in slot:
             try:
-                self.slot.value = activities_config.get_config(action_name, user_id)
+                self.slot.value = activities_config.get_config(slot.name, action_name, user_id)
             except KeyError:
                 self.slot.value = None
 
-        self.question = speech_config.__dict__[self.slot.name].question
-        self.reprompt = speech_config.__dict__[self.slot.name].reprompt
-        self.help = speech_config.__dict__[self.slot.name].help
+                self.title = speech_config.__dict__[self.slot.name].title
+                self.question = speech_config.__dict__[self.slot.name].question
+                self.reprompt = speech_config.__dict__[self.slot.name].reprompt
+                self.help = speech_config.__dict__[self.slot.name].help
 
     def ask(self):
-        return self.say(this_unset_si.title, this_unset_si.question, this_unset_si.reprompt_text)
+        return self.say(self.title, self.question, self.reprompt)
 
 
 def go(event, context, cache=ForecastCache()):
