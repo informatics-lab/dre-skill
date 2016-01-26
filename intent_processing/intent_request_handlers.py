@@ -24,7 +24,7 @@ class IntentRequestHandlers(object):
             return answer
 
         timesteps = math.ceil(slots.total_time/float(15*60))
-        t = parse(slots.start_time)
+        t = parse(slots.startTime)
         startTime = t.replace(tzinfo=pytz.utc)
 
         whenActionBuilders = [WhenActionBuilder(slots.score,
@@ -41,7 +41,7 @@ class IntentRequestHandlers(object):
         possibilities = aDecision.possibleActivities    
 
 
-        speech_output = describe_options(possibilities, slots.Activity)
+        speech_output = describe_options(possibilities, slots.activity)
         reprompt_text = ""
 
         return self.say(self.event.request.intent.name, speech_output, reprompt_text)
