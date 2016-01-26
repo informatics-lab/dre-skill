@@ -23,11 +23,13 @@ import speech_config
 import activities_config
 
 
+
+
 class ConstructSpeechMixin(object):
     def say(self, title, output, reprompt_text, should_end_session=False):
         return {
             'version': '1.0',
-            'sessionAttributes': self.event.session.toDict(),
+            'sessionAttributes': self.event.session.attribtues.toDict(),
             'response': {
                 'outputSpeech': {
                     'type': 'PlainText',
@@ -58,20 +60,27 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.event = DotMap(event)
         self.context = DotMap(context)
 
-        self.slot_interactions = [SlotInteraction(self.event, s, self.event.request.intent.slots.activity.value,
-                                                self.event.session.user.userId) for s in self.event.request.intent.slots.values()]
-        self.event.session.slots = [si.slot.toDict() for si in self.slot_interactions]
+        combined = self.event.request.intent.slots.values()
+        if "slots" in self.event.session.attributes:
+            for slot in self.event.session.attributes.slots:
+                if slot.name in [ns.name for ns in combined]:
+                    pass
+                else:
+                    combined.append(slot)
 
-        config_slots = {
-                            "score": {
-                              "name": "score"
-                            },
-                            "conditions": {
-                              "name": "conditions"
-                            }
-                        }
-        self.slot_interactions.append([SlotInteraction(self.event, s, self.event.request.intent.slots.activity.value,
-                                                self.event.session.user.userId) for s in self.event.request.intent.slots.values()])
+        print('original', self.event.session.slots)
+        print('attributes', self.event.session.attributes)
+        print('new', self.event.request.intent.slots.values())
+        print('combined', combined)
+
+        self.event.session.slots = DotMap({c.name: c.toDict() for c in combined})
+
+        self.slot_interactions = [SlotInteraction(self.event, s, self.event.request.intent.slots.activity.value,
+                                                self.event.session.user.userId) for s in self.event.session.slots.values()]
+
+        config_slots = [{"name": "score"}, {"name": "conditions"}]
+        self.slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.request.intent.slots.activity.value,
+                                                self.event.session.user.userId) for s in config_slots])
 
         self.greeting = speech_config.session.greeting
         self.reprompt = speech_config.session.reprompt
@@ -84,6 +93,8 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         if self.event.request.type == "LaunchRequest":
             speech = self.greeting_speech
         elif self.event.request.type == "IntentRequest":
+            if self._intent_request_map[self.event.request.intent.name]['grab_session']:
+                self.current_intent = self.event.request.intent.name
             speech = self.attempt_intent()
         elif self.event.request.type == "SessionEndedRequest":
             speech = self.sign_off_speech
@@ -97,7 +108,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             self._help = this_unset_si.help
             speech = this_unset_si.ask()
         except StopIteration:
-            ir_handler = self._intent_request_map[self.event.request.intent.name]
+            ir_handler = self._intent_request_map[self.event.request.intent.name]['function']
             # we might need to combine slot_interactions with other config
             # or else define some decent slot_interactions for pure config variables
             inputs = DotMap({i.slot.name: i.slot.value for i in self.slot_interactions})

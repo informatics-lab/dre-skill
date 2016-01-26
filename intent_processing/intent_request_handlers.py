@@ -2,8 +2,14 @@ import math
 
 class IntentRequestHandlers(object):
     def __init__(self):
-        self._intent_request_map = {"AMAZON.HelpIntent": (lambda: self.say(self._help)), 
-                                    "StationaryWhenIntent": self.stationary_when_decision}
+        self._intent_request_map = {"AMAZON.HelpIntent": {'function':(lambda: self.say(self._help)), 'grab_session':False}, 
+                                    "StationaryWhenIntent": {'function':self.stationary_when_decision, 'grab_session':True},
+                                    "LocationIntent": {'function':self.location_intent, 'grab_session':False}
+                                    }
+
+    def location_intent(self, slots):
+        ir_handler = self._intent_request_map[self.current_intent]['function']
+        return ir_handler(slots)
 
     def stationary_when_decision(self, slots):
         """ """
