@@ -23,7 +23,7 @@ class IntentRequestHandlers(object):
                 answer += "I couldn't find a good time for that activity."
             return answer
 
-        timesteps = math.ceil(slots.total_time/float(15*60))
+        timesteps = math.ceil(slots.totalTime/float(15*60))
         t = parse(slots.startTime)
         startTime = t.replace(tzinfo=pytz.utc)
 

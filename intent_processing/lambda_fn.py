@@ -58,7 +58,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.event = DotMap(event)
         self.context = DotMap(context)
 
-        self.event.session.slot_interactions = [SlotInteraction(self.event, s, self.event.request.intent.slots.Activity.value,
+        self.event.session.slot_interactions = [SlotInteraction(self.event, s, self.event.request.intent.slots.activity.value,
                                                 self.event.session.user.userId) for s in self.event.request.intent.slots.values()]
 
         self.greeting = speech_config.session.greeting
