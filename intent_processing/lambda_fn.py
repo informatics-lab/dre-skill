@@ -1,13 +1,13 @@
 from __future__ import print_function
 
+import sys
+sys.path.append("./lib")
+
 from dotmap import DotMap
 
 from intent_request_handlers import IntentRequestHandlers
 
 import math
-
-import sys
-sys.path.append("./lib")
 
 import datetime
 import imp
