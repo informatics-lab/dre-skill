@@ -1,4 +1,4 @@
-dotmap==1.1.2
+dotmap
 datapoint==0.3.0
 python-dateutil==2.4.2
 pyyaml==3.11
