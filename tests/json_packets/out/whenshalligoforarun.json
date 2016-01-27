@@ -25,12 +25,10 @@
         "value": 3600
       },
       "location": {
-        "name": "location",
-        "value": null
+        "name": "location"
       },
       "startTime": {
-        "name": "startTime",
-        "value": null
+        "name": "startTime"
       },
       "activity": {
         "name": "activity",
