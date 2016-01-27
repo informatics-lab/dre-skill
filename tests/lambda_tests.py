@@ -6,22 +6,23 @@ import os
 import sys
 sys.path.append("..")
 
+from dotmap import DotMap
 from intent_processing.lambda_fn import *
 
-# class LambdaDecisionTest(unittest.TestCase):
-#     base = os.path.split(__file__)[0]
-#     with open(os.path.join(base, 'json_packets', 'in', 'sample_event.json'), 'r') as evtfile:
-#         event = yaml.safe_load(evtfile.read())
+class LambdaDecisionTest(unittest.TestCase):
+    base = os.path.split(__file__)[0]
+    with open(os.path.join(base, 'json_packets', 'in', 'sample_event.json'), 'r') as evtfile:
+        event = yaml.safe_load(evtfile.read())
 
-#     cache = ForecastCache()
-#     with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
-#         timesteps = pickle.load(f)
-#     cache.cacheForecast(timesteps, Loc(lat=50.7, lon=-3.5))
+    cache = ForecastCache()
+    with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
+        timesteps = pickle.load(f)
+    cache.cacheForecast(timesteps, Loc(lat=50.7, lon=-3.5))
 
-#     def testLambda(self):
-#         answer = 'Wher'
-#         result = go(self.event, None, self.cache)
-#         self.assertEquals(result['response']['outputSpeech']['text'][:4], answer)
+    def testLambda(self):
+        answer = 'Wher'
+        result = go(self.event, None, self.cache)
+        self.assertEquals(result['response']['outputSpeech']['text'][:4], answer)
 
 
 class SessionPersistenceTest(unittest.TestCase):
@@ -47,12 +48,12 @@ class SessionPersistenceTest(unittest.TestCase):
 
     unnested_dict = {"thingA": "stuffA", "thingB": None, "thingC": "stuffC"}
 
-    # def testDialogueIntent(self):
-    #     """ Should ask for another slot """
-    #     thisInitialResult = go(self.initialInput, None, self.cache)
-    #     self.assertEquals(thisInitialResult, self.initialOutput)
-    #     thisSecondaryResult = go(self.secondaryInput, None, self.cache)
-    #     self.assertEquals(thisSecondaryResult, self.secondaryOutput)
+    def testDialogueIntent(self):
+        """ Should ask for another slot """
+        thisInitialResult = go(self.initialInput, None, self.cache)
+        self.assertEquals(thisInitialResult, self.initialOutput)
+        thisSecondaryResult = go(self.secondaryInput, None, self.cache)
+        self.assertEquals(thisSecondaryResult, self.secondaryOutput)
 
     def testNestDict(self):
         nested = Session._nest_dict(self.unnested_dict)
@@ -70,6 +71,15 @@ class SessionPersistenceTest(unittest.TestCase):
 
         session = Session(self.secondaryInput, "")
         combined = session._add_new_slots_to_session(new_slots, stored_slots).toDict()
+        self.assertEquals(combined, correctAnswer)
+
+    def testCombineSlots2(self):
+        new_slots = DotMap(totalTime=DotMap(name='totalTime'), location=DotMap(name='location'), startTime=DotMap(name='startTime'), activity=DotMap(name='activity', value='run'))
+        stored_slots = DotMap()
+        correctAnswer = new_slots
+
+        session = Session(self.secondaryInput, "")
+        combined = session._add_new_slots_to_session(new_slots, stored_slots)
         self.assertEquals(combined, correctAnswer)
 
 

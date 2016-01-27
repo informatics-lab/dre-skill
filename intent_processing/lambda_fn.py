@@ -64,6 +64,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         except AttributeError:
             stored_slots = DotMap()
 
+        # import pdb; pdb.set_trace()
         self.event.session.slots = self._add_new_slots_to_session(new_slots, stored_slots)
 
         self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
@@ -118,7 +119,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         """
         new_slots = self._unnest_dict(nested_new_slots)
         stored_slots = self._unnest_dict(nested_stored_slots)
-        stored_slots.update({k: v for k, v in new_slots.items() if v})
+        stored_slots.update({k: v for k, v in new_slots.items() if v or (k not in stored_slots)})
 
         return DotMap(self._nest_dict(stored_slots))
 
@@ -135,7 +136,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         return speech
 
     def attempt_intent(self):
-        unset_sis = (si for si in self.slot_interactions if not 'value' in si.slots)
+        unset_sis = (si for si in self.slot_interactions if not 'value' in si.slot)
         try:
             this_unset_si = unset_sis.next()
             self._help = this_unset_si.help
