@@ -43,7 +43,7 @@ class DotMap(OrderedDict):
         if k not in self._map:
             # DON'T automatically extend to new DotMap
             # self[k] = DotMap()
-            raise KeyError('Key %s is not defined in DotMap' %k)
+            raise AttributeError('%s is not defined in DotMap' %k)
         return self._map[k]
 
     def __setattr__(self, k, v):
