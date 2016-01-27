@@ -64,7 +64,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         if 'attributes' in self.event.session and "slots" in self.event.session.attributes:
             for slot in self.event.session.attributes.slots:
                 if slot in [ns.name for ns in original]:
-                    if self.event.session.attributes.slots[slot].value:
+                    if 'value' in self.event.session.attributes.slots[slot]:
                         # if value is not none, replace
                         for c in combined:
                             if c.name == slot:
