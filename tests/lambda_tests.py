@@ -45,7 +45,7 @@ class SessionPersistenceTest(unittest.TestCase):
         """ Should ask for another slot """
         thisInitialResult = go(self.initialInput, None, self.cache)
         self.assertEquals(thisInitialResult, self.initialOutput)
-        thisSecondaryResult = go(thisInitialResult, None, self.cache)
+        thisSecondaryResult = go(self.secondaryInput, None, self.cache)
         self.assertEquals(thisSecondaryResult, self.secondaryOutput)
 
 
