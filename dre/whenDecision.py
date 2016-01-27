@@ -12,7 +12,7 @@ class WhenActionBuilder(object):
     Information defining an Action performed at an unspecified time
 
     """
-    def __init__(self, Action, actionConfigFile, loc, timeFromStart, cache=None):
+    def __init__(self, Action, conditions, loc, timeFromStart, cache=None):
         """
         Args:
             * Action (pointer): A class pointer to the type of Action being performed
@@ -28,13 +28,13 @@ class WhenActionBuilder(object):
 
         """
         self.Action = Action
-        self.config = actionConfigFile
+        self.conditions = conditions
         self.loc = loc
         self.timedelta = timeFromStart
         self.cache = cache
 
     def build(self, when):
-        return self.Action(when, self.loc, self.config, self.cache)
+        return self.Action(when, self.loc, self.conditions, self.cache)
 
 
 class WhenDecision(object):

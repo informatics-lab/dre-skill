@@ -1,5 +1,6 @@
 import cPickle as pickle
 import datetime
+import os
 import pytz
 import unittest
 
@@ -11,7 +12,8 @@ from dre.decision import Loc
 class TestChacheAndRetrieve(unittest.TestCase):
     cache = ForecastCache()
     loc = Loc(lat=53.0, lon=-3.0)
-    with open("./tests/testForecast.pkl", "rb") as f:
+    base = os.path.split(__file__)[0]
+    with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
         timesteps = pickle.load(f)
     cache.cacheForecast(timesteps, loc)
 

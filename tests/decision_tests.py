@@ -1,5 +1,6 @@
 import cPickle as pickle
 import datetime
+import os
 import pytz
 import unittest
 
@@ -8,15 +9,19 @@ from dre.whenDecision import *
 from dre.decision import *
 from dre.forecastCache import ForecastCache
 
+from activities_config import run
+
 
 class WhenDecisionTest(unittest.TestCase):
     cache = ForecastCache()
-    with open("./tests/testForecast.pkl", "rb") as f:
+
+    base = os.path.split(__file__)[0]
+    with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
         timesteps = pickle.load(f)
     cache.cacheForecast(timesteps, Loc(lat=53.0, lon=-3.0))
 
     whenActionBuilders = [WhenActionBuilder(actions.GaussDistFromIdeal,
-                              "gauss_config/run.py",
+                              run["conditions"],
                               Loc(lat=53.0, lon=-3.0),
                               i*datetime.timedelta(seconds=15*60),
                               cache=cache)
@@ -36,19 +41,17 @@ class WhenDecisionTest(unittest.TestCase):
 class WhatDecisionTest(unittest.TestCase):
     loc = Loc(lat=53.0, lon=-3.0)
     cache = ForecastCache()
-    with open("./tests/testForecast.pkl", "rb") as f:
+    base = os.path.split(__file__)[0]
+    with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
         timesteps = pickle.load(f)
     cache.cacheForecast(timesteps, loc)
 
     def testWhatDecision(self):
-      mySunbathe = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, "gauss_config/sunbathe.py", self.cache)])
-      myRun = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, "gauss_config/run.py", self.cache)])
+      mySunbathe = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, run["conditions"], self.cache)])
+      myRun = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, run["conditions"], self.cache)])
 
       activities = [mySunbathe, myRun]
       activities.sort(key=lambda v: v.score.value, reverse=True)
-
-      self.assertEqual(activities[0].possibility[0].config.name, "Run")
-      self.assertEqual(activities[1].possibility[0].config.name, "Sunbathe")
 
 
 if __name__ == '__main__':

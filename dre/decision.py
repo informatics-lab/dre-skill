@@ -28,7 +28,7 @@ class Action(object):
 
     """
     __metaclass__ = abc.ABCMeta
-    def __init__(self, time, loc, configFile, forecastCache=ForecastCache()):
+    def __init__(self, time, loc, conditions, forecastCache=ForecastCache()):
         """
         An action is instantaneous, and defines a method for scoring itself.
 
@@ -50,15 +50,10 @@ class Action(object):
         """
         self.time = time
         self.loc = loc
-        self.config = self.loadConfig(configFile, configFile)
+        self.conditions = conditions
         self.cache = forecastCache
         
         self.score = self.getScore()
-
-    @staticmethod
-    def loadConfig(filename, name):
-        """ Loads the filename namespace into the config class variable """
-        return imp.load_source(name, os.path.join('config', filename))
 
     @abc.abstractmethod
     def getScore(self):
