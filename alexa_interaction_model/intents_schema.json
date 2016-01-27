@@ -4,8 +4,29 @@
       "intent": "StationaryWhenIntent",
       "slots": [
         {
-          "name": "Activity",
-          "type": "ACTIVITY"
+          "name": "activity",
+          "type": "LITERAL"
+        },
+        {
+          "name": "startTime",
+          "type": "TIME"
+        },
+        {
+          "name": "totalTime",
+          "type": "DURATION"
+        },
+        {
+          "name": "location",
+          "type": "LITERAL"
+        }
+      ]
+    },
+    {
+      "intent": "LocationIntent",
+      "slots": [
+        {
+          "name": "location",
+          "type": "LITERAL"
         }
       ]
     }
