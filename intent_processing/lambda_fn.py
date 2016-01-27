@@ -61,7 +61,8 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         original = self.event.request.intent.slots.values()
         combined = original[:]
 
-        if 'attributes' in self.event.session and "slots" in self.event.session.attributes:
+        print('evt', self.event)
+        try:
             for slot in self.event.session.attributes.slots:
                 if slot in [ns.name for ns in original]:
                     if 'value' in self.event.session.attributes.slots[slot]:
@@ -73,9 +74,11 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                         pass # otherwise, ignore
                 else:
                     combined.append(self.event.session.attributes.slots[slot])
+        except AttributeError:
+            pass
+
 
         self.event.session.slots = DotMap({c.name: c.toDict() for c in combined})
-        self.event.session.attributes = {}
 
         self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
                                                 self.event.session.user.userId) for s in self.event.session.slots.values()]
