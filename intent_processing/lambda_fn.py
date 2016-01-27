@@ -3,7 +3,7 @@ from __future__ import print_function
 import sys
 sys.path.append("./lib")
 
-from dotmap import DotMap as DM
+from reduced_dotmap import DotMap
 
 from intent_request_handlers import IntentRequestHandlers
 
@@ -21,15 +21,6 @@ from dre.forecastCache import ForecastCache
 
 import speech_config
 import activities_config
-
-
-class DotMap(DM):
-    def __getitem__(self, k):
-        if k not in self._map:
-            # DON'T automatically extend to new DotMap
-            # self[k] = DotMap()
-            raise KeyError('Key %s is not defined in DotMap' %k)
-        return self._map[k]
 
 
 class ConstructSpeechMixin(object):
@@ -70,7 +61,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         original = self.event.request.intent.slots.values()
         combined = original[:]
 
-        if self.event.session.attributes and "slots" in self.event.session.attributes:
+        if 'attributes' in self.event.session and "slots" in self.event.session.attributes:
             for slot in self.event.session.attributes.slots:
                 if slot in [ns.name for ns in original]:
                     if self.event.session.attributes.slots[slot].value:
@@ -82,11 +73,11 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                         pass # otherwise, ignore
                 else:
                     combined.append(self.event.session.attributes.slots[slot])
+            self.event.session.attributes = {}
 
         print('combined', combined)
 
         self.event.session.slots = DotMap({c.name: c.toDict() for c in combined})
-        self.event.session.attributes = {}
 
         self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
                                                 self.event.session.user.userId) for s in self.event.session.slots.values()]
