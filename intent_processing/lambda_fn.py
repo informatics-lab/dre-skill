@@ -27,7 +27,7 @@ class ConstructSpeechMixin(object):
     def say(self, title, output, reprompt_text, should_end_session=False):
         return {
             'version': '1.0',
-            'sessionAttributes': self.event.session.toDict(),
+            'sessionAttributes': {'slots': self.event.session.toDict()['slots']},
             'response': {
                 'outputSpeech': {
                     'type': 'PlainText',
@@ -78,7 +78,6 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             pass
 
         self.event.session.slots = DotMap({c.name: c.toDict() for c in combined})
-        self.event.session.attributes = {}
 
         self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
                                                 self.event.session.user.userId) for s in self.event.session.slots.values()]
