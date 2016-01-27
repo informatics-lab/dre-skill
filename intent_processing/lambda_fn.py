@@ -3,7 +3,7 @@ from __future__ import print_function
 import sys
 sys.path.append("./lib")
 
-from dotmap import DotMap
+from reduced_dotmap import DotMap
 
 from intent_request_handlers import IntentRequestHandlers
 
@@ -61,7 +61,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         original = self.event.request.intent.slots.values()
         combined = original[:]
 
-        if self.event.session.attributes and "slots" in self.event.session.attributes:
+        if 'attributes' in self.event.session and "slots" in self.event.session.attributes:
             for slot in self.event.session.attributes.slots:
                 if slot in [ns.name for ns in original]:
                     if self.event.session.attributes.slots[slot].value:
@@ -73,9 +73,9 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                         pass # otherwise, ignore
                 else:
                     combined.append(self.event.session.attributes.slots[slot])
+            self.event.session.attributes = {}
 
         self.event.session.slots = DotMap({c.name: c.toDict() for c in combined})
-        self.event.session.attributes = {}
 
         self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
                                                 self.event.session.user.userId) for s in self.event.session.slots.values()]
