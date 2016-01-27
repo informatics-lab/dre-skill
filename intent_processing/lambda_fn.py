@@ -76,8 +76,6 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                 else:
                     combined.append(self.event.session.attributes.slots[slot])
 
-        print('combined', combined)
-
         self.event.session.slots = DotMap({c.name: c.toDict() for c in combined})
         self.event.session.attributes = {}
 
@@ -142,15 +140,12 @@ class SlotInteraction(ConstructSpeechMixin):
         self.slot = slot
         self.action_name = action_name
         self.user_id = user_id
-        print(self.slot)
 
         if not 'value' in slot or slot['value']==None:
             try:
                 self.slot.value = activities_config.get_config(slot.name, action_name, user_id)
             except KeyError:
                 self.slot.value = None
-
-                print(self.slot.name, speech_config.__dict__[self.slot.name])
 
                 self.title = speech_config.__dict__[self.slot.name].title
                 self.question = speech_config.__dict__[self.slot.name].question
