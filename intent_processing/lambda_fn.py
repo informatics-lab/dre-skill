@@ -58,26 +58,13 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.event = DotMap(event)
         self.context = DotMap(context)
 
-        original = self.event.request.intent.slots.values()
-        combined = original[:]
-
-        print('evt', self.event)
+        new_slots = self.event.request.intent.slots
         try:
-            for slot in self.event.session.attributes.slots:
-                if slot in [ns.name for ns in original]:
-                    if 'value' in self.event.session.attributes.slots[slot]:
-                        # if value is not none, replace
-                        for c in combined:
-                            if c.name == slot:
-                                combined[combined.index(c)] = self.event.session.attributes.slots[slot]
-                    else:
-                        pass # otherwise, ignore
-                else:
-                    combined.append(self.event.session.attributes.slots[slot])
+            stored_slots = self.event.session.attributes.slots
         except AttributeError:
-            pass
+            stored_slots = DotMap()
 
-        self.event.session.slots = DotMap({c.name: c.toDict() for c in combined})
+        self.event.session.slots = self._add_new_slots_to_session(new_slots, stored_slots)
 
         self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
                                                 self.event.session.user.userId) for s in self.event.session.slots.values()]
@@ -92,6 +79,48 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.help = speech_config.session.help
 
         IntentRequestHandlers.__init__(self)
+
+    @staticmethod
+    def _unnest_dict(nested_dict):
+        """ takes {key: {'name': k, 'value'?: v}...n} and returns {k: v} """
+        unnested_dict = {}
+        for k, v in nested_dict.iteritems():
+            try:
+                this = {v["name"]: v["value"]}
+            except (AttributeError, KeyError):
+                this = {v["name"]: None}
+            unnested_dict.update(this)
+
+        return unnested_dict
+
+    @staticmethod
+    def _nest_dict(unnested_dict):
+        """ takes {key: {'name': k, 'value'?: v}...n} and returns {k: v} """
+        nested_dict = {}
+        for k, v in unnested_dict.iteritems():
+            if v != None:
+                this = {k: {"name": k, "value": v}}
+            else:
+                this = {k: {"name": k}}
+            nested_dict.update(this)
+
+        return nested_dict
+
+    def _add_new_slots_to_session(self, nested_new_slots, nested_stored_slots):
+        """
+        Args:
+            * new_slots: Nested Dict
+            * stored_slots: Nested Dict
+
+        returns:
+            * combined: DotMap
+
+        """
+        new_slots = self._unnest_dict(nested_new_slots)
+        stored_slots = self._unnest_dict(nested_stored_slots)
+        stored_slots.update({k: v for k, v in new_slots.items() if v})
+
+        return DotMap(self._nest_dict(stored_slots))
 
     def respond(self):
         if self.event.request.type == "LaunchRequest":
