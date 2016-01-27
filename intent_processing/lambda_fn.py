@@ -78,7 +78,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             pass
 
         self.event.session.slots = DotMap({c.name: c.toDict() for c in combined})
-        del self.event.session.attributes
+        self.event.session.attributes = {}
 
         self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
                                                 self.event.session.user.userId) for s in self.event.session.slots.values()]
