@@ -711,3 +711,5 @@ StationaryWhenIntent what time i could go for a {run|activity} from {startTime} 
 StationaryWhenIntent what time i could go for a {run|activity} from {startTime}
 StationaryWhenIntent what time i could go for an {run|activity} from {startTime} onwards
 StationaryWhenIntent what time i could go for an {run|activity} from {startTime}
+
+LocationIntent in {Exeter|location}

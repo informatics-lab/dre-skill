@@ -1,5 +1,6 @@
 import cPickle as pickle
 import datetime
+import os
 import pytz
 import unittest
 
@@ -13,7 +14,9 @@ from activities_config import run
 
 class WhenDecisionTest(unittest.TestCase):
     cache = ForecastCache()
-    with open("./tests/testForecast.pkl", "rb") as f:
+
+    base = os.path.split(__file__)[0]
+    with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
         timesteps = pickle.load(f)
     cache.cacheForecast(timesteps, Loc(lat=53.0, lon=-3.0))
 
@@ -38,7 +41,8 @@ class WhenDecisionTest(unittest.TestCase):
 class WhatDecisionTest(unittest.TestCase):
     loc = Loc(lat=53.0, lon=-3.0)
     cache = ForecastCache()
-    with open("./tests/testForecast.pkl", "rb") as f:
+    base = os.path.split(__file__)[0]
+    with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
         timesteps = pickle.load(f)
     cache.cacheForecast(timesteps, loc)
 

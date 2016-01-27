@@ -20,6 +20,15 @@
           "type": "LITERAL"
         }
       ]
+    },
+    {
+      "intent": "LocationIntent",
+      "slots": [
+        {
+          "name": "location",
+          "type": "LITERAL"
+        }
+      ]
     }
   ]
 }
