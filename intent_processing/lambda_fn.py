@@ -23,8 +23,6 @@ import speech_config
 import activities_config
 
 
-
-
 class ConstructSpeechMixin(object):
     def say(self, title, output, reprompt_text, should_end_session=False):
         return {
