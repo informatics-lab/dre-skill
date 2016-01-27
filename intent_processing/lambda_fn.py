@@ -135,7 +135,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         return speech
 
     def attempt_intent(self):
-        unset_sis = (si for si in self.slot_interactions if si.slot.value==None)
+        unset_sis = (si for si in self.slot_interactions if not 'value' in si.slots)
         try:
             this_unset_si = unset_sis.next()
             self._help = this_unset_si.help
@@ -170,12 +170,10 @@ class SlotInteraction(ConstructSpeechMixin):
         self.action_name = action_name
         self.user_id = user_id
 
-        if not 'value' in slot or slot['value']==None:
+        if not 'value' in slot:
             try:
                 self.slot.value = activities_config.get_config(slot.name, action_name, user_id)
             except KeyError:
-                self.slot.value = None
-
                 self.title = speech_config.__dict__[self.slot.name].title
                 self.question = speech_config.__dict__[self.slot.name].question
                 self.reprompt = speech_config.__dict__[self.slot.name].reprompt

@@ -65,8 +65,8 @@ class SessionPersistenceTest(unittest.TestCase):
     def testCombineSlots(self):
         stored_slots = self.secondaryInput["session"]["attributes"]["slots"]
         new_slots = self.secondaryInput["request"]["intent"]["slots"]
-        # correctAnswer = self.secondaryOutput["sessionAttributes"]["slots"]
-        correctAnswer = {'totalTime': {'name': 'totalTime', 'value': 3600}, 'location': {'name': 'location', 'value': 'Exeter'}, 'startTime': {'name': 'startTime'}, 'activity': {'name': 'activity', 'value': 'run'}}
+        correctAnswer = self.secondaryOutput["sessionAttributes"]["slots"]
+        # correctAnswer = {'totalTime': {'name': 'totalTime', 'value': 3600}, 'location': {'name': 'location', 'value': 'Exeter'}, 'startTime': {'name': 'startTime'}, 'activity': {'name': 'activity', 'value': 'run'}}
 
         session = Session(self.secondaryInput, "")
         combined = session._add_new_slots_to_session(new_slots, stored_slots).toDict()
