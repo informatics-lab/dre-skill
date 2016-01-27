@@ -3,7 +3,7 @@ from __future__ import print_function
 import sys
 sys.path.append("./lib")
 
-from dotmap import DotMap
+from dotmap import DotMap as DM
 
 from intent_request_handlers import IntentRequestHandlers
 
@@ -23,6 +23,13 @@ import speech_config
 import activities_config
 
 
+class DotMap(DM):
+    def __getitem__(self, k):
+        if k not in self._map:
+            # DON'T automatically extend to new DotMap
+            # self[k] = DotMap()
+            raise KeyError('Key %s is not defined in DotMap' %k)
+        return self._map[k]
 
 
 class ConstructSpeechMixin(object):
