@@ -73,9 +73,9 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                         pass # otherwise, ignore
                 else:
                     combined.append(self.event.session.attributes.slots[slot])
-            self.event.session.attributes = {}
 
         self.event.session.slots = DotMap({c.name: c.toDict() for c in combined})
+        self.event.session.attributes = {}
 
         self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
                                                 self.event.session.user.userId) for s in self.event.session.slots.values()]
