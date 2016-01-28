@@ -15,13 +15,15 @@
           "name": "location"
         },
         "startTime": {
-          "name": "startTime"
+          "name": "startTime",
+          "value": "now"
         },
         "activity": {
           "name": "activity",
           "value": "run"
         }
       },
+      "current_intent": "StationaryWhenIntent",
       "application": {
         "applicationId": "amzn1.echo-sdk-ams.app.c9db9bdc-c711-4ab3-b3a2-9238e92afbc8"
       },

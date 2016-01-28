@@ -1,18 +1,42 @@
 import math
+import datetime
+import pytz
+
+from geopy.geocoders import Nominatim
+from reduced_dotmap import DotMap
+
+import dre.actions as actions
+from dre.whenDecision import *
+from dre.decision import *
+from dre.forecastCache import ForecastCache
 
 class IntentRequestHandlers(object):
     def __init__(self):
         self._intent_request_map = {"AMAZON.HelpIntent": {'function':(lambda: self.say(self._help)), 'grab_session':False}, 
-                                    "StationaryWhenIntent": {'function':self.stationary_when_decision, 'grab_session':True},
+                                    "StationaryWhenIntent": {'function':self.stationary_when_intent, 'grab_session':True},
                                     "LocationIntent": {'function':self.location_intent, 'grab_session':False}
                                     }
+    @staticmethod
+    def _preproc_slots(slots):
+        place = Nominatim().geocode(slots.location)
+        slots.location = DotMap({'lat': place.latitude, 'lon': place.longitude})
+        if slots.startTime == 'now':
+            slots.startTime = datetime.datetime.now()
+        else:
+            raise KeyError('Time %s not recognized', slots.startTime)
+        return slots
 
     def location_intent(self, slots):
-        ir_handler = self._intent_request_map[self.current_intent]['function']
+        ir_handler = self._intent_request_map[self.event.session.current_intent]['function']
         return ir_handler(slots)
+
+    def stationary_when_intent(self, slots):
+        return self.stationary_when_decision(self._preproc_slots(slots))
 
     def stationary_when_decision(self, slots):
         """ """
+        ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+        
         def describe_options(possibilities, activity):
             start = possibilities[0].possibility[0].time.isoformat()
             answer = ''
@@ -30,8 +54,7 @@ class IntentRequestHandlers(object):
             return answer
 
         timesteps = math.ceil(slots.totalTime/float(15*60))
-        t = parse(slots.startTime)
-        startTime = t.replace(tzinfo=pytz.utc)
+        startTime = slots.startTime.replace(tzinfo=pytz.utc)
 
         whenActionBuilders = [WhenActionBuilder(slots.score,
                                   slots.conditions,
