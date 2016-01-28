@@ -6,7 +6,9 @@ import os
 import sys
 sys.path.append("..")
 
-from dotmap import DotMap
+import datetime
+
+from reduced_dotmap import DotMap
 from intent_processing.lambda_fn import *
 
 class LambdaDecisionTest(unittest.TestCase):
@@ -52,8 +54,6 @@ class SessionPersistenceTest(unittest.TestCase):
         """ Should ask for another slot """
         thisInitialResult = go(self.initialInput, None, self.cache)
         self.assertEquals(thisInitialResult, self.initialOutput)
-        thisSecondaryResult = go(self.secondaryInput, None, self.cache)
-        self.assertEquals(thisSecondaryResult, self.secondaryOutput)
 
     def testNestDict(self):
         nested = Session._nest_dict(self.unnested_dict)
@@ -82,6 +82,22 @@ class SessionPersistenceTest(unittest.TestCase):
         combined = session._add_new_slots_to_session(new_slots, stored_slots)
         self.assertEquals(combined, correctAnswer)
 
+    def testPreprocSlots(self):
+        oldslots = DotMap({'totalTime': 3600, 'location': 'Exeter', 'startTime': 'now', 'activity': 'run'})
+        procdslots = DotMap({'totalTime': 3600, 'location': DotMap(lat=50.7256471, lon=-3.526661), 'startTime': datetime.datetime.now(), 'activity':'run'})
+
+        slots = Session._preproc_slots(oldslots)
+
+        self.assertEquals(slots.totalTime, procdslots.totalTime)
+        self.assertEquals(slots.activity, procdslots.activity)
+        self.assertTrue('lat' in slots.location and 'lon' in slots.location)
+        self.assertTrue(abs(slots.location.lat - procdslots.location.lat) < 0.1)
+        self.assertTrue(abs(slots.location.lon - procdslots.location.lon) < 0.1)
+        self.assertTrue(abs((slots.startTime - procdslots.startTime).total_seconds()) < 60)
+
+    def testCurrentIntent(self):
+        secondary = Session(self.secondaryInput, '')
+        self.assertEquals(secondary.event.session.current_intent, self.secondaryInput["session"]["attributes"]["current_intent"])
 
 
 if __name__ == '__main__':

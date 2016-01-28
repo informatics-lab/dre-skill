@@ -27,7 +27,8 @@ class ConstructSpeechMixin(object):
     def say(self, title, output, reprompt_text, should_end_session=False):
         return {
             'version': '1.0',
-            'sessionAttributes': {'slots': self.event.session.toDict()['slots']},
+            'sessionAttributes': {'slots': self.event.session.toDict()['slots'], 
+                                  'current_intent': self.event.session.current_intent},
             'response': {
                 'outputSpeech': {
                     'type': 'PlainText',
@@ -63,8 +64,11 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             stored_slots = self.event.session.attributes.slots
         except AttributeError:
             stored_slots = DotMap()
+        try:
+            self.event.session.current_intent = self.event.session.attributes.current_intent
+        except AttributeError:
+            pass
 
-        # import pdb; pdb.set_trace()
         self.event.session.slots = self._add_new_slots_to_session(new_slots, stored_slots)
 
         self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
@@ -107,6 +111,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
         return nested_dict
 
+
     def _add_new_slots_to_session(self, nested_new_slots, nested_stored_slots):
         """
         Args:
@@ -128,7 +133,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             speech = self.greeting_speech
         elif self.event.request.type == "IntentRequest":
             if self._intent_request_map[self.event.request.intent.name]['grab_session']:
-                self.current_intent = self.event.request.intent.name
+                self.event.session.current_intent = self.event.request.intent.name
             speech = self.attempt_intent()
         elif self.event.request.type == "SessionEndedRequest":
             speech = self.sign_off_speech
