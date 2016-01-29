@@ -53,7 +53,11 @@ class SessionPersistenceTest(unittest.TestCase):
     def testDialogueIntent(self):
         """ Should ask for another slot """
         thisInitialResult = go(self.initialInput, None, self.cache)
+        self.assertTrue((thisInitialResult['sessionAttributes']['slots']['startTime']['value'] - datetime.datetime.now()).total_seconds() < 60)
+        thisInitialResult['sessionAttributes']['slots']['startTime']['value'] = 'now'
         self.assertEquals(thisInitialResult, self.initialOutput)
+        thisSecondaryResult = go(self.secondaryInput, None, self.cache)
+        # self.assertEquals(thisSecondaryResult, self.secondaryOutput)
 
     def testNestDict(self):
         nested = Session._nest_dict(self.unnested_dict)
@@ -83,7 +87,7 @@ class SessionPersistenceTest(unittest.TestCase):
         self.assertEquals(combined, correctAnswer)
 
     def testPreprocSlots(self):
-        oldslots = DotMap({'totalTime': 3600, 'location': 'Exeter', 'startTime': 'now', 'activity': 'run'})
+        oldslots = DotMap({'totalTime': 3600, 'location': 'Exeter', 'startTime': datetime.datetime.now(), 'activity': 'run'})
         procdslots = DotMap({'totalTime': 3600, 'location': DotMap(lat=50.7256471, lon=-3.526661), 'startTime': datetime.datetime.now(), 'activity':'run'})
 
         slots = Session._preproc_slots(oldslots)

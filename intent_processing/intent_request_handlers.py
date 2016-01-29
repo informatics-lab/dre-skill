@@ -20,10 +20,6 @@ class IntentRequestHandlers(object):
     def _preproc_slots(slots):
         place = Nominatim().geocode(slots.location)
         slots.location = DotMap({'lat': place.latitude, 'lon': place.longitude})
-        if slots.startTime == 'now':
-            slots.startTime = datetime.datetime.now()
-        else:
-            raise KeyError('Time %s not recognized', slots.startTime)
         return slots
 
     def location_intent(self, slots):
@@ -36,7 +32,7 @@ class IntentRequestHandlers(object):
     def stationary_when_decision(self, slots):
         """ """
         ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-        
+
         def describe_options(possibilities, activity):
             start = possibilities[0].possibility[0].time.isoformat()
             answer = ''
