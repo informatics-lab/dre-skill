@@ -1,6 +1,7 @@
 import math
 import datetime
 import pytz
+import dateutil
 
 from geopy.geocoders import Nominatim
 from reduced_dotmap import DotMap
@@ -50,7 +51,7 @@ class IntentRequestHandlers(object):
             return answer
 
         timesteps = math.ceil(slots.totalTime/float(15*60))
-        startTime = slots.startTime.replace(tzinfo=pytz.utc)
+        startTime = dateutil.parser.parse(slots.startTime).replace(tzinfo=pytz.UTC)
 
         whenActionBuilders = [WhenActionBuilder(slots.score,
                                   slots.conditions,

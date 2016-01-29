@@ -39,10 +39,13 @@ class SessionPersistenceTest(unittest.TestCase):
         initialInput = yaml.safe_load(f.read())
     with open(os.path.join(base, 'json_packets', 'out', 'whenshalligoforarun.json'), 'r') as f:
         initialOutput = yaml.safe_load(f.read())
+        initialOutput["sessionAttributes"]["slots"]["startTime"]["value"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     with open(os.path.join(base, 'json_packets', 'in', 'inExeter.json'), 'r') as f:
         secondaryInput = yaml.safe_load(f.read())
+        secondaryInput["session"]["attributes"]["slots"]["startTime"]["value"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     with open(os.path.join(base, 'json_packets', 'out', 'whenshalligoforarun_inexeter.json'), 'r') as f:
         secondaryOutput = yaml.safe_load(f.read())
+        secondaryOutput["sessionAttributes"]["slots"]["startTime"]["value"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
     nested_dict = {"thingA": {"name": "thingA", "value": "stuffA"},
                    "thingB": {"name": "thingB"},
@@ -53,8 +56,6 @@ class SessionPersistenceTest(unittest.TestCase):
     def testDialogueIntent(self):
         """ Should ask for another slot """
         thisInitialResult = go(self.initialInput, None, self.cache)
-        self.assertTrue((thisInitialResult['sessionAttributes']['slots']['startTime']['value'] - datetime.datetime.now()).total_seconds() < 60)
-        thisInitialResult['sessionAttributes']['slots']['startTime']['value'] = 'now'
         self.assertEquals(thisInitialResult, self.initialOutput)
         thisSecondaryResult = go(self.secondaryInput, None, self.cache)
         # self.assertEquals(thisSecondaryResult, self.secondaryOutput)
@@ -71,7 +72,6 @@ class SessionPersistenceTest(unittest.TestCase):
         stored_slots = self.secondaryInput["session"]["attributes"]["slots"]
         new_slots = self.secondaryInput["request"]["intent"]["slots"]
         correctAnswer = self.secondaryOutput["sessionAttributes"]["slots"]
-        # correctAnswer = {'totalTime': {'name': 'totalTime', 'value': 3600}, 'location': {'name': 'location', 'value': 'Exeter'}, 'startTime': {'name': 'startTime'}, 'activity': {'name': 'activity', 'value': 'run'}}
 
         session = Session(self.secondaryInput, "")
         combined = session._add_new_slots_to_session(new_slots, stored_slots).toDict()
@@ -85,19 +85,6 @@ class SessionPersistenceTest(unittest.TestCase):
         session = Session(self.secondaryInput, "")
         combined = session._add_new_slots_to_session(new_slots, stored_slots)
         self.assertEquals(combined, correctAnswer)
-
-    def testPreprocSlots(self):
-        oldslots = DotMap({'totalTime': 3600, 'location': 'Exeter', 'startTime': datetime.datetime.now(), 'activity': 'run'})
-        procdslots = DotMap({'totalTime': 3600, 'location': DotMap(lat=50.7256471, lon=-3.526661), 'startTime': datetime.datetime.now(), 'activity':'run'})
-
-        slots = Session._preproc_slots(oldslots)
-
-        self.assertEquals(slots.totalTime, procdslots.totalTime)
-        self.assertEquals(slots.activity, procdslots.activity)
-        self.assertTrue('lat' in slots.location and 'lon' in slots.location)
-        self.assertTrue(abs(slots.location.lat - procdslots.location.lat) < 0.1)
-        self.assertTrue(abs(slots.location.lon - procdslots.location.lon) < 0.1)
-        self.assertTrue(abs((slots.startTime - procdslots.startTime).total_seconds()) < 60)
 
     def testCurrentIntent(self):
         secondary = Session(self.secondaryInput, '')
