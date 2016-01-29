@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from dre.actions import GaussDistFromIdeal
 
 class Condition(object):
@@ -18,13 +20,13 @@ run = {"score": GaussDistFromIdeal,
        "conditions": [Condition("temperature", 15, 10, 23), Condition("precipitation", 0, 0, 50)],
         "totalTime": 3600,
         "filter": [],
-        "startTime": 'now'}
+        "startTime": datetime.now()}
 
 sunbathe = {"score": GaussDistFromIdeal,
             "conditions": [Condition("temperature", 28, 25, 40), Condition("precipitation", 0, 0, 0)],
             "totalTime": 7200,
             "filter": [],
-            "startTime": 'now'}
+            "startTime": datetime.now()}
 
 def get_config(slot, action_name, userID=None):
     return globals()[activities[action_name]][slot]
