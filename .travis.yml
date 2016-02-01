@@ -6,6 +6,6 @@ before_script:
 script:
   - grunt test
 after_success:
-  - grunt deploy
+  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && grunt deploy
 notifications:
   email: false
