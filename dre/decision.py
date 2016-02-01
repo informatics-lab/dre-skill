@@ -1,7 +1,19 @@
+"""
+A series of classes used for assessing different decisions including:
+
+    * Loc
+    * Score
+    * Action
+    * Activity
+
+"""
+
+# standard library
 import abc
 import imp
 import os.path
 
+# local
 from forecastCache import ForecastCache
 
 

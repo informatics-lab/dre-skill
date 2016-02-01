@@ -1,16 +1,30 @@
+"""
+Defines a set of classes which inherit from `dre.decision.Action`
+and define different `get_score` methods.
+
+These are then uses to rank possible actions in different ways
+
+"""
+
+# future imports
 from __future__ import division
 
+# standard library
 import math
+import sys
+sys.path.append("./lib")
 
+# third party
+import datapoint
+
+# local
 from decision import *
 from forecastCache import ForecastNotCachedException
 
-import sys
-sys.path.append("./lib")
-import datapoint
-
+# globals for data point
 DATAPOINT_KEY = "41bf616e-7dbc-4066-826a-7270b8da4b93"
 DP_FORECAST_FREQUENCY = "3hourly"
+
 
 class GaussDistFromIdeal(Action):
     def getScore(self):
@@ -21,6 +35,13 @@ class GaussDistFromIdeal(Action):
         """
 
         def getForecast(condition):
+            """
+            Hits database API e.g. data point for forecast data
+
+            Args:
+                * condition (condition)
+
+            """
             try:
                 actionForecast = self.cache.getForecast(self.time, self.loc, condition.variable)
             except ForecastNotCachedException:
@@ -34,6 +55,15 @@ class GaussDistFromIdeal(Action):
             return actionForecast
 
         def normalizedLinearScore(val, minlim, maxlim):
+            """
+            Converts to fractional distance between limits
+
+            Args:
+                * val (float): value to convert
+                * minlim (float): minmum value in range
+                * maxlim (float): maxmum value in range
+
+            """
             if val == minlim == maxlim:
                 dist = 1.0
             elif not minlim < val < maxlim:

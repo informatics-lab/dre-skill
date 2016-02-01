@@ -1,30 +1,58 @@
+# future imports
 from __future__ import print_function
 
+# standard library imports
+import datetime
+import imp
+import math
+import pytz
 import sys
 sys.path.append("./lib")
 
+# third party imports
 from reduced_dotmap import DotMap
+
+# local imports
+import dre.actions as actions
+from dre.decision import *
+from dre.forecastCache import ForecastCache
+from dre.whenDecision import *
 
 from intent_request_handlers import IntentRequestHandlers
 
-import math
-
-import datetime
-import imp
-import pytz
-from dateutil.parser import *
-
-import dre.actions as actions
-from dre.whenDecision import *
-from dre.decision import *
-from dre.forecastCache import ForecastCache
-
+# config imports
 import speech_config
 import activities_config
 
 
 class ConstructSpeechMixin(object):
-    def say(self, title, output, reprompt_text, should_end_session=False):
+    """
+    Mix-in class which defines a method to construct a JSON-like packet of
+    speech plus assicated meta-data. Defined along the lines of
+    the Amazon Alexa Skills Kit.
+
+    """
+    def say(self, title, output, reprompt, should_end_session=False):
+        """
+        Constructs a packet of speech text and meta-data.
+
+        Args:
+            * title (string): Title to be displayed on information card
+                i.e. visual content displayed along side speech
+            * output (string): Speech to deliver
+            * reprompt (string): Speech to deliver if there is no user
+                reponse to `output`
+
+        Kwargs:
+            * should_end_session (bool, False): True means await response
+                and False means finish current interaction with user.
+                Note that the session can also be ended by the user, either
+                explicitly, or by calling another intent with grabs the
+                current session.
+
+        Returns dict
+
+        """
         return {
             'version': '1.0',
             'sessionAttributes': {'slots': self.event.session.toDict()['slots'], 
@@ -42,7 +70,7 @@ class ConstructSpeechMixin(object):
                 'reprompt': {
                     'outputSpeech': {
                         'type': 'PlainText',
-                        'text': reprompt_text
+                        'text': reprompt
                     }
                 },
                 'shouldEndSession': should_end_session
@@ -51,7 +79,35 @@ class ConstructSpeechMixin(object):
 
 
 class Session(IntentRequestHandlers, ConstructSpeechMixin):
+    """
+    Represents one user's interaction with our NLP app.
+    Functionaliy includes:
+
+        * Managing metadata
+        * Interogating until all data is recieved
+        * Persisting data between dialogues
+        * Calls data processing
+        * Returns resonses
+
+    Designed around the Amazon Alexa Skills Kit
+
+    """
     def __init__(self, event, context, cache=ForecastCache()):
+        """
+        Args:
+
+            * event (dict): User data and metadata
+            * context (dict): Unknown
+
+        Kwargs:
+
+            * cache (ForecastCache): Cache object for persisting
+                forecast data between dialogue interactions.
+
+        Note that this class makes represents dictionary attributes
+        as DotMap object for ease of access.
+
+        """
         self._event = event
         self._context = context
         self._cache = cache
@@ -65,6 +121,8 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         except AttributeError:
             stored_slots = DotMap()
         try:
+            # Copy input from user interaction (`self.event.session.attributes.current_intent`)
+            # into the persisted location (`self.event.session.current_intent`)
             self.event.session.current_intent = self.event.session.attributes.current_intent
         except AttributeError:
             pass
@@ -87,7 +145,16 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
     @staticmethod
     def _unnest_dict(nested_dict):
-        """ takes {key: {'name': k, 'value'?: v}...n} and returns {k: v} """
+        """
+        Utility function to reformat dictionaries to a more standard form
+
+        Takes `{key: {'name': k, 'value'?: v}...n}`
+
+        where `value` is optional, and 
+
+        returns `{k: v}`
+
+        """
         unnested_dict = {}
         for k, v in nested_dict.iteritems():
             try:
@@ -100,7 +167,15 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
     @staticmethod
     def _nest_dict(unnested_dict):
-        """ takes {key: {'name': k, 'value'?: v}...n} and returns {k: v} """
+        """
+        Utility function to reformat dictionaries to a suitable form for
+        speech response packets.
+
+        Takes `{k: v}`
+
+        returns `{key: {'name': k, 'value': v}...n}`
+
+        """
         nested_dict = {}
         for k, v in unnested_dict.iteritems():
             if v != None:
@@ -114,11 +189,16 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
     def _add_new_slots_to_session(self, nested_new_slots, nested_stored_slots):
         """
-        Args:
-            * new_slots: Nested Dict
-            * stored_slots: Nested Dict
+        Stores any slots (i.e. variables) recieved from the user in a persistent
+        location in a robust fasion. Note that the dictionaries should of the
+        nested sort (see _unnest_dict).
 
-        returns:
+        Args:
+            * nested_new_slots (dict): Slots to store
+            * nested_stored_slots (dict): Slots current stored and persisted
+                in this session.
+
+        Returns:
             * combined: DotMap
 
         """
@@ -129,6 +209,10 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         return DotMap(self._nest_dict(stored_slots))
 
     def respond(self):
+        """
+        Initial function to cause class to handle a incoming request.
+
+        """
         if self.event.request.type == "LaunchRequest":
             speech = self.greeting_speech
         elif self.event.request.type == "IntentRequest":
@@ -141,6 +225,19 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         return speech
 
     def attempt_intent(self):
+        """
+        This method attempts to use the slots (variables) descerned so far to
+        execute the intent (functionality).
+
+        If any slots nescesarry to execute the intent are undefined, the
+        speech packet returned will ask the user for clarifcation.
+
+        If all the nescesarry slots to execute the intest are defined, the
+        speech packet returned will comunicate the answer.
+
+        Returns 
+
+        """
         unset_sis = (si for si in self.slot_interactions if not 'value' in si.slot)
         try:
             this_unset_si = unset_sis.next()
@@ -170,7 +267,25 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         
 
 class SlotInteraction(ConstructSpeechMixin):
+    """
+    A class that is responsible for getting and storing a slot (variable) value.
+    It attempts to retrieve values from three different source in order:
+
+        1. The previous interactions with the user i.e. the stored slots
+        2. Configuration files (both for the user and the current functionality)
+        3. By prompting the user
+
+    """
     def __init__(self, event, slot, action_name, user_id):
+        """
+        Args:
+            * event (DotMap): User data and metadata
+            * slot (DotMap): `{name: x, value?: y}`, where value is optional.
+            * action_name (string): name of the relevant action as defined in
+                the activities config file.
+            * user_id (string): the unique ID of the current user
+
+        """
         self.event = event
         self.slot = slot
         self.action_name = action_name
@@ -186,6 +301,10 @@ class SlotInteraction(ConstructSpeechMixin):
                 self.help = speech_config.__dict__[self.slot.name].help
 
     def ask(self):
+        """
+        Prompt the user for the value
+
+        """
         return self.say(self.title, self.question, self.reprompt)
 
 

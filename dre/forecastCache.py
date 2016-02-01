@@ -1,4 +1,13 @@
 class ForecastNotCachedException(Exception):
+    """
+    This exception is thown when the user tries to access
+    forecast data which is considered not to be stored
+    in the cache.
+
+    Exception messesage details why the forecast was considered
+    not to be cached.
+
+    """
     def __init__(self, goodTime, goodLat, goodLon, goodVariable, time, loc, variable):
         message = ""
         if not goodTime:
@@ -13,17 +22,39 @@ class ForecastNotCachedException(Exception):
 
 
 class ForecastCache(object):
+    """
+    An object for persisting forecast data for a whole session.
+
+    """
     def __init__(self):
         self.forecasts = []
 
     def cacheForecast(self, forecast, loc):
         """
-        Forecast must be an unpacked list of timesteps
+        Args:
+            * forecast (list): Forecast is a list of dictionaries
+                where each dictionary element represents a
+                a forecast for a specific point in time and space.
+                At a minimum it must have a `date` element consisting
+                of a `datetime.datetime` object.
+            * loc (Loc): A location obejct which specifies the
+                requested (as opposed to returned) location.
 
         """
         self.forecasts.append([forecast, loc])
 
     def getForecast(self, time, loc, variable):
+        """
+        Gets the forecast data. First it attempts to retrieve
+        suitable data from the cache, then from the data base
+        e.g. data point, which is subsequently cached.
+
+        Args:
+            * time (datetime.datetime): time of desired forecast
+            * loc (Loc): location of desired forecast
+            * variable (string): name of desired forecast variable
+
+        """
         goodForecasts = []
         goodTime = goodLat = goodLon = goodVariable = False
         for forecast, forecastLoc in self.forecasts:
