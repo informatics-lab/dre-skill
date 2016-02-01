@@ -3,8 +3,19 @@ from datetime import datetime
 from dre.actions import GaussDistFromIdeal
 
 class Condition(object):
+    """ Defines an desired meteorological condition """
     def __init__(self, variable, ideal, min, max):
-        """ where variable name is correct to reference data base """
+        """
+        Args:
+            * variable (string): name of variable with
+                respect to the forecast data base
+                API e.g. data point 
+
+            * ideal (float): ideal variable value
+            * min (float): minimum variable value
+            * max (float): maximum variable value
+
+        """
         self.variable = variable
         self.ideal = ideal
         self.min = min
