@@ -8,15 +8,15 @@ class ForecastNotCachedException(Exception):
     not to be cached.
 
     """
-    def __init__(self, goodTime, goodLat, goodLon, goodVariable, time, loc, variable):
+    def __init__(self, good_time, good_lat, good_lon, good_variable, time, loc, variable):
         message = ""
-        if not goodTime:
+        if not good_time:
             message += "Time %s not found in any forecasts\n" % str(time)
-        if not goodLat:
+        if not good_lat:
             message += "Latitude %d not found in any forecasts\n" % loc.lat
-        if not goodLon:
+        if not good_lon:
             message += "Longitude %d not found in any forecasts\n" % loc.lon
-        if not goodVariable:
+        if not good_variable:
             message += "Variable %s not in any forecast" % variable
         super(ForecastNotCachedException, self).__init__(message)
 
@@ -29,7 +29,7 @@ class ForecastCache(object):
     def __init__(self):
         self.forecasts = []
 
-    def cacheForecast(self, forecast, loc):
+    def cache_forecast(self, forecast, loc):
         """
         Args:
             * forecast (list): Forecast is a list of dictionaries
@@ -43,7 +43,7 @@ class ForecastCache(object):
         """
         self.forecasts.append([forecast, loc])
 
-    def getForecast(self, time, loc, variable):
+    def get_forecast(self, time, loc, variable):
         """
         Gets the forecast data. First it attempts to retrieve
         suitable data from the cache, then from the data base
@@ -55,29 +55,29 @@ class ForecastCache(object):
             * variable (string): name of desired forecast variable
 
         """
-        goodForecasts = []
-        goodTime = goodLat = goodLon = goodVariable = False
-        for forecast, forecastLoc in self.forecasts:
-            thisGoodTime = thisGoodLat = thisGoodLon = thisGoodVariable = False 
+        good_forecast = []
+        good_time = good_lat = good_lon = good_variable = False
+        for forecast, forecast_loc in self.forecasts:
+            this_good_time = this_good_lat = this_good_lon = this_good_variable = False 
 
-            nearestForecast = min(forecast, key=lambda v: abs(v.date-time))
+            nearest_forecast = min(forecast, key=lambda v: abs(v.date-time))
             
-            thisGoodTime = abs(nearestForecast.date-time) < abs(forecast[0].date-forecast[1].date)
-            goodTime = True if thisGoodTime else goodTime
+            this_good_time = abs(nearest_forecast.date-time) < abs(forecast[0].date-forecast[1].date)
+            good_time = True if this_good_time else good_time
             
-            thisGoodLat = forecastLoc.lat == loc.lat
-            goodLat = True if thisGoodLat else goodLat
+            this_good_lat = forecast_loc.lat == loc.lat
+            good_lat = True if this_good_lat else good_lat
             
-            thisGoodLon = forecastLoc.lon == loc.lon
-            goodLat = True if thisGoodLat else goodLat
+            this_good_lon = forecast_loc.lon == loc.lon
+            good_lat = True if this_good_lat else good_lat
             
-            thisGoodVariable = variable in nearestForecast.__dict__.keys()
-            goodVariable = True if thisGoodVariable else goodVariable
+            this_good_variable = variable in nearest_forecast.__dict__.keys()
+            good_variable = True if this_good_variable else good_variable
             
-            if thisGoodTime and thisGoodLat and thisGoodLon and thisGoodVariable:
-                goodForecasts.append(nearestForecast)
+            if this_good_time and this_good_lat and this_good_lon and this_good_variable:
+                good_forecast.append(nearest_forecast)
 
         try:
-            return min(goodForecasts, key=lambda v: abs(v.date-time)).__dict__[variable].value
+            return min(good_forecast, key=lambda v: abs(v.date-time)).__dict__[variable].value
         except ValueError:
-            raise ForecastNotCachedException(goodTime, goodLat, goodLon, goodVariable, time, loc, variable)
+            raise ForecastNotCachedException(good_time, good_lat, good_lon, good_variable, time, loc, variable)

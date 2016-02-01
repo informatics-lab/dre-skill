@@ -6,8 +6,6 @@ import os
 import sys
 sys.path.append("..")
 
-import datetime
-
 from reduced_dotmap import DotMap
 from intent_processing.lambda_fn import *
 
@@ -19,7 +17,7 @@ class LambdaDecisionTest(unittest.TestCase):
     cache = ForecastCache()
     with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
         timesteps = pickle.load(f)
-    cache.cacheForecast(timesteps, Loc(lat=50.7, lon=-3.5))
+    cache.cache_forecast(timesteps, Loc(lat=50.7, lon=-3.5))
 
     def testLambda(self):
         answer = 'Wher'
@@ -33,7 +31,7 @@ class SessionPersistenceTest(unittest.TestCase):
     cache = ForecastCache()
     with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
         timesteps = pickle.load(f)
-    cache.cacheForecast(timesteps, Loc(lat=50.7, lon=-3.5))
+    cache.cache_forecast(timesteps, Loc(lat=50.7, lon=-3.5))
 
     with open(os.path.join(base, 'json_packets', 'in', 'whenshalligoforarun.json'), 'r') as f:
         initialInput = yaml.safe_load(f.read())

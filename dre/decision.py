@@ -10,11 +10,9 @@ A series of classes used for assessing different decisions including:
 
 # standard library
 import abc
-import imp
-import os.path
 
 # local
-from forecastCache import ForecastCache
+from forecast_cache import ForecastCache
 
 
 class Loc(object):
@@ -40,20 +38,21 @@ class Action(object):
 
     """
     __metaclass__ = abc.ABCMeta
-    def __init__(self, time, loc, conditions, forecastCache=ForecastCache()):
+
+    def __init__(self, time, loc, conditions, forecast_cache=ForecastCache()):
         """
         An action is instantaneous, and defines a method for scoring itself.
 
         Args:
-            * Time (datetime.datetime): Specifys the time at which the
+            * time (datetime.datetime): Specifys the time at which the
                 Action is performed
-            * Loc (decision.Loc): Specifies the lat/lon values at which
+            * loc (decision.Loc): Specifies the lat/lon values at which
                 the Action is performed
-            * configFile (str path): Python file containing any objects
-                or values which are used in the bespoke getScore(). 
+            * conditions (list): List of the desired meteorological
+                conditions.
 
         Kwargs:
-            * forecastCache (forecastCache.ForecastCache): If specified,
+            * forecast_cache (forecastCache.ForecastCache): If specified,
                 suitable forecasts will be retreived from this cache. If
                 not specified (or if no suitable forecasts are cached),
                 forecasts will be retreived and stored in the cache as
@@ -63,12 +62,12 @@ class Action(object):
         self.time = time
         self.loc = loc
         self.conditions = conditions
-        self.cache = forecastCache
+        self.cache = forecast_cache
         
-        self.score = self.getScore()
+        self.score = self.get_score()
 
     @abc.abstractmethod
-    def getScore(self):
+    def get_score(self):
         """
         Abstract method which takes no arguments, has access to config,
         and returns a Score() object.
@@ -85,6 +84,7 @@ class Activity(object):
 
     """
     __metaclass__ = abc.ABCMeta
+
     def __init__(self, possibility):
         """
         Args:
@@ -92,13 +92,13 @@ class Activity(object):
 
         """
         self.possibility = possibility
-        self.score = self.getScore()
+        self.score = self.get_score()
 
-    def getScore(self):
+    def get_score(self):
         """
         Combines the scores of all the composite Actions to provide an
         overall score for the Activity.
 
         """
-        combinedScoreValue = sum(action.score.value for action in self.possibility)/len(self.possibility)
-        return Score(combinedScoreValue)
+        combined_score_value = sum(action.score.value for action in self.possibility)/len(self.possibility)
+        return Score(combined_score_value)
