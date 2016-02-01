@@ -28,12 +28,14 @@
         "name": "location"
       },
       "startTime": {
-        "name": "startTime"
+        "name": "startTime",
+        "value": "now"
       },
       "activity": {
         "name": "activity",
         "value": "run"
       }
-    }
+    },
+    "current_intent": "StationaryWhenIntent"
   }
 }

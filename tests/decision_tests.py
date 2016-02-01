@@ -5,9 +5,9 @@ import pytz
 import unittest
 
 import dre.actions as actions
-from dre.whenDecision import *
+from dre.when_decision import *
 from dre.decision import *
-from dre.forecastCache import ForecastCache
+from dre.forecast_cache import ForecastCache
 
 from activities_config import run
 
@@ -18,7 +18,7 @@ class WhenDecisionTest(unittest.TestCase):
     base = os.path.split(__file__)[0]
     with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
         timesteps = pickle.load(f)
-    cache.cacheForecast(timesteps, Loc(lat=53.0, lon=-3.0))
+    cache.cache_forecast(timesteps, Loc(lat=53.0, lon=-3.0))
 
     whenActionBuilders = [WhenActionBuilder(actions.GaussDistFromIdeal,
                               run["conditions"],
@@ -44,7 +44,7 @@ class WhatDecisionTest(unittest.TestCase):
     base = os.path.split(__file__)[0]
     with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
         timesteps = pickle.load(f)
-    cache.cacheForecast(timesteps, loc)
+    cache.cache_forecast(timesteps, loc)
 
     def testWhatDecision(self):
       mySunbathe = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, run["conditions"], self.cache)])

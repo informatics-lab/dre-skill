@@ -29,7 +29,8 @@
         "value": "Exeter"
       },
       "startTime": {
-        "name": "startTime"
+        "name": "startTime",
+        "value": "now"
       },
       "activity": {
         "name": "activity",
