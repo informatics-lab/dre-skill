@@ -9,7 +9,7 @@
         },
         {
           "name": "startTime",
-          "type": "TIME"
+          "type": "DATE"
         },
         {
           "name": "totalTime",
@@ -27,6 +27,15 @@
         {
           "name": "location",
           "type": "LITERAL"
+        }
+      ]
+    },
+    {
+      "intent": "TotalTimeIntent",
+      "slots": [
+        {
+          "name": "totalTime",
+          "type": "DURATION"
         }
       ]
     }
