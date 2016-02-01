@@ -3,9 +3,7 @@ from __future__ import print_function
 
 # standard library imports
 import datetime
-import imp
 import math
-import pytz
 import sys
 sys.path.append("./lib")
 
@@ -13,10 +11,9 @@ sys.path.append("./lib")
 from reduced_dotmap import DotMap
 
 # local imports
-import dre.actions as actions
 from dre.decision import *
-from dre.forecastCache import ForecastCache
-from dre.whenDecision import *
+from dre.forecast_cache import ForecastCache
+from dre.when_decision import *
 
 from intent_request_handlers import IntentRequestHandlers
 
@@ -130,11 +127,12 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.event.session.slots = self._add_new_slots_to_session(new_slots, stored_slots)
 
         self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
-                                                self.event.session.user.userId) for s in self.event.session.slots.values()]
+                                                  self.event.session.user.userId)
+                                  for s in self.event.session.slots.values()]
 
         config_slots = [{"name": "score"}, {"name": "conditions"}]
         self.slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.session.slots.activity.value,
-                                                self.event.session.user.userId) for s in config_slots])
+                                                       self.event.session.user.userId) for s in config_slots])
 
         self.greeting = speech_config.session.greeting
         self.reprompt = speech_config.session.reprompt
@@ -185,7 +183,6 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             nested_dict.update(this)
 
         return nested_dict
-
 
     def _add_new_slots_to_session(self, nested_new_slots, nested_stored_slots):
         """
@@ -238,7 +235,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         Returns 
 
         """
-        unset_sis = (si for si in self.slot_interactions if not 'value' in si.slot)
+        unset_sis = (si for si in self.slot_interactions if 'value' not in si.slot)
         try:
             this_unset_si = unset_sis.next()
             self._help = this_unset_si.help
@@ -256,13 +253,13 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
     def greeting_speech(self):
         return self.say(title="Greeting",
                         output=self.greeting,
-                        reprompt_text=self.reprompt)
+                        reprompt=self.reprompt)
 
     @property
     def sign_off_speech(self):
         return self.say(title="Sign Off",
                         output=self.sign_off,
-                        reprompt_text="",
+                        reprompt="",
                         should_end_session=True)
         
 

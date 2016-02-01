@@ -9,10 +9,7 @@ from geopy.geocoders import Nominatim
 from reduced_dotmap import DotMap
 
 # local
-import dre.actions as actions
-from dre.whenDecision import *
-from dre.decision import *
-from dre.forecastCache import ForecastCache
+from dre.when_decision import *
 
 
 class IntentRequestHandlers(object):
@@ -29,7 +26,7 @@ class IntentRequestHandlers(object):
 
     """
     def __init__(self):
-        # add new intent hadlers to the this map
+        # add new intent handlers to the this map
         self._intent_request_map \
             = {'AMAZON.HelpIntent': {'function':(lambda: self.say(self._help)),
                                      'grab_session':False}, 
@@ -72,7 +69,7 @@ class IntentRequestHandlers(object):
             answer = ''
             n = min(3, len(possibilities)) 
             if n > 0:
-                answer += 'Your best options for a %s are: ' %  activity
+                answer += 'Your best options for a %s are: ' % activity
                 for pos in possibilities[0:n]:
                     answer += pos.possibility[0] \
                                  .time \
@@ -86,7 +83,7 @@ class IntentRequestHandlers(object):
             return answer
 
         timesteps = math.ceil(slots.totalTime/float(15*60))
-        startTime = dateutil.parser.parse(slots.startTime).replace(tzinfo=pytz.UTC)
+        start_time = dateutil.parser.parse(slots.startTime).replace(tzinfo=pytz.UTC)
 
         whenActionBuilders = [WhenActionBuilder(slots.score,
                                   slots.conditions,
@@ -95,12 +92,11 @@ class IntentRequestHandlers(object):
                                   cache=self._cache)
                               for i in range(int(timesteps))]
 
-        whenFilter = [TimeSlot(startTime, startTime+datetime.timedelta(days=3))]
+        when_filter = [TimeSlot(start_time, start_time+datetime.timedelta(days=3))]
 
-        aDecision = WhenDecision(whenActionBuilders, whenFilter)
-        aDecision.generatePossibleActivities(timeRes=datetime.timedelta(hours=3))
-        possibilities = aDecision.possibleActivities    
-
+        a_decision = WhenDecision(whenActionBuilders, when_filter)
+        a_decision.generatePossibleActivities(timeRes=datetime.timedelta(hours=3))
+        possibilities = a_decision.possibleActivities
 
         speech_output = describe_options(possibilities, slots.activity)
         reprompt_text = ""
