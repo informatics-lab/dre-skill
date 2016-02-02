@@ -44,6 +44,10 @@ class SessionPersistenceTest(unittest.TestCase):
     with open(os.path.join(base, 'json_packets', 'out', 'whenshalligoforarun_inexeter.json'), 'r') as f:
         secondaryOutput = yaml.safe_load(f.read())
         secondaryOutput["sessionAttributes"]["slots"]["startTime"]["value"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    with open(os.path.join(base, 'json_packets', 'in', 'start_time.json'), 'r') as f:
+        startTimeInput = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'out', 'start_time.json'), 'r') as f:
+        startTimeOutput = yaml.safe_load(f.read())
 
     nested_dict = {"thingA": {"name": "thingA", "value": "stuffA"},
                    "thingB": {"name": "thingB"},
@@ -87,6 +91,10 @@ class SessionPersistenceTest(unittest.TestCase):
     def testCurrentIntent(self):
         secondary = Session(self.secondaryInput, '')
         self.assertEquals(secondary.event.session.current_intent, self.secondaryInput["session"]["attributes"]["current_intent"])
+
+    def testCustomStartTimeIntent(self):
+        thisResult = go(self.startTimeInput, None, self.cache)
+        self.assertEquals(thisResult, self.startTimeOutput)
 
 
 if __name__ == '__main__':
