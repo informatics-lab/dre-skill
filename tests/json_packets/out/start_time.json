@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "response": {
+    "outputSpeech": {
+      "type": "PlainText",
+      "text": "Where do you want to do that"
+    },
+    "card": {
+      "type": "Simple",
+      "content": "SessionSpeechlet - Where do you want to do that",
+      "title": "SessionSpeechlet - TITLE"
+    },
+    "reprompt": {
+      "outputSpeech": {
+        "type": "PlainText",
+        "text": "I SAID WHERE DO YOU WANT TO DO THAT!"
+      }
+    },
+    "shouldEndSession": false
+  },
+  "sessionAttributes": {
+    "slots": {
+      "totalTime": {
+        "name": "totalTime",
+        "value": 3600
+      },
+      "location": {
+        "name": "location"
+      },
+      "startTime": {
+        "name": "startTime",
+        "value": "2016-02-03"
+      },
+      "activity": {
+        "name": "activity",
+        "value": "run"
+      }
+    },
+    "current_intent": "StationaryWhenIntent"
+  }
+}
