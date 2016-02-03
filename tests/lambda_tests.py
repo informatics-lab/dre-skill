@@ -32,6 +32,7 @@ class SessionPersistenceTest(unittest.TestCase):
     with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
         timesteps = pickle.load(f)
     cache.cache_forecast(timesteps, Loc(lat=50.7, lon=-3.5))
+    cache.cache_forecast(timesteps, Loc(lat=50.7256471, lon=-3.526661))
 
     with open(os.path.join(base, 'json_packets', 'in', 'whenshalligoforarun.json'), 'r') as f:
         initialInput = yaml.safe_load(f.read())

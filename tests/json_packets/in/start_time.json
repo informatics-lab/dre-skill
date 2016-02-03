@@ -26,10 +26,11 @@
         },
         "startTime": {
           "name": "startTime",
-          "value": "2016-02-03"
+          "value": "2016-01-09"
         },
         "location": {
-          "name": "location"
+          "name": "location",
+          "value": "Exeter"
         }
       }
     }
