@@ -1,41 +1,45 @@
 {
   "version": "1.0",
-  "response": {
-    "outputSpeech": {
-      "type": "PlainText",
-      "text": "Where do you want to do that"
-    },
-    "card": {
-      "type": "Simple",
-      "content": "SessionSpeechlet - Where do you want to do that",
-      "title": "SessionSpeechlet - TITLE"
-    },
-    "reprompt": {
-      "outputSpeech": {
-        "type": "PlainText",
-        "text": "I SAID WHERE DO YOU WANT TO DO THAT!"
-      }
-    },
-    "shouldEndSession": false
-  },
-  "sessionAttributes": {
-    "slots": {
-      "totalTime": {
-        "name": "totalTime",
-        "value": 3600
-      },
-      "location": {
-        "name": "location"
-      },
-      "startTime": {
-        "name": "startTime",
-        "value": "2016-02-03"
-      },
-      "activity": {
-        "name": "activity",
-        "value": "run"
-      }
-    },
-    "current_intent": "StationaryWhenIntent"
-  }
+ "response": {
+  "outputSpeech": {
+  "text": "Your best options for a run are: 9th at 00:00 with a score of 0.49,
+ 9th at 03:00 with a score of 0.49,
+ 9th at 06:00 with a score of 0.49.",
+ "type": "PlainText"}
+ ,
+ "shouldEndSession": false,
+ "reprompt": {
+  "outputSpeech": {
+    "text": "",
+ "type": "PlainText"}
+}
+ ,
+ "card": {
+  "content": "SessionSpeechlet - Your best options for a run are: 9th at 00:00 with a score of 0.49,
+ 9th at 03:00 with a score of 0.49,
+ 9th at 06:00 with a score of 0.49.",
+ "type": "Simple",
+ "title": "SessionSpeechlet - StationaryWhenIntent"}
+}
+ ,
+ "sessionAttributes": {
+  "slots": {
+  "totalTime": {
+  "name": "totalTime",
+ "value": 3600}
+ ,
+ "location": {
+  "name": "location",
+ "value": "Exeter"}
+ ,
+ "startTime": {
+  "name": "startTime",
+ "value": "2016-01-09"}
+ ,
+ "activity": {
+  "name": "activity",
+ "value": "run"}
+}
+ ,
+ "current_intent": "StationaryWhenIntent"}
 }
