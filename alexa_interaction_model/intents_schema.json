@@ -47,6 +47,9 @@
           "type": "DATE"
         }
       ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
     }
   ]
 }
