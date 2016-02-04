@@ -190,7 +190,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         unset_sis = (si for si in self.slot_interactions if 'value' not in si.slot)
         try:
             this_unset_si = unset_sis.next()
-            self._help = this_unset_si.help
+            self.help = this_unset_si.help
             speech = this_unset_si.ask()
         except StopIteration:
             ir_handler = self._intent_request_map[self.event.request.intent.name]['function']
