@@ -38,6 +38,15 @@
           "type": "DURATION"
         }
       ]
+    },
+    {
+      "intent": "StartTimeIntent",
+      "slots": [
+        {
+          "name": "startTime",
+          "type": "DATE"
+        }
+      ]
     }
   ]
 }

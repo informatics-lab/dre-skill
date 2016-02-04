@@ -32,6 +32,7 @@ class SessionPersistenceTest(unittest.TestCase):
     with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
         timesteps = pickle.load(f)
     cache.cache_forecast(timesteps, Loc(lat=50.7, lon=-3.5))
+    cache.cache_forecast(timesteps, Loc(lat=50.7256471, lon=-3.526661))
 
     with open(os.path.join(base, 'json_packets', 'in', 'whenshalligoforarun.json'), 'r') as f:
         initialInput = yaml.safe_load(f.read())
@@ -46,6 +47,10 @@ class SessionPersistenceTest(unittest.TestCase):
         secondaryOutput["sessionAttributes"]["slots"]["startTime"]["value"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     with open(os.path.join(base, 'json_packets', 'in', 'help.json'), 'r') as f:
         helpInput = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'in', 'start_time.json'), 'r') as f:
+        startTimeInput = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'out', 'start_time.json'), 'r') as f:
+        startTimeOutput = yaml.safe_load(f.read())
 
     nested_dict = {"thingA": {"name": "thingA", "value": "stuffA"},
                    "thingB": {"name": "thingB"},
@@ -95,6 +100,10 @@ class SessionPersistenceTest(unittest.TestCase):
         session = Session(self.helpInput, '')
         result = go(session, None, self.cache)
         self.assertEquals(result, '')
+
+    def testCustomStartTimeIntent(self):
+        thisResult = go(self.startTimeInput, None, self.cache)
+        self.assertEquals(thisResult, self.startTimeOutput)
 
 
 if __name__ == '__main__':
