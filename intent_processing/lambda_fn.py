@@ -61,6 +61,8 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.event = DotMap(event)
         self.context = DotMap(context)
 
+        self.event.session.current_intent = False
+
         new_slots = self.event.request.intent.slots
         try:
             stored_slots = self.event.session.attributes.slots
@@ -79,7 +81,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                                                   self.event.session.user.userId)
                                   for s in self.event.session.slots.values()]
 
-        # # we shouldn't be doing this unless it's a stationaryWhenIntent...
+        # we shouldn't be doing this unless it's a stationaryWhenIntent...
         # config_slots = [{"name": "score"}, {"name": "conditions"}]
         # self.slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.session.slots.activity.value,
         #                                                self.event.session.user.userId) for s in config_slots])

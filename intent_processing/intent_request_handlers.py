@@ -29,7 +29,7 @@ class IntentRequestHandlers(object):
     def __init__(self):
         # add new intent handlers to the this map
         self._intent_request_map \
-            = {'AMAZON.HelpIntent': {'function':(lambda: self.say(self._help)),
+            = {'AMAZON.HelpIntent': {'function':(lambda slots: self.say('help', self.help, self.help)),
                                      'grab_session':False}, 
                'StationaryWhenIntent': {'function':self.stationary_when_intent,
                                         'grab_session':True},
