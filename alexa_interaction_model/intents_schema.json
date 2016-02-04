@@ -47,6 +47,12 @@
           "type": "DATE"
         }
       ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
     }
   ]
 }

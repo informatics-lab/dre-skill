@@ -10,6 +10,7 @@ from reduced_dotmap import DotMap
 
 # local
 from dre.when_decision import *
+from slot_interaction import SlotInteraction
 
 
 class IntentRequestHandlers(object):
@@ -28,13 +29,22 @@ class IntentRequestHandlers(object):
     def __init__(self):
         # add new intent handlers to the this map
         self._intent_request_map \
-            = {'AMAZON.HelpIntent': {'function':(lambda: self.say(self._help)),
+            = {'AMAZON.HelpIntent': {'function':(lambda slots: self.say('help', self.help, self.help)),
                                      'grab_session':False}, 
                'StationaryWhenIntent': {'function':self.stationary_when_intent,
                                         'grab_session':True},
                'LocationIntent': {'function':self.location_intent,
                                   'grab_session':False}
                }
+
+        if self.event.request.intent.name in ['StationaryWhenIntent', 'LocationIntent']:
+            self.stationary_when_intent_setup()
+
+    def stationary_when_intent_setup(self):
+        # we shouldn't be doing this unless it's a stationaryWhenIntent...
+        config_slots = [{"name": "score"}, {"name": "conditions"}]
+        self.slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.session.slots.activity.value,
+                                                       self.event.session.user.userId) for s in config_slots])
 
     def location_intent(self, slots):
         ir_handler = self._intent_request_map[self.event.session.current_intent]['function']

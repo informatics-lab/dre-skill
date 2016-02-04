@@ -16,63 +16,12 @@ from dre.forecast_cache import ForecastCache
 from dre.when_decision import *
 
 from intent_request_handlers import IntentRequestHandlers
+from slot_interaction import SlotInteraction
+from construct_speech_mixin import ConstructSpeechMixin
 
 # config imports
 import speech_config
 import activities_config
-
-
-class ConstructSpeechMixin(object):
-    """
-    Mix-in class which defines a method to construct a JSON-like packet of
-    speech plus assicated meta-data. Defined along the lines of
-    the Amazon Alexa Skills Kit.
-
-    """
-    def say(self, title, output, reprompt, should_end_session=False):
-        """
-        Constructs a packet of speech text and meta-data.
-
-        Args:
-            * title (string): Title to be displayed on information card
-                i.e. visual content displayed along side speech
-            * output (string): Speech to deliver
-            * reprompt (string): Speech to deliver if there is no user
-                reponse to `output`
-
-        Kwargs:
-            * should_end_session (bool, False): True means await response
-                and False means finish current interaction with user.
-                Note that the session can also be ended by the user, either
-                explicitly, or by calling another intent with grabs the
-                current session.
-
-        Returns dict
-
-        """
-        return {
-            'version': '1.0',
-            'sessionAttributes': {'slots': self.event.session.toDict()['slots'], 
-                                  'current_intent': self.event.session.current_intent},
-            'response': {
-                'outputSpeech': {
-                    'type': 'PlainText',
-                    'text': output
-                },
-                'card': {
-                    'type': 'Simple',
-                    'title': 'SessionSpeechlet - ' + title,
-                    'content': 'SessionSpeechlet - ' + output
-                },
-                'reprompt': {
-                    'outputSpeech': {
-                        'type': 'PlainText',
-                        'text': reprompt
-                    }
-                },
-                'shouldEndSession': should_end_session
-            }
-        }
 
 
 class Session(IntentRequestHandlers, ConstructSpeechMixin):
@@ -112,6 +61,8 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.event = DotMap(event)
         self.context = DotMap(context)
 
+        self.event.session.current_intent = False
+
         new_slots = self.event.request.intent.slots
         try:
             stored_slots = self.event.session.attributes.slots
@@ -130,9 +81,10 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                                                   self.event.session.user.userId)
                                   for s in self.event.session.slots.values()]
 
-        config_slots = [{"name": "score"}, {"name": "conditions"}]
-        self.slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.session.slots.activity.value,
-                                                       self.event.session.user.userId) for s in config_slots])
+        # we shouldn't be doing this unless it's a stationaryWhenIntent...
+        # config_slots = [{"name": "score"}, {"name": "conditions"}]
+        # self.slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.session.slots.activity.value,
+        #                                                self.event.session.user.userId) for s in config_slots])
 
         self.greeting = speech_config.session.greeting
         self.reprompt = speech_config.session.reprompt
@@ -238,7 +190,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         unset_sis = (si for si in self.slot_interactions if 'value' not in si.slot)
         try:
             this_unset_si = unset_sis.next()
-            self._help = this_unset_si.help
+            self.help = this_unset_si.help
             speech = this_unset_si.ask()
         except StopIteration:
             ir_handler = self._intent_request_map[self.event.request.intent.name]['function']
@@ -261,48 +213,6 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                         output=self.sign_off,
                         reprompt="",
                         should_end_session=True)
-        
-
-class SlotInteraction(ConstructSpeechMixin):
-    """
-    A class that is responsible for getting and storing a slot (variable) value.
-    It attempts to retrieve values from three different source in order:
-
-        1. The previous interactions with the user i.e. the stored slots
-        2. Configuration files (both for the user and the current functionality)
-        3. By prompting the user
-
-    """
-    def __init__(self, event, slot, action_name, user_id):
-        """
-        Args:
-            * event (DotMap): User data and metadata
-            * slot (DotMap): `{name: x, value?: y}`, where value is optional.
-            * action_name (string): name of the relevant action as defined in
-                the activities config file.
-            * user_id (string): the unique ID of the current user
-
-        """
-        self.event = event
-        self.slot = slot
-        self.action_name = action_name
-        self.user_id = user_id
-
-        if not 'value' in slot:
-            try:
-                self.slot.value = activities_config.get_config(slot.name, action_name, user_id)
-            except KeyError:
-                self.title = speech_config.__dict__[self.slot.name].title
-                self.question = speech_config.__dict__[self.slot.name].question
-                self.reprompt = speech_config.__dict__[self.slot.name].reprompt
-                self.help = speech_config.__dict__[self.slot.name].help
-
-    def ask(self):
-        """
-        Prompt the user for the value
-
-        """
-        return self.say(self.title, self.question, self.reprompt)
 
 
 def go(event, context, cache=ForecastCache()):
