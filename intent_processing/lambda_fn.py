@@ -122,7 +122,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             # into the persisted location (`self.event.session.current_intent`)
             self.event.session.current_intent = self.event.session.attributes.current_intent
         except AttributeError:
-            pass
+            self.event.session.current_intent = "None"
 
         self.event.session.slots = self._add_new_slots_to_session(new_slots, stored_slots)
 
@@ -130,9 +130,13 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                                                   self.event.session.user.userId)
                                   for s in self.event.session.slots.values()]
 
-        config_slots = [{"name": "score"}, {"name": "conditions"}]
-        self.slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.session.slots.activity.value,
-                                                       self.event.session.user.userId) for s in config_slots])
+        try:
+            # load in pythnon obejcts from config
+            config_slots = [{"name": "score"}, {"name": "conditions"}]
+            self.slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.session.slots.activity.value,
+                                                           self.event.session.user.userId) for s in config_slots])
+        except AttributeError:
+            pass
 
         self.greeting = speech_config.session.greeting
         self.reprompt = speech_config.session.reprompt
