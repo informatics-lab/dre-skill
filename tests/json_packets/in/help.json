@@ -1,0 +1,21 @@
+{
+  "session": {
+    "sessionId": "SessionId.611f8414-6db4-4b80-9aa0-8fe46691bdcd",
+    "application": {
+      "applicationId": "amzn1.echo-sdk-ams.app.c9cd59b8-e3d4-44a2-841e-6edfbd8ce8ee"
+    },
+    "user": {
+      "userId": "amzn1.account.AHFLEUL3HXS2JI5UNQFTDSPZRTGA"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.0b212da9-3b09-46a3-9b94-2b8f6b0b2e94",
+    "timestamp": "2016-01-08T06:00:00.000Z",
+    "intent": {
+      "name": "AMAZON.HelpIntent",
+      "slots": {}
+    }
+  }
+}
