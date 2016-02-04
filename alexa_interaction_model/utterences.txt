@@ -455,7 +455,26 @@ StationaryWhenIntent what a good time for a {run|activity} would be
 StationaryWhenIntent what a good time for a {run|activity} might be
 StationaryWhenIntent what a good time for an {run|activity} would be
 StationaryWhenIntent what a good time for an {run|activity} might be
+
 LocationIntent in {exeter|location}
 LocationIntent around {exeter|location}
+
 TotalTimeIntent for {totalTime}
+
 StartTimeIntent from {startTime}
+
+AMAZON.HelpIntent help
+AMAZON.HelpIntent help me
+AMAZON.HelpIntent what can I ask you
+AMAZON.HelpIntent get help
+AMAZON.HelpIntent what commands can I ask
+AMAZON.HelpIntent what commands can I say
+AMAZON.HelpIntent what can I do
+AMAZON.HelpIntent what can I use this for
+AMAZON.HelpIntent what questions can I ask
+AMAZON.HelpIntent what can you do
+AMAZON.HelpIntent what do you do
+AMAZON.HelpIntent how do I use you
+AMAZON.HelpIntent how can I use you
+AMAZON.HelpIntent what can you tell me
+AMAZON.HelpIntent i dont understand
