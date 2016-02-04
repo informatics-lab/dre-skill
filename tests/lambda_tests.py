@@ -98,6 +98,23 @@ class SessionPersistenceTest(unittest.TestCase):
         self.assertEquals(thisResult, self.startTimeOutput)
 
 
+class HelpTest(unittest.TestCase):
+    base = os.path.split(__file__)[0]
+
+    cache = ForecastCache()
+    with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
+        timesteps = pickle.load(f)
+    cache.cache_forecast(timesteps, Loc(lat=50.7, lon=-3.5))
+    cache.cache_forecast(timesteps, Loc(lat=50.7256471, lon=-3.526661))
+
+    with open(os.path.join(base, 'json_packets', 'in', 'inExeterHelp.json'), 'r') as f:
+        where_help = yaml.safe_load(f.read())
+
+    def testSlotHelp(self):
+        result = go(self.where_help, "", self.cache)
+        print result
+
+
 if __name__ == '__main__':
     unittest.main()
 
