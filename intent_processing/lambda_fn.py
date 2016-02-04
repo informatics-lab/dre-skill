@@ -239,7 +239,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         try:
             this_unset_si = unset_sis.next()
             if self.event.request.intent.name == "AMAZON.HelpIntent":
-                speech = this_unset_si.help()
+                speech = this_unset_si.givehelp()
             else:
                 speech = this_unset_si.ask()
         except StopIteration:
@@ -306,7 +306,7 @@ class SlotInteraction(ConstructSpeechMixin):
         """
         return self.say(self.title, self.question, self.reprompt)
 
-    def help(self):
+    def givehelp(self):
         return self.say("Help", self.help, self.help)
 
 
