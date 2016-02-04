@@ -458,3 +458,4 @@ StationaryWhenIntent what a good time for an {run|activity} might be
 LocationIntent in {exeter|location}
 LocationIntent around {exeter|location}
 TotalTimeIntent for {totalTime}
+StartTimeIntent from {startTime}
