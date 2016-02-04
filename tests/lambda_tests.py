@@ -49,6 +49,7 @@ class SessionPersistenceTest(unittest.TestCase):
         startTimeInput = yaml.safe_load(f.read())
     with open(os.path.join(base, 'json_packets', 'out', 'start_time.json'), 'r') as f:
         startTimeOutput = yaml.safe_load(f.read())
+    
 
     nested_dict = {"thingA": {"name": "thingA", "value": "stuffA"},
                    "thingB": {"name": "thingB"},
@@ -111,11 +112,18 @@ class HelpTest(unittest.TestCase):
         get_where_help = yaml.safe_load(f.read())
     with open(os.path.join(base, 'json_packets', 'out', 'inExeterHelp.json'), 'r') as f:
         give_where_help = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'in', 'help.json'), 'r') as f:
+        helpInput = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'out', 'help.json'), 'r') as f:
+        helpOutput = yaml.safe_load(f.read())
 
 
     def testSlotHelp(self):
         result = go(self.get_where_help, "", self.cache)
         self.assertEquals(result, self.give_where_help)
+
+        result2 = go(self.helpInput, '', self.cache)
+        self.assertEquals(result2, self.helpOutput)
 
 
 if __name__ == '__main__':
