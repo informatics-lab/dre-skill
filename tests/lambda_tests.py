@@ -108,11 +108,14 @@ class HelpTest(unittest.TestCase):
     cache.cache_forecast(timesteps, Loc(lat=50.7256471, lon=-3.526661))
 
     with open(os.path.join(base, 'json_packets', 'in', 'inExeterHelp.json'), 'r') as f:
-        where_help = yaml.safe_load(f.read())
+        get_where_help = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'out', 'inExeterHelp.json'), 'r') as f:
+        give_where_help = yaml.safe_load(f.read())
+
 
     def testSlotHelp(self):
-        result = go(self.where_help, "", self.cache)
-        print result
+        result = go(self.get_where_help, "", self.cache)
+        self.assertEquals(result, self.give_where_help)
 
 
 if __name__ == '__main__':
