@@ -1,0 +1,41 @@
+{  
+    "version":"1.0",
+    "response":{  
+        "outputSpeech":{  
+            "text":"Thanks very much for using our app. See you later.",
+            "type":"PlainText"
+        },
+        "shouldEndSession":true,
+        "reprompt":{  
+            "outputSpeech":{  
+                "text":"",
+                "type":"PlainText"
+            }
+        },
+        "card":{  
+            "content":"SessionSpeechlet - Thanks very much for using our app. See you later.",
+            "type":"Simple",
+            "title":"SessionSpeechlet - Sign Off"
+        }
+    },
+    "sessionAttributes":{  
+        "slots":{  
+            "totalTime":{  
+                "name":"totalTime",
+                "value":3600
+            },
+            "location":{  
+                "name":"location"
+            },
+            "startTime":{  
+                "name":"startTime",
+                "value":"2016-02-05 10:46"
+            },
+            "activity":{  
+                "name":"activity",
+                "value":"run"
+            }
+        },
+        "current_intent":"StationaryWhenIntent"
+    }
+}
