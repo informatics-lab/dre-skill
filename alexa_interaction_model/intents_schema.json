@@ -49,6 +49,9 @@
       ]
     },
     {
+      "intent": "AMAZON.ExitIntent"
+    },
+    {
       "intent": "AMAZON.HelpIntent"
     }
   ]
