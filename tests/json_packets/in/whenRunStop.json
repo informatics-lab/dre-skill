@@ -1,0 +1,40 @@
+{
+  "session": {
+    "sessionId": "SessionId.9faddbee-256d-415d-8a70-efa395af5c1b",
+    "application": {
+      "applicationId": "amzn1.echo-sdk-ams.app.c9db9bdc-c711-4ab3-b3a2-9238e92afbc8"
+    },
+    "attributes": {
+      "slots": {
+        "totalTime": {
+          "name": "totalTime",
+          "value": 3600
+        },
+        "location": {
+          "name": "location"
+        },
+        "startTime": {
+          "name": "startTime",
+          "value": "2016-02-05 10:46"
+        },
+        "activity": {
+          "name": "activity",
+          "value": "run"
+        }
+      },
+      "current_intent": "StationaryWhenIntent"
+    },
+    "user": {
+      "userId": "amzn1.echo-sdk-account.AEDVGALP4C5IQZE3OWU5NKYNWXFQQSLULXVHDN4I6M32WUCYEKIT6"
+    },
+    "new": false
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.2aa6bdc9-1304-4e83-acbf-b012983184b4",
+    "timestamp": "2016-02-05T11:12:15Z",
+    "intent": {
+      "name": "AMAZON.StopIntent"
+    }
+  }
+}
