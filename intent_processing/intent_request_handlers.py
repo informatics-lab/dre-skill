@@ -27,17 +27,37 @@ class IntentRequestHandlers(object):
     """
     def __init__(self):
         # add new intent handlers to the this map
-        self._intent_request_map \
-            = {'AMAZON.HelpIntent': {'function':(lambda slots: self.say("Help", self.help, self.help)),
-                                     'grab_session':False}, 
-               'StationaryWhenIntent': {'function':self.stationary_when_intent,
-                                        'grab_session':True},
-               'LocationIntent': {'function':self.location_intent,
-                                  'grab_session':False}
-               }
 
-    def location_intent(self, slots):
-        ir_handler = self._intent_request_map[self.event.session.current_intent]['function']
+        # This maps intent requests to functionality.
+        # The first map is for intent requests that can interrupt
+        # a dialogue. i.e. the don't need all the slots
+        self._interrupting_ir_map \
+            = {'AMAZON.HelpIntent': self.help_intent,
+               'AMAZON.CancelIntent': self.exit_intent,
+               'AMAZON.StopIntent': self.exit_intent
+              }
+        # This second map is for intent functionality that is to
+        # run after all the slots have been filled
+        self._ir_map \
+              = {'StationaryWhenIntent': {'function':self.stationary_when_intent,
+                                        'grab_session':True},
+                 'LocationIntent': {'function':self.carry_on_intent,
+                                  'grab_session':False}
+                }
+
+    def help_intent(self):
+        if self._unset_sis:
+            unset_si = self._unset_sis[0]
+            speech = self.say("Help", unset_si.help, unset_si.help)
+        else:
+            speech = self.say("Help", self.help, self.help)
+        return speech
+
+    def exit_intent(self):
+        return self.sign_off_speech
+
+    def carry_on_intent(self, slots):
+        ir_handler = self._ir_map[self.event.session.current_intent]['function']
         return ir_handler(slots)
 
     def stationary_when_intent(self, slots):
