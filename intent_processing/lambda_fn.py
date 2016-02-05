@@ -252,6 +252,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             else:
                 speech = this_unset_si.ask()
         except StopIteration:
+            self.event.session.slots = DotMap({})
             ir_handler = self._intent_request_map[self.event.request.intent.name]['function']
             # we might need to combine slot_interactions with other config
             # or else define some decent slot_interactions for pure config variables
