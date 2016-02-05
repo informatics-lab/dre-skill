@@ -111,8 +111,9 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
         self.event = DotMap(event)
         self.context = DotMap(context)
+        # print("EVENT:", event)
+        # print("CONTEXT:", context)
 
-        new_slots = self.event.request.intent.slots
         try:
             stored_slots = self.event.session.attributes.slots
         except AttributeError:
@@ -123,7 +124,11 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             self.event.session.current_intent = self.event.session.attributes.current_intent
         except AttributeError:
             self.event.session.current_intent = "None"
-
+        
+        try:
+            new_slots = self.event.request.intent.slots
+        except AttributeError:
+            new_slots = {}    
         self.event.session.slots = self._add_new_slots_to_session(new_slots, stored_slots)
 
         self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
