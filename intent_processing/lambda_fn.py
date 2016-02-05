@@ -255,7 +255,9 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
         if ir_name in self._interrupting_ir_map:
             ir_handler = self._interrupting_ir_map[ir_name]
-            speech = ir_handler()
+            if ir_handler['terminating']:
+                self.event.session.slots = DotMap({})
+            speech = ir_handler['function']()
         elif self._unset_sis:
             speech = self._unset_sis[0].ask() # just take first one
         else:
