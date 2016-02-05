@@ -49,6 +49,12 @@
       ]
     },
     {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
       "intent": "AMAZON.HelpIntent"
     }
   ]
