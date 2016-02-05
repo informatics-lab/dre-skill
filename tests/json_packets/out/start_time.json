@@ -23,23 +23,7 @@
 }
  ,
  "sessionAttributes": {
-  "slots": {
-  "totalTime": {
-  "name": "totalTime",
- "value": 3600}
- ,
- "location": {
-  "name": "location",
- "value": "Exeter"}
- ,
- "startTime": {
-  "name": "startTime",
- "value": "2016-01-09"}
- ,
- "activity": {
-  "name": "activity",
- "value": "run"}
-}
- ,
- "current_intent": "StationaryWhenIntent"}
+  "slots": {},
+  "current_intent": "StationaryWhenIntent"
+ }
 }

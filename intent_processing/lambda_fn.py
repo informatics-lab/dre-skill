@@ -214,6 +214,10 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
         return DotMap(self._nest_dict(stored_slots))
 
+    @property
+    def _unset_sis(self):
+        return [si for si in self.slot_interactions if 'value' not in si.slot]
+
     def respond(self):
         """
         Initial function to cause class to handle a incoming request.
@@ -222,11 +226,14 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         if self.event.request.type == "LaunchRequest":
             speech = self.greeting_speech
         elif self.event.request.type == "IntentRequest":
-            if self._intent_request_map[self.event.request.intent.name]['grab_session']:
-                self.event.session.current_intent = self.event.request.intent.name
+            try:
+                if self._ir_map[self.event.request.intent.name]['grab_session']:
+                    self.event.session.current_intent = self.event.request.intent.name
+            except KeyError:
+                pass
             speech = self.attempt_intent()
         elif self.event.request.type == "SessionEndedRequest":
-            speech = self.sign_off_speech
+            pass
 
         return speech
 
@@ -244,15 +251,18 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         Returns 
 
         """
-        unset_sis = (si for si in self.slot_interactions if 'value' not in si.slot)
-        try:
-            this_unset_si = unset_sis.next()
-            if self.event.request.intent.name == "AMAZON.HelpIntent":
-                speech = this_unset_si.givehelp()
-            else:
-                speech = this_unset_si.ask()
-        except StopIteration:
-            ir_handler = self._intent_request_map[self.event.request.intent.name]['function']
+        ir_name = self.event.request.intent.name
+
+        if ir_name in self._interrupting_ir_map:
+            ir_handler = self._interrupting_ir_map[ir_name]
+            if ir_handler['terminating']:
+                self.event.session.slots = DotMap({})
+            speech = ir_handler['function']()
+        elif self._unset_sis:
+            speech = self._unset_sis[0].ask() # just take first one
+        else:
+            self.event.session.slots = DotMap({})
+            ir_handler = self._ir_map[ir_name]['function']
             # we might need to combine slot_interactions with other config
             # or else define some decent slot_interactions for pure config variables
             inputs = DotMap({i.slot.name: i.slot.value for i in self.slot_interactions})
@@ -314,9 +324,6 @@ class SlotInteraction(ConstructSpeechMixin):
 
         """
         return self.say(self.title, self.question, self.reprompt)
-
-    def givehelp(self):
-        return self.say("Help", self.help, self.help)
 
 
 def go(event, context, cache=ForecastCache()):
