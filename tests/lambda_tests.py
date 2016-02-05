@@ -126,6 +126,30 @@ class HelpTest(unittest.TestCase):
         self.assertEquals(result2, self.helpOutput)
 
 
+class ExitTest(unittest.TestCase):
+    base = os.path.split(__file__)[0]
+
+    cache = ForecastCache()
+    with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
+        timesteps = pickle.load(f)
+    cache.cache_forecast(timesteps, Loc(lat=50.7, lon=-3.5))
+    cache.cache_forecast(timesteps, Loc(lat=50.7256471, lon=-3.526661))
+
+    with open(os.path.join(base, 'json_packets', 'in', 'whenRunStop.json'), 'r') as f:
+        stop_run_intent = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'in', 'whenRunCancel.json'), 'r') as f:
+        cancel_run_intent = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'out', 'whenRunExit.json'), 'r') as f:
+        exit_run_output = yaml.safe_load(f.read())
+    
+    def testExit(self):
+        result = go(self.stop_run_intent, "", self.cache)
+        self.assertEquals(result, self.exit_run_output)
+
+        result2 = go(self.cancel_run_intent, '', self.cache)
+        self.assertEquals(result2, self.exit_run_output)
+
+
 if __name__ == '__main__':
     unittest.main()
 

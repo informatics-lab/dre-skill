@@ -1,0 +1,25 @@
+{  
+    "version":"1.0",
+    "response":{  
+        "outputSpeech":{  
+            "text":"Thanks very much for using our app. See you later.",
+            "type":"PlainText"
+        },
+        "shouldEndSession":true,
+        "reprompt":{  
+            "outputSpeech":{  
+                "text":"",
+                "type":"PlainText"
+            }
+        },
+        "card":{  
+            "content":"SessionSpeechlet - Thanks very much for using our app. See you later.",
+            "type":"Simple",
+            "title":"SessionSpeechlet - Sign Off"
+        }
+    },
+    "sessionAttributes":{  
+        "slots":{},
+        "current_intent":"StationaryWhenIntent"
+    }
+}
