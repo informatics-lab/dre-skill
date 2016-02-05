@@ -49,7 +49,10 @@
       ]
     },
     {
-      "intent": "AMAZON.ExitIntent"
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
     },
     {
       "intent": "AMAZON.HelpIntent"
