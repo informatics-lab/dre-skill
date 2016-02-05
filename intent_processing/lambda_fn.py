@@ -251,15 +251,17 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         Returns 
 
         """
-        
         ir_name = self.event.request.intent.name
 
         if ir_name in self._interrupting_ir_map:
             ir_handler = self._interrupting_ir_map[ir_name]
-            speech = ir_handler()
+            if ir_handler['terminating']:
+                self.event.session.slots = DotMap({})
+            speech = ir_handler['function']()
         elif self._unset_sis:
             speech = self._unset_sis[0].ask() # just take first one
         else:
+            self.event.session.slots = DotMap({})
             ir_handler = self._ir_map[ir_name]['function']
             # we might need to combine slot_interactions with other config
             # or else define some decent slot_interactions for pure config variables

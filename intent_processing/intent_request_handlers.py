@@ -32,9 +32,9 @@ class IntentRequestHandlers(object):
         # The first map is for intent requests that can interrupt
         # a dialogue. i.e. the don't need all the slots
         self._interrupting_ir_map \
-            = {'AMAZON.HelpIntent': self.help_intent,
-               'AMAZON.CancelIntent': self.exit_intent,
-               'AMAZON.StopIntent': self.exit_intent
+            = {'AMAZON.HelpIntent': {'function':self.help_intent, 'terminating':False},
+               'AMAZON.CancelIntent': {'function':self.exit_intent, 'terminating':True},
+               'AMAZON.StopIntent': {'function':self.exit_intent, 'terminating':True}
               }
         # This second map is for intent functionality that is to
         # run after all the slots have been filled

@@ -19,23 +19,7 @@
         }
     },
     "sessionAttributes":{  
-        "slots":{  
-            "totalTime":{  
-                "name":"totalTime",
-                "value":3600
-            },
-            "location":{  
-                "name":"location"
-            },
-            "startTime":{  
-                "name":"startTime",
-                "value":"2016-02-05 10:46"
-            },
-            "activity":{  
-                "name":"activity",
-                "value":"run"
-            }
-        },
+        "slots":{},
         "current_intent":"StationaryWhenIntent"
     }
 }
