@@ -485,21 +485,21 @@ AMAZON.HelpIntent what do you mean
 AMAZON.HelpIntent what
 AMAZON.HelpIntent pardon
 
-AMAZON.ExitIntent all done
-AMAZON.ExitIntent complete
-AMAZON.ExitIntent done
-AMAZON.ExitIntent end
-AMAZON.ExitIntent everyone
-AMAZON.ExitIntent finished
-AMAZON.ExitIntent forget it
-AMAZON.ExitIntent i am done
-AMAZON.ExitIntent I'm done
-AMAZON.ExitIntent negative
-AMAZON.ExitIntent never mind
-AMAZON.ExitIntent no more
-AMAZON.ExitIntent no one
-AMAZON.ExitIntent stop
-AMAZON.ExitIntent that is everyone
-AMAZON.ExitIntent that's all
-AMAZON.ExitIntent that's it
-AMAZON.ExitIntent you've got all of us
+AMAZON.StopIntent all done
+AMAZON.StopIntent complete
+AMAZON.StopIntent done
+AMAZON.StopIntent end
+AMAZON.StopIntent everyone
+AMAZON.StopIntent finished
+AMAZON.StopIntent forget it
+AMAZON.StopIntent i am done
+AMAZON.StopIntent I'm done
+AMAZON.StopIntent negative
+AMAZON.StopIntent never mind
+AMAZON.StopIntent no more
+AMAZON.StopIntent no one
+AMAZON.StopIntent stop
+AMAZON.StopIntent that is everyone
+AMAZON.StopIntent that's all
+AMAZON.StopIntent that's it
+AMAZON.StopIntent you've got all of us
