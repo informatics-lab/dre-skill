@@ -29,13 +29,13 @@ activities = dict((i, k) for k in activities_map for i in activities_map[k])
 
 run = {"score": GaussDistFromIdeal,
        "conditions": [Condition("temperature", 15, 10, 23), Condition("precipitation", 0, 0, 50)],
-        "totalTime": 3600,
+        "totalTime": 'PT3H',
         "filter": [],
         "startTime": datetime.now().strftime("%Y-%m-%d %H:%M")}
 
 sunbathe = {"score": GaussDistFromIdeal,
             "conditions": [Condition("temperature", 28, 25, 40), Condition("precipitation", 0, 0, 0)],
-            "totalTime": 7200,
+            "totalTime": 'PT6H',
             "filter": [],
             "startTime": datetime.now().strftime("%Y-%m-%d %H:%M")}
 
