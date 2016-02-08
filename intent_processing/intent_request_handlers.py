@@ -3,6 +3,7 @@ import datetime
 import dateutil.parser
 import math
 import pytz
+import isodate
 
 # third party
 from geopy.geocoders import Nominatim
@@ -71,6 +72,9 @@ class IntentRequestHandlers(object):
         # Get lat, lon from location input
         place = Nominatim().geocode(slots.location)
         slots.location = DotMap({'lat': place.latitude, 'lon': place.longitude})
+
+        # Decode duration
+        slots.totalTime = isodate.parse_duration(slots.totalTime).total_seconds()
 
         def describe_options(possibilities, activity):
             """
