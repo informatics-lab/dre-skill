@@ -1,5 +1,5 @@
 {
-    "config_id":"test",
+    "_id":"tests",
     "speeches":{
         "session":{
             "greeting":"Hi. Welcome to the Met Office NLP app",

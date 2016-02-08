@@ -6,6 +6,9 @@ and convert to fully featured Python objects....
 
 from copy import deepcopy
 from datetime import datetime
+from pymongo import MongoClient
+
+MONGO_DB = "mongodb://test:ETaFPMBgQ@54.194.91.89/dre"
 
 import sys
 sys.path.append("../")
@@ -52,3 +55,14 @@ def parse_activities_config(json):
             activity["startTime"] = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     return config
+
+
+def get_activities_conf(uid, activity_name):
+    client = MongoClient(MONGO_DB)
+    json = client["dre"]["activity_configs"].find_one(filter=uid)
+    return parse_activities_config(json)["activities"][activity_name]
+
+
+def get_speech_conf(uid):
+    client = MongoClient(MONGO_DB)
+    return client["dre"]["speech_configs"].find_one(filter=uid)
