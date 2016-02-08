@@ -22,7 +22,7 @@
         },
         "totalTime": {
           "name": "totalTime",
-          "value": 3600
+          "value": "PT3H"
         },
         "startTime": {
           "name": "startTime",
