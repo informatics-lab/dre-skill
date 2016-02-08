@@ -5,7 +5,7 @@
       "applicationId": "amzn1.echo-sdk-ams.app.c9db9bdc-c711-4ab3-b3a2-9238e92afbc8"
     },
     "user": {
-      "userId": "amzn1.echo-sdk-account.AEDVGALP4C5IQZE3OWU5NKYNWXFQQSLULXVHDN4I6M32WUCYEKIT6"
+      "userId": "tests"
     },
     "new": true
   },

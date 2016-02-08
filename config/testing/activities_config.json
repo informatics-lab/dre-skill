@@ -1,49 +1,47 @@
 {
-    "userID":"tests",
+    "_id":"tests",
     "dateCreated":"2016-02-08T13:52:39+00:00",
     "lastUpdated":"2016-02-08T13:52:39+00:00",
-    "activities":[
-        {
-            "name":"run",
+    "activities":{
+        "run":{
             "score":"GaussDistFromIdeal",
-            "conditions":[
-                {
-                    "name":"temperature",
+            "conditions":{
+                "temperature":{
                     "ideal":15,
                     "min":10,
                     "max":23
                 },
-                {
-                    "name":"precipitation",
+                "precipitation":{
                     "ideal":0,
                     "min":0,
                     "max":50
                 }
-            ],
+            },
             "totalTime":3600,
-            "filter":[],
+            "filter":[
+
+            ],
             "startTime":"NOW"
         },
-        {
-            "name":"sunbathe",
+        "sunbathe":{
             "score":"GaussDistFromIdeal",
-            "conditions":[
-                {
-                    "name":"temperature",
+            "conditions":{
+                "temperature":{
                     "ideal":28,
                     "min":25,
                     "max":40
                 },
-                {
-                    "name":"precipitation",
+                "precipitation":{
                     "ideal":0,
                     "min":0,
                     "max":0
                 }
-            ],
+            },
             "totalTime":7200,
-            "filter":[],
+            "filter":[
+
+            ],
             "startTime":"NOW"
         }
-    ]
+    }
 }
