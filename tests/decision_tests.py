@@ -9,8 +9,8 @@ from dre.when_decision import *
 from dre.decision import *
 from dre.forecast_cache import ForecastCache
 
-from activities_config import run
-
+import conf
+run = conf.get_activities_conf("tests", "run")
 
 class WhenDecisionTest(unittest.TestCase):
     cache = ForecastCache()

@@ -8,7 +8,8 @@ sys.path.append("..")
 from dre.decision import *
 import dre.actions as actions
 
-from activities_config import run
+import conf
+run = conf.get_activities_conf("tests", "run")
 
 class RunTest(unittest.TestCase):
     def testRunAction(self):
