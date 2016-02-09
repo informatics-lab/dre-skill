@@ -19,7 +19,11 @@ from intent_request_handlers import IntentRequestHandlers
 
 from config import config
 
-class ActivityError(Exception):
+class PrimarySlotError(Exception):
+    """
+    Thrown when the key is not present in the default values database.
+
+    """
     def __init__(self, message):
         self.message = message
 
@@ -226,7 +230,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
             return slot_interactions
         except (KeyError, AttributeError):
-            raise ActivityError(self.say('Title',
+            raise PrimarySlotError(self.say('Title',
                             "Sorry, I didn't recognise that activity",
                             "I didn't recognise that activity"))
 
@@ -369,5 +373,5 @@ def go(event, context, cache=ForecastCache()):
     try:
         session = Session(event, context, speech_config, default_values, cache)
         return session.respond()
-    except ActivityError as e:
+    except PrimarySlotError as e:
         return e.message
