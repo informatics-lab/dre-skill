@@ -28,12 +28,13 @@ grunt.initConfig({
             command: 'mkdir -p ./lib/ && touch ./lib/__init__.py && pip install -r requirements.txt -t ./lib/'
         },
         pytest: {
-            command: 'nosetests'
+            command: 'nosetests ./tests/'
         }
     }
 });
 
 grunt.registerTask('deps', ['shell:pip']);
 grunt.registerTask('test', ['deps', 'shell:pytest']);
+grunt.registerTask('quicktest', ['shell:pytest']);
 grunt.registerTask('quickdeploy', ['lambda_package', 'lambda_deploy']);
 grunt.registerTask('deploy', ['test', 'lambda_package', 'lambda_deploy']);
