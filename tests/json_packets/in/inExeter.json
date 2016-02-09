@@ -30,11 +30,11 @@
       "attributes": {},
       "sessionId": "SessionId.6ee1c514-faa1-4c87-b5a8-7e1bde010094",
       "user": {
-        "userId": "amzn1.echo-sdk-account.AEDVGALP4C5IQZE3OWU5NKYNWXFQQSLULXVHDN4I6M32WUCYEKIT6"
+        "userId": "tests"
       }
     },
     "user": {
-      "userId": "amzn1.echo-sdk-account.AEDVGALP4C5IQZE3OWU5NKYNWXFQQSLULXVHDN4I6M32WUCYEKIT6"
+      "userId": "tests"
     },
     "new": false
   },
