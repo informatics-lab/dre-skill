@@ -1,1 +1,39 @@
-{'version': '1.0', 'response': {'outputSpeech': {'text': "Sorry, I didn't recognise that activity", 'type': 'PlainText'}, 'shouldEndSession': False, 'reprompt': {'outputSpeech': {'text': "I didn't recognise that activity", 'type': 'PlainText'}}, 'card': {'content': "SessionSpeechlet - Sorry, I didn't recognise that activity", 'type': 'Simple', 'title': 'SessionSpeechlet - Title'}}, 'sessionAttributes': {'slots': {'totalTime': {'name': 'totalTime'}, 'location': {'name': 'location'}, 'startTime': {'name': 'startTime'}, 'activity': {'name': 'activity', 'value': 'swim'}}, 'current_intent': 'None'}}
+{
+    "version":"1.0",
+    "response":{
+        "outputSpeech":{
+            "text":"Sorry, I didn't recognise that activity",
+            "type":"PlainText"
+        },
+        "shouldEndSession":False,
+        "reprompt":{
+            "outputSpeech":{
+                "text":"I didn't recognise that activity",
+                "type":"PlainText"
+            }
+        },
+        "card":{
+            "content":"SessionSpeechlet - Sorry, I didn't recognise that activity",
+            "type":"Simple",
+            "title":"SessionSpeechlet - Title"
+        }
+    },
+    "sessionAttributes":{
+        "slots":{
+            "totalTime":{
+                "name":"totalTime"
+            },
+            "location":{
+                "name":"location"
+            },
+            "startTime":{
+                "name":"startTime"
+            },
+            "activity":{
+                "name":"activity",
+                "value":"swim"
+            }
+        },
+        "current_intent":"None"
+    }
+}

@@ -143,12 +143,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.event.session.slots = self._add_new_slots_to_session(new_slots, stored_slots)
 
         # Load the slot interactions. Give up if given an unknown activity.
-        try:
-            self.slot_interactions = self._get_slot_interactions()
-        except KeyError:
-            raise ActivityError(self.say('Title',
-                            "Sorry, I didn't recognise that activity",
-                            "I didn't recognise that activity"))
+        self.slot_interactions = self._get_slot_interactions()
 
         self.greeting = self.speech_config.session.greeting
         self.reprompt = self.speech_config.session.reprompt
@@ -221,7 +216,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                                   for this_slot in self.event.session.slots.values()]
 
             # load in pythnon obejcts from config
-            config_slots = [DotMap{"name": "score"}, DotMap{"name": "conditions"}]
+            config_slots = [DotMap({"name": "score"}), DotMap({"name": "conditions"})]
             slot_interactions.extend([SlotInteraction(self.event,
                                                       this_slot,
                                                       self.speech_config,
@@ -230,8 +225,10 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                                     for this_slot in config_slots])
 
             return slot_interactions
-        except KeyError as e:
-            raise e
+        except (KeyError, AttributeError):
+            raise ActivityError(self.say('Title',
+                            "Sorry, I didn't recognise that activity",
+                            "I didn't recognise that activity"))
 
     def _add_new_slots_to_session(self, nested_new_slots, nested_stored_slots):
         """
