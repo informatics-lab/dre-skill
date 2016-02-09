@@ -13,11 +13,15 @@ run = config.get_activities_conf("tests", "run")
 
 class RunTest(unittest.TestCase):
     def testRunAction(self):
-        aRunAction = actions.GaussDistFromIdeal(datetime.datetime.now(tz=pytz.UTC), Loc(lat=53.0, lon=-3.0), run["conditions"])
+        aRunAction = actions.GaussDistFromIdeal(datetime.datetime.now(tz=pytz.UTC),
+                                                    Loc(lat=53.0, lon=-3.0),
+                                                    run["conditions"])
         self.assertTrue(aRunAction.score)
 
     def testRunActivity(self):
-        aRunAction = actions.GaussDistFromIdeal(datetime.datetime.now(tz=pytz.UTC), Loc(lat=53.0, lon=-3.0), run["conditions"])
+        aRunAction = actions.GaussDistFromIdeal(datetime.datetime.now(tz=pytz.UTC),
+                                                    Loc(lat=53.0, lon=-3.0),
+                                                    run["conditions"])
         possibility = [aRunAction] * 5
         aRunActivity = Activity(possibility)
 
