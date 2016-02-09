@@ -46,23 +46,28 @@ def parse_activities_config(json):
             activity["score"] = dre.actions.__dict__[this_score_name]
         except KeyError:
             raise KeyError("Score function", activity["score"], "not present in `dre.actions`")
+        
+        conditions = []
         for variable_name, values in activity["conditions"].iteritems():
-            activity["conditions"] = Condition(variable_name,
-                                                  values["ideal"],
-                                                  values["min"],
-                                                  values["max"])
+            this_condition = Condition(variable_name,
+                                          values["ideal"],
+                                          values["min"],
+                                          values["max"])
+            conditions.append(this_condition)
+        activity["conditions"] = conditions
+
         if activity["startTime"] == "NOW":
             activity["startTime"] = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     return config
 
 
-def get_activities_conf(uid, activity_name):
+def get_activities_conf(uid):
     client = MongoClient(MONGO_DB)
     json = client["dre"]["activity_configs"].find_one(filter=uid)
-    return parse_activities_config(json)["activities"][activity_name]
+    return parse_activities_config(json)["activities"]
 
 
 def get_speech_conf(uid):
     client = MongoClient(MONGO_DB)
-    return client["dre"]["speech_configs"].find_one(filter=uid)
+    return client["dre"]["speech_configs"].find_one(filter=uid)["speeches"]

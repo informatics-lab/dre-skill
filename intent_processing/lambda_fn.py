@@ -132,6 +132,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             new_slots = {}    
         self.event.session.slots = self._add_new_slots_to_session(new_slots, stored_slots)
 
+        # load in default slot values from config
         self.slot_interactions = [SlotInteraction(self.event,
                                                   this_slot,
                                                   self.speech_config,
@@ -141,9 +142,9 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
         try:
             # load in pythnon obejcts from config
-            config_slots = [{"name": "score"}, {"name": "conditions"}]
+            config_slots = [DotMap({"name": "score"}), DotMap({"name": "conditions"})]
             self.slot_interactions.extend([SlotInteraction(self.event,
-                                                           this_slot, 
+                                                           this_slot,
                                                            self.speech_config,
                                                            self.default_values,
                                                            self.event.session.slots.activity.value)
@@ -151,10 +152,10 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         except AttributeError:
             pass
 
-        self.greeting = speech_config.session.greeting
-        self.reprompt = speech_config.session.reprompt
-        self.sign_off = speech_config.session.sign_off
-        self.help = speech_config.session.help
+        self.greeting = self.speech_config.session.greeting
+        self.reprompt = self.speech_config.session.reprompt
+        self.sign_off = self.speech_config.session.sign_off
+        self.help = self.speech_config.session.help
 
         IntentRequestHandlers.__init__(self)
 
@@ -318,8 +319,8 @@ class SlotInteraction(ConstructSpeechMixin):
 
         if not 'value' in slot:
             try:
-                self.slot.value = default_values[self.slot.name]
-            except KeyError:
+                self.slot.value = default_values[action_name][self.slot.name]
+            except (KeyError, AttributeError): # accounts for dict or DotMap
                 self.title = speech_config[self.slot.name].title
                 self.question = speech_config[self.slot.name].question
                 self.reprompt = speech_config[self.slot.name].reprompt
@@ -334,13 +335,7 @@ class SlotInteraction(ConstructSpeechMixin):
 
 
 def go(event, context, cache=ForecastCache()):
-    try:
-        activity_name = event["session"]["attributes"]["current_intent"]
-    except KeyError:
-        activity_name = event["request"]["intent"]["slots"]["activity"]["value"]
-    default_values = config.get_activities_conf(event["session"]["user"]["userId"],
-                                                activity_name)
-    
+    default_values = config.get_activities_conf(event["session"]["user"]["userId"])
     speech_config = config.get_speech_conf(event["session"]["user"]["userId"])
 
     session = Session(event, context, speech_config, default_values, cache)
