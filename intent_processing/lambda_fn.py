@@ -17,7 +17,7 @@ from dre.when_decision import *
 
 from intent_request_handlers import IntentRequestHandlers
 
-import config
+from config import config
 
 
 class ConstructSpeechMixin(object):
@@ -323,7 +323,7 @@ class SlotInteraction(ConstructSpeechMixin):
                 self.title = speech_config[self.slot.name].title
                 self.question = speech_config[self.slot.name].question
                 self.reprompt = speech_config[self.slot.name].reprompt
-                self.help = speech_config.[self.slot.name].help
+                self.help = speech_config[self.slot.name].help
 
     def ask(self):
         """
