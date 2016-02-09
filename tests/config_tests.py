@@ -17,7 +17,9 @@ class TestConfig(unittest.TestCase):
 
         self.assertTrue(all([hasattr(v["score"], '__call__') for v in parsed["activities"].values()]))
         self.assertTrue(all([v["startTime"] == datetime.now().strftime("%Y-%m-%d %H:%M") for v in parsed["activities"].values()]))
-        self.assertTrue(all([type(v["conditions"]) is config.Condition for v in parsed["activities"].values()]))
+        self.assertTrue(all([type(condition) is config.Condition
+                                for values in parsed["activities"].values()
+                                for condition in values["conditions"]]))
 
 
 if __name__ == '__main__':
