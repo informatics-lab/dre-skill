@@ -1,1 +1,27 @@
-{'version': '1.0', 'response': {'outputSpeech': {'text': "I can't help you.", 'type': 'PlainText'}, 'shouldEndSession': False, 'reprompt': {'outputSpeech': {'text': "I can't help you.", 'type': 'PlainText'}}, 'card': {'content': "SessionSpeechlet - I can't help you.", 'type': 'Simple', 'title': 'SessionSpeechlet - Help'}}, 'sessionAttributes': {'slots': {}, 'current_intent': None}}
+{
+    "version":"1.0",
+    "response":{
+        "outputSpeech":{
+            "text":"I can't help you.",
+            "type":"PlainText"
+        },
+        "shouldEndSession":False,
+        "reprompt":{
+            "outputSpeech":{
+                "text":"I can't help you.",
+                "type":"PlainText"
+            }
+        },
+        "card":{
+            "content":"SessionSpeechlet - I can't help you.",
+            "type":"Simple",
+            "title":"SessionSpeechlet - Help"
+        }
+    },
+    "sessionAttributes":{
+        "slots":{
+
+        },
+        "current_intent":None
+    }
+}

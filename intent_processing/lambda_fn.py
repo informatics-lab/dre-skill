@@ -17,9 +17,7 @@ from dre.when_decision import *
 
 from intent_request_handlers import IntentRequestHandlers
 
-# config imports
-import speech_config
-import activities_config
+from config import config
 
 class ActivityError(Exception):
     def __init__(self, message):
@@ -93,12 +91,15 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
     Designed around the Amazon Alexa Skills Kit
 
     """
-    def __init__(self, event, context, cache=ForecastCache()):
+    def __init__(self, event, context, speech_config, default_values, cache=ForecastCache()):
         """
         Args:
 
             * event (dict): User data and metadata
             * context (dict): Unknown
+            * speech_config (dict): all the different speechlets
+                may be returned
+            * default_values (dict): any default slot values for this user
 
         Kwargs:
 
@@ -115,6 +116,9 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
         self.event = DotMap(event)
         self.context = DotMap(context)
+
+        self.speech_config = DotMap(speech_config)
+        self.default_values = DotMap(default_values)
 
         try:
             # Copy input from user interaction (`self.event.session.attributes.current_intent`)
@@ -142,12 +146,14 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         try:
             self.slot_interactions = self._get_slot_interactions()
         except KeyError:
-            raise ActivityError(self.say('Title', "Sorry, I didn't recognise that activity", "I didn't recognise that activity"))
+            raise ActivityError(self.say('Title',
+                            "Sorry, I didn't recognise that activity",
+                            "I didn't recognise that activity"))
 
-        self.greeting = speech_config.session.greeting
-        self.reprompt = speech_config.session.reprompt
-        self.sign_off = speech_config.session.sign_off
-        self.help = speech_config.session.help
+        self.greeting = self.speech_config.session.greeting
+        self.reprompt = self.speech_config.session.reprompt
+        self.sign_off = self.speech_config.session.sign_off
+        self.help = self.speech_config.session.help
 
         IntentRequestHandlers.__init__(self)
 
@@ -201,18 +207,28 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         returns [SlotInteraction]
 
         """
+
         if not 'activity' in self.event.session.slots:
             return []
 
         try:
-            slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
-                                                      self.event.session.user.userId)
-                                      for s in self.event.session.slots.values()]
+            # load in default slot values from config
+            slot_interactions = [SlotInteraction(self.event,
+                                                  this_slot,
+                                                  self.speech_config,
+                                                  self.default_values,
+                                                  self.event.session.slots.activity.value)
+                                  for this_slot in self.event.session.slots.values()]
 
             # load in pythnon obejcts from config
-            config_slots = [{"name": "score"}, {"name": "conditions"}]
-            slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.session.slots.activity.value,
-                                                           self.event.session.user.userId) for s in config_slots])
+            config_slots = [DotMap{"name": "score"}, DotMap{"name": "conditions"}]
+            slot_interactions.extend([SlotInteraction(self.event,
+                                                      this_slot,
+                                                      self.speech_config,
+                                                      self.default_values,
+                                                      self.event.session.slots.activity.value)
+                                    for this_slot in config_slots])
+
             return slot_interactions
         except KeyError as e:
             raise e
@@ -318,7 +334,7 @@ class SlotInteraction(ConstructSpeechMixin):
         3. By prompting the user
 
     """
-    def __init__(self, event, slot, action_name, user_id):
+    def __init__(self, event, slot, speech_config, default_values, action_name):
         """
         Args:
             * event (DotMap): User data and metadata
@@ -331,16 +347,15 @@ class SlotInteraction(ConstructSpeechMixin):
         self.event = event
         self.slot = slot
         self.action_name = action_name
-        self.user_id = user_id
 
         if not 'value' in slot:
             try:
-                self.slot.value = activities_config.get_config(slot.name, action_name, user_id)
-            except KeyError:
-                self.title = speech_config.__dict__[self.slot.name].title
-                self.question = speech_config.__dict__[self.slot.name].question
-                self.reprompt = speech_config.__dict__[self.slot.name].reprompt
-                self.help = speech_config.__dict__[self.slot.name].help
+                self.slot.value = default_values[action_name][self.slot.name]
+            except (KeyError, AttributeError): # accounts for dict or DotMap
+                self.title = speech_config[self.slot.name].title
+                self.question = speech_config[self.slot.name].question
+                self.reprompt = speech_config[self.slot.name].reprompt
+                self.help = speech_config[self.slot.name].help
 
     def ask(self):
         """
@@ -351,8 +366,11 @@ class SlotInteraction(ConstructSpeechMixin):
 
 
 def go(event, context, cache=ForecastCache()):
+    default_values = config.get_activities_conf(event["session"]["user"]["userId"])
+    speech_config = config.get_speech_conf(event["session"]["user"]["userId"])
+    
     try:
-        session = Session(event, context, cache)
+        session = Session(event, context, speech_config, default_values, cache)
         return session.respond()
     except ActivityError as e:
         return e.message
