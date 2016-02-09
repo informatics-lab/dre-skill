@@ -22,7 +22,7 @@
     "slots": {
       "totalTime": {
         "name": "totalTime",
-        "value": 3600
+        "value": "PT3H"
       },
       "location": {
         "name": "location"

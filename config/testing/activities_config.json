@@ -17,7 +17,7 @@
                     "max":50
                 }
             },
-            "totalTime":3600,
+            "totalTime":"PT3H",
             "filter":[
 
             ],
@@ -37,7 +37,7 @@
                     "max":0
                 }
             },
-            "totalTime":7200,
+            "totalTime":"PT6H",
             "filter":[
 
             ],

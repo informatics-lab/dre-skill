@@ -6,6 +6,7 @@ and convert to fully featured Python objects....
 
 from copy import deepcopy
 from datetime import datetime
+import isodate  
 from pymongo import MongoClient
 
 MONGO_DB = "mongodb://test:ETaFPMBgQ@54.194.91.89/dre"
@@ -13,6 +14,7 @@ MONGO_DB = "mongodb://test:ETaFPMBgQ@54.194.91.89/dre"
 import sys
 sys.path.append("../")
 import dre.actions
+
 
 class Condition(object):
     """ Defines an desired meteorological condition """
@@ -32,6 +34,17 @@ class Condition(object):
         self.ideal = ideal
         self.min = min
         self.max = max
+
+
+def unicode_to_string(input):
+    if isinstance(input, dict):
+        return dict((unicode_to_string(key), unicode_to_string(value)) for key, value in input.iteritems())
+    elif isinstance(input, list):
+        return [unicode_to_string(element) for element in input]
+    elif isinstance(input, unicode):
+        return input.encode('utf-8')
+    else:
+        return input
 
 
 def parse_activities_config(json):
@@ -70,4 +83,5 @@ def get_activities_conf(uid):
 
 def get_speech_conf(uid):
     client = MongoClient(MONGO_DB)
-    return client["dre"]["speech_configs"].find_one(filter=uid)["speeches"]
+    conf = client["dre"]["speech_configs"].find_one(filter=uid)["speeches"]
+    return unicode_to_string(conf)
