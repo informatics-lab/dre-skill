@@ -21,6 +21,10 @@ from intent_request_handlers import IntentRequestHandlers
 import speech_config
 import activities_config
 
+class ActivityError(Exception):
+    def __init__(self, message):
+        self.message = message
+
 
 class ConstructSpeechMixin(object):
     """
@@ -111,37 +115,34 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
         self.event = DotMap(event)
         self.context = DotMap(context)
-        # print("EVENT:", event)
-        # print("CONTEXT:", context)
 
-        try:
-            stored_slots = self.event.session.attributes.slots
-        except AttributeError:
-            stored_slots = DotMap()
         try:
             # Copy input from user interaction (`self.event.session.attributes.current_intent`)
             # into the persisted location (`self.event.session.current_intent`)
             self.event.session.current_intent = self.event.session.attributes.current_intent
         except AttributeError:
             self.event.session.current_intent = "None"
+
+        try:
+            # Are there any stored slots to be retrieved?
+            stored_slots = self.event.session.attributes.slots
+        except AttributeError:
+            stored_slots = DotMap()
         
         try:
+            # Did the intent come with any slots?
             new_slots = self.event.request.intent.slots
         except AttributeError:
-            new_slots = {}    
+            new_slots = {}  
+
+        # Now we collect all the slots together.
         self.event.session.slots = self._add_new_slots_to_session(new_slots, stored_slots)
 
-        self.slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
-                                                  self.event.session.user.userId)
-                                  for s in self.event.session.slots.values()]
-
+        # Load the slot interactions. Give up if given an unknown activity.
         try:
-            # load in pythnon obejcts from config
-            config_slots = [{"name": "score"}, {"name": "conditions"}]
-            self.slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.session.slots.activity.value,
-                                                           self.event.session.user.userId) for s in config_slots])
+            self.slot_interactions = self._get_slot_interactions()
         except AttributeError:
-            pass
+            raise ActivityError(self.say('Title', "Sorry, I didn't recognise that activity", "I didn't recognise that activity"))
 
         self.greeting = speech_config.session.greeting
         self.reprompt = speech_config.session.reprompt
@@ -192,6 +193,29 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             nested_dict.update(this)
 
         return nested_dict
+
+    def _get_slot_interactions(self):
+        """
+        Utility function to create a list of slot interactions.
+
+        returns [SlotInteraction]
+
+        """
+        if not 'activity' in self.event.session.slots:
+            return []
+
+        try:
+            slot_interactions = [SlotInteraction(self.event, s, self.event.session.slots.activity.value,
+                                                      self.event.session.user.userId)
+                                      for s in self.event.session.slots.values()]
+
+            # load in pythnon obejcts from config
+            config_slots = [{"name": "score"}, {"name": "conditions"}]
+            slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.session.slots.activity.value,
+                                                           self.event.session.user.userId) for s in config_slots])
+            return slot_interactions
+        except AttributeError as e:
+            raise e
 
     def _add_new_slots_to_session(self, nested_new_slots, nested_stored_slots):
         """
@@ -327,5 +351,8 @@ class SlotInteraction(ConstructSpeechMixin):
 
 
 def go(event, context, cache=ForecastCache()):
-    session = Session(event, context, cache)
-    return session.respond()
+    try:
+        session = Session(event, context, cache)
+        return session.respond()
+    except ActivityError as e:
+        return e.message
