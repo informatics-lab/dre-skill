@@ -141,7 +141,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         # Load the slot interactions. Give up if given an unknown activity.
         try:
             self.slot_interactions = self._get_slot_interactions()
-        except AttributeError:
+        except KeyError:
             raise ActivityError(self.say('Title', "Sorry, I didn't recognise that activity", "I didn't recognise that activity"))
 
         self.greeting = speech_config.session.greeting
@@ -214,7 +214,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             slot_interactions.extend([SlotInteraction(self.event, DotMap(s), self.event.session.slots.activity.value,
                                                            self.event.session.user.userId) for s in config_slots])
             return slot_interactions
-        except AttributeError as e:
+        except KeyError as e:
             raise e
 
     def _add_new_slots_to_session(self, nested_new_slots, nested_stored_slots):
