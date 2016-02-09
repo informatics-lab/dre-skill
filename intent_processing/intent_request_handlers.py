@@ -4,6 +4,7 @@ import dateutil.parser
 import isodate
 import math
 import pytz
+import isodate
 
 # third party
 from geopy.geocoders import Nominatim
@@ -75,7 +76,7 @@ class IntentRequestHandlers(object):
 
         # Decode duration
         slots.totalTime = isodate.parse_duration(slots.totalTime).total_seconds()
-        
+
         def describe_options(possibilities, activity):
             """
             A utility function which constructs natural language from
