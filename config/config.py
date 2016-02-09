@@ -40,17 +40,17 @@ def parse_activities_config(json):
 
     """
     config = deepcopy(json)
-    for activity in config["activities"]:
-        this_score_name = activity["score"]
+    for activity_name, activity in config["activities"].iteritems():
         try:
+            this_score_name = activity["score"]
             activity["score"] = dre.actions.__dict__[this_score_name]
         except KeyError:
-            raise KeyError("Score function", this_score_name, "not present in `dre.actions`")
-        for condition in activity["conditions"]:
-            condition = Condition(condition["name"],
-                                  condition["ideal"],
-                                  condition["min"],
-                                  condition["max"])
+            raise KeyError("Score function", activity["score"], "not present in `dre.actions`")
+        for variable_name, values in activity["conditions"].iteritems():
+            activity["conditions"] = Condition(variable_name,
+                                                  values["ideal"],
+                                                  values["min"],
+                                                  values["max"])
         if activity["startTime"] == "NOW":
             activity["startTime"] = datetime.now().strftime("%Y-%m-%d %H:%M")
 
