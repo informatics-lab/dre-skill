@@ -44,6 +44,10 @@ class SessionPersistenceTest(unittest.TestCase):
     with open(os.path.join(base, 'json_packets', 'out', 'whenshalligoforarun.json'), 'r') as f:
         initialOutput = yaml.safe_load(f.read())
         initialOutput["sessionAttributes"]["slots"]["startTime"]["value"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    with open(os.path.join(base, 'json_packets', 'in', 'swim.json'), 'r') as f:
+        swimInput = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'out', 'swim.json'), 'r') as f:
+        swimOutput = yaml.safe_load(f.read())
     with open(os.path.join(base, 'json_packets', 'in', 'inExeter.json'), 'r') as f:
         secondaryInput = yaml.safe_load(f.read())
         secondaryInput["session"]["attributes"]["slots"]["startTime"]["value"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -68,6 +72,11 @@ class SessionPersistenceTest(unittest.TestCase):
         self.assertEquals(thisInitialResult, self.initialOutput)
         thisSecondaryResult = go(self.secondaryInput, None, self.cache)
         # self.assertEquals(thisSecondaryResult, self.secondaryOutput)
+
+    def testBadActivityIntent(self):
+        """ Should ask for another slot """
+        thisInitialResult = go(self.swimInput, None, self.cache)
+        self.assertEquals(thisInitialResult, self.swimOutput)
 
     def testNestDict(self):
         nested = Session._nest_dict(self.unnested_dict)
