@@ -1,6 +1,7 @@
 # standard library
 import datetime
 import dateutil.parser
+import isodate
 import math
 import pytz
 
@@ -72,6 +73,9 @@ class IntentRequestHandlers(object):
         place = Nominatim().geocode(slots.location)
         slots.location = DotMap({'lat': place.latitude, 'lon': place.longitude})
 
+        # Decode duration
+        slots.totalTime = isodate.parse_duration(slots.totalTime).total_seconds()
+        
         def describe_options(possibilities, activity):
             """
             A utility function which constructs natural language from
