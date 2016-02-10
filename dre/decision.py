@@ -85,13 +85,14 @@ class Activity(object):
     """
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, possibility):
+    def __init__(self, possibility, name=None):
         """
         Args:
             * possibility (list): A list of Actions
 
         """
         self.possibility = possibility
+        self.name = name
         self.score = self.get_score()
 
     def get_score(self):
