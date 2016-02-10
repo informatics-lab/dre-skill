@@ -8,7 +8,17 @@ class TimeSlot(object):
 
 
 class WhatActivity(object):
+    '''
+    Specified Action to be considered at a given time.
+    '''
     def __init__(self, name, scoring_fn, conditions, duration):
+        """
+        Args:
+            * name (string): Name of the activity (e.g. "run")
+            * scoring_fn (Action): Type of action
+            * conditions (list): list of Condition objects
+            * duration: datetime.timedelta
+        """
         self.name = name
         self.score = scoring_fn
         self.conditions = conditions
@@ -17,7 +27,7 @@ class WhatActivity(object):
 
 class WhatActionBuilder(object):
     """
-    Information defining an Action performed at an unspecified time
+    Information defining an unspecified Action.
 
     """
     def __init__(self, loc, cache=None):
@@ -38,8 +48,8 @@ class WhatActionBuilder(object):
 
 class WhatDecision(object):
     """
-    A WhenDecision generates a set of possible Activities at different times
-    and oders them by quality.
+    A WhenDecision generates a set of possible Activities at the same time,
+    and orders them by quality.
 
     """
     def __init__(self, whatFilter, timeSlot, location, cache):
