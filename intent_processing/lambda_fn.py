@@ -19,6 +19,7 @@ from intent_request_handlers import IntentRequestHandlers
 
 from config import config
 
+
 class PrimarySlotError(Exception):
     """
     Thrown when the key is not present in the default values database.
