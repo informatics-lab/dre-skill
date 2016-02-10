@@ -1,0 +1,67 @@
+{
+    "_id":"amzn1.echo-sdk-account.AFIEDSHAQENDTKOJLEXNRWRHSHXMTEONY66MTCZVNG5B2HWUTMN76",
+    "dateCreated":"2016-02-08T13:52:39+00:00",
+    "lastUpdated":"2016-02-08T13:52:39+00:00",
+    "activities":{
+        "run":{
+            "score":"GaussDistFromIdeal",
+            "conditions":{
+                "temperature":{
+                    "ideal":15,
+                    "min":10,
+                    "max":23
+                },
+                "precipitation":{
+                    "ideal":0,
+                    "min":0,
+                    "max":50
+                }
+            },
+            "totalTime":"PT3H",
+            "filter":[
+
+            ],
+            "startTime":"NOW"
+        },
+        "sunbathe":{
+            "score":"GaussDistFromIdeal",
+            "conditions":{
+                "temperature":{
+                    "ideal":28,
+                    "min":25,
+                    "max":40
+                },
+                "precipitation":{
+                    "ideal":0,
+                    "min":0,
+                    "max":0
+                }
+            },
+            "totalTime":"PT6H",
+            "filter":[
+
+            ],
+            "startTime":"NOW"
+        },
+        "cinema":{
+            "score":"GaussDistFromIdeal",
+            "conditions":{
+                "temperature":{
+                    "ideal":5,
+                    "min":-5,
+                    "max":20
+                },
+                "precipitation":{
+                    "ideal":90,
+                    "min":0,
+                    "max":100
+                }
+            },
+            "totalTime":"PT2H",
+            "filter":[
+
+            ],
+            "startTime":"NOW"
+        }
+    }
+}
