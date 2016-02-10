@@ -9,7 +9,8 @@ from dre.decision import *
 import dre.actions as actions
 
 from config import config
-run = config.get_activities_conf("tests")["run"]
+run = config.get_default_values_conf("tests")["run"]
+
 
 class RunTest(unittest.TestCase):
     def testRunAction(self):

@@ -8,10 +8,11 @@ sys.path.append("..")
 
 from reduced_dotmap import DotMap
 from intent_processing.lambda_fn import *
+from intent_processing.conversation import *
 
 from config import config
 speech_config = config.get_speech_conf("tests")
-activities_config = config.get_activities_conf("tests")
+activities_config = config.get_default_values_conf("tests")
 
 
 class LambdaDecisionTest(unittest.TestCase):
@@ -26,7 +27,7 @@ class LambdaDecisionTest(unittest.TestCase):
 
     def testLambda(self):
         answer = 'Wher'
-        result = go(self.event, None, self.cache)
+        result = go(self.event, None, "tests", self.cache)
         self.assertEquals(result['response']['outputSpeech']['text'][:4], answer)
 
 
@@ -68,14 +69,14 @@ class SessionPersistenceTest(unittest.TestCase):
 
     def testDialogueIntent(self):
         """ Should ask for another slot """
-        thisInitialResult = go(self.initialInput, None, self.cache)
+        thisInitialResult = go(self.initialInput, None, "tests", self.cache)
         self.assertEquals(thisInitialResult, self.initialOutput)
-        thisSecondaryResult = go(self.secondaryInput, None, self.cache)
+        thisSecondaryResult = go(self.secondaryInput, None, "tests", self.cache)
         # self.assertEquals(thisSecondaryResult, self.secondaryOutput)
 
     def testBadActivityIntent(self):
         """ Should ask for another slot """
-        thisInitialResult = go(self.swimInput, None, self.cache)
+        thisInitialResult = go(self.swimInput, None, "tests", self.cache)
         self.assertEquals(thisInitialResult, self.swimOutput)
 
     def testNestDict(self):
@@ -109,7 +110,7 @@ class SessionPersistenceTest(unittest.TestCase):
         self.assertEquals(secondary.event.session.current_intent, self.secondaryInput["session"]["attributes"]["current_intent"])
 
     def testCustomStartTimeIntent(self):
-        thisResult = go(self.startTimeInput, None, self.cache)
+        thisResult = go(self.startTimeInput, None, "tests", self.cache)
         self.assertEquals(thisResult, self.startTimeOutput)
 
 
@@ -133,10 +134,10 @@ class HelpTest(unittest.TestCase):
 
 
     def testSlotHelp(self):
-        result = go(self.get_where_help, "", self.cache)
+        result = go(self.get_where_help, "", "tests", self.cache)
         self.assertEquals(result, self.give_where_help)
 
-        result2 = go(self.helpInput, '', self.cache)
+        result2 = go(self.helpInput, "", "tests", self.cache)
         self.assertEquals(result2, self.helpOutput)
 
 
@@ -157,10 +158,10 @@ class ExitTest(unittest.TestCase):
         exit_run_output = yaml.safe_load(f.read())
     
     def testExit(self):
-        result = go(self.stop_run_intent, "", self.cache)
+        result = go(self.stop_run_intent, "", "tests", self.cache)
         self.assertEquals(result, self.exit_run_output)
 
-        result2 = go(self.cancel_run_intent, '', self.cache)
+        result2 = go(self.cancel_run_intent, '', "tests", self.cache)
         self.assertEquals(result2, self.exit_run_output)
 
 
