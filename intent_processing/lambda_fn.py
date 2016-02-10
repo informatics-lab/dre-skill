@@ -95,7 +95,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
     Designed around the Amazon Alexa Skills Kit
 
     """
-    def __init__(self, event, context, speech_config, default_values, cache=ForecastCache()):
+    def __init__(self, event, context, speech_config, default_values, primary_key, cache=ForecastCache()):
         """
         Args:
 
@@ -123,6 +123,8 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
         self.speech_config = DotMap(speech_config)
         self.default_values = DotMap(default_values)
+
+        self.primary_key = primary_key
 
         try:
             # Copy input from user interaction (`self.event.session.attributes.current_intent`)
@@ -207,7 +209,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
         """
 
-        if not 'activity' in self.event.session.slots:
+        if not self.primary_key in self.event.session.slots:
             return []
 
         try:
@@ -216,7 +218,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                                                   this_slot,
                                                   self.speech_config,
                                                   self.default_values,
-                                                  self.event.session.slots.activity.value)
+                                                  self.event.session.slots[self.primary_key].value)
                                   for this_slot in self.event.session.slots.values()]
 
             # load in pythnon obejcts from config
@@ -225,7 +227,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                                                       this_slot,
                                                       self.speech_config,
                                                       self.default_values,
-                                                      self.event.session.slots.activity.value)
+                                                      self.event.session.slots[self.primary_key].value)
                                     for this_slot in config_slots])
 
             return slot_interactions
@@ -371,7 +373,7 @@ def go(event, context, cache=ForecastCache()):
     speech_config = config.get_speech_conf(event["session"]["user"]["userId"])
     
     try:
-        session = Session(event, context, speech_config, default_values, cache)
+        session = Session(event, context, speech_config, default_values, 'activity', cache)
         return session.respond()
     except PrimarySlotError as e:
         return e.message
