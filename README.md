@@ -2,7 +2,7 @@
 Decision Recommendation Engine
 
 ### Set-up
-Here is the recipie to set up and develop this repo. You need Grunt, NPM and Pip
+Here is the recipie to set up and develop this repo. You need Grunt, NPM, Pip and [nose](https://nose.readthedocs.org/en/latest/) 
 
 1. `git clone` this repo
 2. `npm install`
