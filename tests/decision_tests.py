@@ -10,7 +10,7 @@ from dre.decision import *
 from dre.forecast_cache import ForecastCache
 
 from config import config
-run = config.get_activities_conf("tests")["run"]
+run = config.get_default_values_conf("tests")["run"]
 
 
 class WhenDecisionTest(unittest.TestCase):
