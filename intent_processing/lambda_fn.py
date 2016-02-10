@@ -95,7 +95,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
     Designed around the Amazon Alexa Skills Kit
 
     """
-    def __init__(self, event, context, speech_config, default_values, primary_key, cache=ForecastCache()):
+    def __init__(self, event, context, speech_config, default_values, primary_slot, cache=ForecastCache()):
         """
         Args:
 
@@ -124,7 +124,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.speech_config = DotMap(speech_config)
         self.default_values = DotMap(default_values)
 
-        self.primary_key = primary_key
+        self.primary_slot = primary_slot
 
         try:
             # Copy input from user interaction (`self.event.session.attributes.current_intent`)
@@ -148,7 +148,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         # Now we collect all the slots together.
         self.event.session.slots = self._add_new_slots_to_session(new_slots, stored_slots)
 
-        # Load the slot interactions. Give up if given an unknown activity.
+        # Load the slot interactions. Give up if given an unknown primary slot.
         self.slot_interactions = self._get_slot_interactions()
 
         self.greeting = self.speech_config.session.greeting
@@ -209,7 +209,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
         """
 
-        if not self.primary_key in self.event.session.slots:
+        if not self.primary_slot in self.event.session.slots:
             return []
 
         try:
@@ -218,7 +218,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                                                   this_slot,
                                                   self.speech_config,
                                                   self.default_values,
-                                                  self.event.session.slots[self.primary_key].value)
+                                                  self.event.session.slots[self.primary_slot].value)
                                   for this_slot in self.event.session.slots.values()]
 
             # load in pythnon obejcts from config
@@ -227,14 +227,14 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                                                       this_slot,
                                                       self.speech_config,
                                                       self.default_values,
-                                                      self.event.session.slots[self.primary_key].value)
+                                                      self.event.session.slots[self.primary_slot].value)
                                     for this_slot in config_slots])
 
             return slot_interactions
         except (KeyError, AttributeError):
             raise PrimarySlotError(self.say('Title',
-                            "Sorry, I didn't recognise that activity",
-                            "I didn't recognise that activity"))
+                            "Sorry, I didn't recognise that "+self.primary_slot,
+                            "I didn't recognise that "+self.primary_slot))
 
     def _add_new_slots_to_session(self, nested_new_slots, nested_stored_slots):
         """
