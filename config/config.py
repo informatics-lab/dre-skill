@@ -75,13 +75,32 @@ def parse_activities_config(json):
     return config
 
 
-def get_activities_conf(uid):
+def get_default_values_conf(uid):
+    """
+    Gets default values specific to this user
+
+    Args:
+        * uid (string): unique ID for this user
+
+    """
     client = MongoClient(MONGO_DB)
     json = client["dre"]["activity_configs"].find_one(filter=uid)
+    if json == None:
+        raise ValueError("Config for", uid, "no found")
     return parse_activities_config(json)["activities"]
 
 
-def get_speech_conf(uid):
+def get_speech_conf(uid="default"):
+    """
+    Get speech config
+
+    Args:
+        * uid (string): unique ID for this
+            speech setup
+    """
+
     client = MongoClient(MONGO_DB)
     conf = client["dre"]["speech_configs"].find_one(filter=uid)["speeches"]
+    if conf == None:
+        raise ValueError("Config for", uid, "no found")
     return unicode_to_string(conf)
