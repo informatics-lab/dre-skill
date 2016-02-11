@@ -4,8 +4,6 @@ from __future__ import print_function
 # standard library imports
 import datetime
 import math
-import sys
-sys.path.append("./lib")
 
 # third party imports
 from reduced_dotmap import DotMap
