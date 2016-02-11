@@ -76,12 +76,13 @@ class WhatDecision(object):
                 generating Actions within an Activity.
 
         """
+        templateAction = WhatActionBuilder(self.location, self.cache)
+
         for activity in self.whatFilter:
             if activity.duration <= (self.timeSlot.maxTime - self.timeSlot.minTime):
                 possibility = []
                 t = self.timeSlot.minTime
-                while t < self.timeSlot.maxTime:
-                    templateAction = WhatActionBuilder(self.location, self.cache)
+                while t < (self.timeSlot.minTime+activity.duration):
                     possibility.append(templateAction.build(activity.score, activity.conditions, t))
                     t += actionTimeRes
 
