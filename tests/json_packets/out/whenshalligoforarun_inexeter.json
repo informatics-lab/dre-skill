@@ -7,8 +7,8 @@
     },
     "card": {
       "type": "Simple",
-      "content": "SessionSpeechlet - When do you want to do that",
-      "title": "SessionSpeechlet - TITLE"
+      "content": "When do you want to do that",
+      "title": "TITLE"
     },
     "reprompt": {
       "outputSpeech": {

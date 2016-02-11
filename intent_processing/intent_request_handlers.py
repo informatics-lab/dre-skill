@@ -2,6 +2,7 @@
 import datetime
 import dateutil.parser
 import isodate
+import json
 import math
 import pytz
 import isodate
@@ -50,9 +51,9 @@ class IntentRequestHandlers(object):
     def help_intent(self):
         if self._unset_sis:
             unset_si = self._unset_sis[0]
-            speech = self.say("Help", unset_si.help, unset_si.help)
+            speech = self.say(unset_si.help, unset_si.help, "Help", unset_si.help)
         else:
-            speech = self.say("Help", self.help, self.help)
+            speech = self.say(self.help, self.help, "Help", self.help)
         return speech
 
     def exit_intent(self):
@@ -92,6 +93,8 @@ class IntentRequestHandlers(object):
             """
             start = possibilities[0].possibility[0].time.isoformat()
             answer = ''
+            card = []
+
             n = min(3, len(possibilities)) 
             if n > 0:
                 answer += 'Your best options for a %s are: ' % activity
@@ -102,10 +105,12 @@ class IntentRequestHandlers(object):
                     answer += ' with a score of '
                     answer += '%.2f'%round(pos.score.value, 2)
                     answer += ', '
+                    card.extend(pos.score.metadata)
                 answer = answer[:-2]+'.'
             else: 
                 answer += "I couldn't find a good time for that activity."
-            return answer
+            return answer, json.dumps(card)
+
 
         timesteps = math.ceil(slots.totalTime/float(15*60))
         start_time = dateutil.parser.parse(slots.startTime).replace(tzinfo=pytz.UTC)
@@ -123,7 +128,8 @@ class IntentRequestHandlers(object):
         a_decision.generatePossibleActivities(timeRes=datetime.timedelta(hours=3))
         possibilities = a_decision.possibleActivities
 
-        speech_output = describe_options(possibilities, slots.activity)
+        speech_output, card_output = describe_options(possibilities, slots.activity)
         reprompt_text = ""
 
-        return self.say(self.event.request.intent.name, speech_output, reprompt_text)
+        return self.say(speech_output, reprompt_text,
+                        self.event.request.intent.name, card_output)
