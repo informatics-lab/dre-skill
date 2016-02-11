@@ -13,9 +13,9 @@
             }
         },
         "card":{
-            "content":"SessionSpeechlet - Sorry, I didn't recognise that activity",
+            "content":"I didn't recognise that activity",
             "type":"Simple",
-            "title":"SessionSpeechlet - Title"
+            "title":"Error"
         }
     },
     "sessionAttributes":{

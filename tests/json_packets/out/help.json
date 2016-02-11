@@ -13,9 +13,9 @@
             }
         },
         "card":{
-            "content":"SessionSpeechlet - I can't help you.",
+            "content":"I can't help you.",
             "type":"Simple",
-            "title":"SessionSpeechlet - Help"
+            "title":"Help"
         }
     },
     "sessionAttributes":{

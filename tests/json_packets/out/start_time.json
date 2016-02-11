@@ -1,27 +1,27 @@
 {
-    "version":"1.0",
-    "response":{
-        "outputSpeech":{
-            "text":"Your best options for a run are: 9th at 00:00 with a score of 0.49, 9th at 03:00 with a score of 0.49, 9th at 06:00 with a score of 0.49.",
-            "type":"PlainText"
+    'version':'1.0',
+    'response':{
+        'outputSpeech':{
+            'text':'Your best options for a run are: 9th at 00:00 with a score of 0.49, 9th at 03:00 with a score of 0.49, 9th at 06:00 with a score of 0.49.',
+            'type':'PlainText'
         },
-        "shouldEndSession":false,
-        "reprompt":{
-            "outputSpeech":{
-                "text":"",
-                "type":"PlainText"
+        'shouldEndSession':False,
+        'reprompt':{
+            'outputSpeech':{
+                'text':'',
+                'type':'PlainText'
             }
         },
-        "card":{
-            "content":"SessionSpeechlet - Your best options for a run are: 9th at 00:00 with a score of 0.49, 9th at 03:00 with a score of 0.49, 9th at 06:00 with a score of 0.49.",
-            "type":"Simple",
-            "title":"SessionSpeechlet - StationaryWhenIntent"
+        'card':{
+            'content':'[{"min_forecast": 20, "max_forecast": 20, "mean_forecast": 20.0, "min": 0, "max": 50, "metric": "GaussDistFromIdeal", "n_forecasts": 12, "ideal": 0, "variable": "precipitation"}, {"min_forecast": 18, "max_forecast": 18, "mean_forecast": 18.0, "min": 10, "max": 23, "metric": "GaussDistFromIdeal", "n_forecasts": 12, "ideal": 15, "variable": "temperature"}, {"min_forecast": 20, "max_forecast": 20, "mean_forecast": 20.0, "min": 0, "max": 50, "metric": "GaussDistFromIdeal", "n_forecasts": 12, "ideal": 0, "variable": "precipitation"}, {"min_forecast": 18, "max_forecast": 18, "mean_forecast": 18.0, "min": 10, "max": 23, "metric": "GaussDistFromIdeal", "n_forecasts": 12, "ideal": 15, "variable": "temperature"}, {"min_forecast": 20, "max_forecast": 20, "mean_forecast": 20.0, "min": 0, "max": 50, "metric": "GaussDistFromIdeal", "n_forecasts": 12, "ideal": 0, "variable": "precipitation"}, {"min_forecast": 18, "max_forecast": 18, "mean_forecast": 18.0, "min": 10, "max": 23, "metric": "GaussDistFromIdeal", "n_forecasts": 12, "ideal": 15, "variable": "temperature"}]',
+            'type':'Simple',
+            'title':'StationaryWhenIntent'
         }
     },
-    "sessionAttributes":{
-        "slots":{
+    'sessionAttributes':{
+        'slots':{
 
         },
-        "current_intent":"StationaryWhenIntent"
+        'current_intent':'StationaryWhenIntent'
     }
 }

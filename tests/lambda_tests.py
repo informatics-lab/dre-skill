@@ -59,6 +59,10 @@ class SessionPersistenceTest(unittest.TestCase):
         startTimeInput = yaml.safe_load(f.read())
     with open(os.path.join(base, 'json_packets', 'out', 'start_time.json'), 'r') as f:
         startTimeOutput = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'in', 'whenruninexeter.json'), 'r') as f:
+        completeWhenRequest = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'out', 'whenruninexeter.json'), 'r') as f:
+        completeWhenRequestAnswer = yaml.safe_load(f.read())
     
 
     nested_dict = {"thingA": {"name": "thingA", "value": "stuffA"},
@@ -112,6 +116,10 @@ class SessionPersistenceTest(unittest.TestCase):
     def testCustomStartTimeIntent(self):
         thisResult = go(self.startTimeInput, None, "tests", self.cache)
         self.assertEquals(thisResult, self.startTimeOutput)
+
+    def stationaryWhenOutput(self):
+        answer = go(self.completeWhenRequest, None, "tests", self.cache)
+        self.assertEquals(answer, self.completeWhenRequestAnswer)
 
 
 class HelpTest(unittest.TestCase):
