@@ -13,9 +13,9 @@
             }
         },
         "card":{  
-            "content":"SessionSpeechlet - Thanks very much for using our app. See you later.",
+            "content":"Thanks very much for using our app. See you later.",
             "type":"Simple",
-            "title":"SessionSpeechlet - Sign Off"
+            "title":"Sign Off"
         }
     },
     "sessionAttributes":{  

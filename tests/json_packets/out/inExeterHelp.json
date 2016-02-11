@@ -13,9 +13,9 @@
             }
         },
         "card":{
-            "content":"SessionSpeechlet - Which word don't you understand",
+            "content":"Which word don't you understand",
             "type":"Simple",
-            "title":"SessionSpeechlet - Help"
+            "title":"Help"
         }
     },
     "sessionAttributes":{
