@@ -3,14 +3,18 @@ import datetime
 import os
 import pytz
 import unittest
+import isodate
 
 import dre.actions as actions
 from dre.when_decision import *
+from dre.what_decision import *
 from dre.decision import *
 from dre.forecast_cache import ForecastCache
 
 from config import config
 run = config.get_default_values_conf("tests")["run"]
+sunbathe = config.get_default_values_conf("tests")["sunbathe"]
+cinema = config.get_default_values_conf("tests")["cinema"]
 
 
 class WhenDecisionTest(unittest.TestCase):
@@ -47,12 +51,25 @@ class WhatDecisionTest(unittest.TestCase):
         timesteps = pickle.load(f)
     cache.cache_forecast(timesteps, loc)
 
-    def testWhatDecision(self):
+    def testWhatDecisionManual(self):
       mySunbathe = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, run["conditions"], self.cache)])
       myRun = Activity([actions.GaussDistFromIdeal(self.timesteps[0].date, self.loc, run["conditions"], self.cache)])
 
       activities = [mySunbathe, myRun]
       activities.sort(key=lambda v: v.score.value, reverse=True)
+
+    def testWhatDecision(self):
+      thisSunbathe = WhatActivity('sunbathe', actions.GaussDistFromIdeal, sunbathe["conditions"], isodate.parse_duration(sunbathe["totalTime"]))
+      thisRun = WhatActivity('run', actions.GaussDistFromIdeal, run["conditions"], isodate.parse_duration(run["totalTime"]))
+      thisCinema = WhatActivity('cinema', actions.GaussDistFromIdeal, cinema["conditions"], isodate.parse_duration(cinema["totalTime"]))
+      activities = [thisCinema, thisRun, thisSunbathe]
+      startTime = self.timesteps[0].date
+      timeslot = TimeSlot(startTime, startTime+datetime.timedelta(hours=3))
+
+      aDecision = WhatDecision(activities, timeslot, self.loc, self.cache)
+      aDecision.generatePossibleActivities(datetime.timedelta(seconds=15*60))
+      self.assertEquals(aDecision.possibleActivities[0].name, 'cinema')
+      self.assertEquals(aDecision.possibleActivities[0].score.value, 0.5826122793382577)
 
 
 if __name__ == '__main__':
