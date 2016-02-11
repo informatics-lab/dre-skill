@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append("./lib")
+
 from config import config
 from dre.forecast_cache import ForecastCache
 import conversation
