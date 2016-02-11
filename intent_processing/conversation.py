@@ -33,7 +33,7 @@ class ConstructSpeechMixin(object):
     the Amazon Alexa Skills Kit.
 
     """
-    def say(self, title, output, reprompt, should_end_session=False):
+    def say(self, output, reprompt, title, card, should_end_session=False):
         """
         Constructs a packet of speech text and meta-data.
 
@@ -65,8 +65,8 @@ class ConstructSpeechMixin(object):
                 },
                 'card': {
                     'type': 'Simple',
-                    'title': 'SessionSpeechlet - ' + title,
-                    'content': 'SessionSpeechlet - ' + output
+                    'title': title,
+                    'content': card
                 },
                 'reprompt': {
                     'outputSpeech': {
@@ -230,9 +230,10 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
             return slot_interactions
         except (KeyError, AttributeError):
-            raise PrimarySlotError(self.say('Title',
-                            "Sorry, I didn't recognise that "+self.primary_slot,
-                            "I didn't recognise that "+self.primary_slot))
+            raise PrimarySlotError(self.say("Sorry, I didn't recognise that "+self.primary_slot,
+                                            "I didn't recognise that "+self.primary_slot,
+                                            "Error",
+                                            "I didn't recognise that "+self.primary_slot))
 
     def _add_new_slots_to_session(self, nested_new_slots, nested_stored_slots):
         """
@@ -313,15 +314,17 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
     @property
     def greeting_speech(self):
-        return self.say(title="Greeting",
-                        output=self.greeting,
-                        reprompt=self.reprompt)
+        return self.say(output=self.greeting,
+                        reprompt=self.reprompt,
+                        title="Greeting",
+                        card=self.greeting)
 
     @property
     def sign_off_speech(self):
-        return self.say(title="Sign Off",
-                        output=self.sign_off,
+        return self.say(output=self.sign_off,
                         reprompt="",
+                        title="Sign Off",
+                        card=self.sign_off,
                         should_end_session=True)
         
 
@@ -363,4 +366,4 @@ class SlotInteraction(ConstructSpeechMixin):
         Prompt the user for the value
 
         """
-        return self.say(self.title, self.question, self.reprompt)
+        return self.say(self.question, self.reprompt, self.title, self.question)

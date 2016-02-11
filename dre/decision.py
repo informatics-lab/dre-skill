@@ -13,6 +13,7 @@ import abc
 
 # local
 from forecast_cache import ForecastCache
+import log_handling
 
 
 class Loc(object):
@@ -23,7 +24,7 @@ class Loc(object):
 
 
 class Score(object):
-    """ Struct to associate a score value with optional metadata dictionary """ 
+    """ Struct to associate a score value with optional metadata json compatible obj """ 
     def __init__(self, value, metadata=None):
         self.value = value
         self.metadata = metadata
@@ -102,4 +103,6 @@ class Activity(object):
 
         """
         combined_score_value = sum(action.score.value for action in self.possibility)/len(self.possibility)
-        return Score(combined_score_value)
+        combined_log = log_handling.reduce_logs([i for action in self.possibility for i in action.score.metadata])
+
+        return Score(combined_score_value, metadata=combined_log)
