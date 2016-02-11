@@ -6,10 +6,10 @@ and convert to fully featured Python objects....
 
 from copy import deepcopy
 from datetime import datetime
+import decimal
 import isodate  
-from pymongo import MongoClient
-
-MONGO_DB = "mongodb://test:ETaFPMBgQ@54.194.91.89/dre"
+import boto3
+import os
 
 import sys
 sys.path.append("../")
@@ -34,6 +34,24 @@ class Condition(object):
         self.ideal = ideal
         self.min = min
         self.max = max
+
+
+def replace_decimals(obj):
+    if isinstance(obj, list):
+        for i in xrange(len(obj)):
+            obj[i] = replace_decimals(obj[i])
+        return obj
+    elif isinstance(obj, dict):
+        for k in obj.iterkeys():
+            obj[k] = replace_decimals(obj[k])
+        return obj
+    elif isinstance(obj, decimal.Decimal):
+        if obj % 1 == 0:
+            return int(obj)
+        else:
+            return float(obj)
+    else:
+        return obj
 
 
 def unicode_to_string(input):
@@ -83,10 +101,18 @@ def get_default_values_conf(uid):
         * uid (string): unique ID for this user
 
     """
-    client = MongoClient(MONGO_DB)
-    json = client["dre"]["activity_configs"].find_one(filter=uid)
-    if json == None:
-        raise ValueError("Config for", uid, "no found")
+    # try:
+    dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
+    table = dynamodb.Table("dre-default-values")
+    json = table.get_item(Key={"_id": uid})["Item"] # 0th is key, 1st is data
+    json = replace_decimals(json)
+    # except:
+    #     conn = boto.dynamodb2.connect_to_region("us-east-1",
+    #                 aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+    #                 aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"))
+    #     table = Table("dre-default-values", connection=conn)
+    #     json, = table.get_item(_id=uid).values()
+
     return parse_activities_config(json)["activities"]
 
 
@@ -99,8 +125,16 @@ def get_speech_conf(uid="default"):
             speech setup
     """
 
-    client = MongoClient(MONGO_DB)
-    conf = client["dre"]["speech_configs"].find_one(filter=uid)["speeches"]
-    if conf == None:
-        raise ValueError("Config for", uid, "no found")
+    # try:
+    dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
+    table = dynamodb.Table("dre-speech-configs")
+    conf = table.get_item(Key={"_id": uid})["Item"] # 0th is key, 1st is data
+    conf = replace_decimals(conf)
+    # except:
+    #     conn = boto.dynamodb2.connect_to_region("us-east-1",
+    #                 aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+    #                 aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"))
+    #     table = Table("dre-speech-config", connection=conn)
+    #     conf, = table.get_item(_id=uid).values()
+
     return unicode_to_string(conf)
