@@ -11,10 +11,10 @@ from dre.what_decision import *
 from dre.decision import *
 from dre.forecast_cache import ForecastCache
 
-from config import config
-run = config.get_default_values_conf("tests")["run"]
-sunbathe = config.get_default_values_conf("tests")["sunbathe"]
-cinema = config.get_default_values_conf("tests")["cinema"]
+from database import database
+run = database.get_default_values_conf("tests")["run"]
+sunbathe = database.get_default_values_conf("tests")["sunbathe"]
+cinema = database.get_default_values_conf("tests")["cinema"]
 
 
 class WhenDecisionTest(unittest.TestCase):

@@ -1,10 +1,10 @@
-from config import config
+from database import database
 from datetime import datetime
 import json
 import unittest
 import os
 
-from config import config
+from database import database
 
 
 class TestConfig(unittest.TestCase):
@@ -13,11 +13,11 @@ class TestConfig(unittest.TestCase):
         test_act_conf = json.loads(f.read())
 
     def test_parseActivitesConf(self):
-        parsed = config.parse_activities_config(self.test_act_conf)
+        parsed = database.parse_activities_config(self.test_act_conf)
 
         self.assertTrue(all([hasattr(v["score"], '__call__') for v in parsed["activities"].values()]))
         self.assertTrue(all([v["startTime"] == datetime.now().strftime("%Y-%m-%d %H:%M") for v in parsed["activities"].values()]))
-        self.assertTrue(all([type(condition) is config.Condition
+        self.assertTrue(all([type(condition) is database.Condition
                                 for values in parsed["activities"].values()
                                 for condition in values["conditions"]]))
 
