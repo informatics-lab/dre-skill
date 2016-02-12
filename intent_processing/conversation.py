@@ -14,7 +14,7 @@ from dre.when_decision import *
 
 from intent_request_handlers import IntentRequestHandlers
 
-from config import config
+from database import database
 
 
 class PrimarySlotError(Exception):
