@@ -104,7 +104,7 @@ def get_default_values_conf(uid):
     # try:
     dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
     table = dynamodb.Table("dre-default-values")
-    json = table.get_item(Key={"_id": uid})["Item"] # 0th is key, 1st is data
+    json = table.get_item(Key={"_id": uid})["Item"]
     json = replace_decimals(json)
     # except:
     #     conn = boto.dynamodb2.connect_to_region("us-east-1",
@@ -128,7 +128,7 @@ def get_speech_conf(uid="default"):
     # try:
     dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
     table = dynamodb.Table("dre-speech-configs")
-    conf = table.get_item(Key={"_id": uid})["Item"] # 0th is key, 1st is data
+    conf = table.get_item(Key={"_id": uid})["Item"]["speeches"]
     conf = replace_decimals(conf)
     # except:
     #     conn = boto.dynamodb2.connect_to_region("us-east-1",

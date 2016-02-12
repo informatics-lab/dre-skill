@@ -145,7 +145,6 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
 
         # Now we collect all the slots together.
         self.event.session.slots = self._add_new_slots_to_session(new_slots, stored_slots)
-
         # Load the slot interactions. Give up if given an unknown primary slot.
         self.slot_interactions = self._get_slot_interactions()
 
@@ -211,12 +210,15 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             return []
 
         try:
-            # load in default slot values from config
+            activity_name = self.event.session.slots[self.primary_slot].value
+
+            # load in default slot values from config, or insert questioning SlotInteraction
+            # if not in default values.
             slot_interactions = [SlotInteraction(self.event,
                                                   this_slot,
                                                   self.speech_config,
                                                   self.default_values,
-                                                  self.event.session.slots[self.primary_slot].value)
+                                                  activity_name)
                                   for this_slot in self.event.session.slots.values()]
 
             # load in pythnon obejcts from config
@@ -225,15 +227,15 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
                                                       this_slot,
                                                       self.speech_config,
                                                       self.default_values,
-                                                      self.event.session.slots[self.primary_slot].value)
+                                                      activity_name)
                                     for this_slot in config_slots])
-
-            return slot_interactions
         except (KeyError, AttributeError):
             raise PrimarySlotError(self.say("Sorry, I didn't recognise that "+self.primary_slot,
-                                            "I didn't recognise that "+self.primary_slot,
-                                            "Error",
-                                            "I didn't recognise that "+self.primary_slot))
+                                        "I didn't recognise that "+self.primary_slot,
+                                        "Error",
+                                        "I didn't recognise that "+self.primary_slot))
+
+        return slot_interactions
 
     def _add_new_slots_to_session(self, nested_new_slots, nested_stored_slots):
         """
