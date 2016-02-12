@@ -8,6 +8,7 @@ from copy import deepcopy
 from datetime import datetime
 import decimal
 import isodate  
+import json
 import boto3
 import os
 
@@ -116,7 +117,8 @@ def get_default_values_conf(uid):
 
     """
     table = get_table("dre-default-values")
-    json, = table.get_item(_id=uid).values()
+    json = table.get_item(Key={"_id": uid})["Item"]
+    json = replace_decimals(json)
 
     return parse_activities_config(json)["activities"]
 
@@ -130,24 +132,24 @@ def get_speech_conf(uid="default"):
             speech setup
     """
 
-    table = get_table("dre-speech-config")
-    conf, = table.get_item(_id=uid).values()
+    table = get_table("dre-speech-configs")
+    conf = table.get_item(Key={"_id": uid})["Item"]["speeches"]
 
     return unicode_to_string(conf)
 
 
-def write_log(user_id, session_id, log):
+def write_log(session_id, user_id, log):
     table = get_table("dre-decision-logs")
-    log["session_id"] = session_id
-    log["user_id"] = user_id
-    table.put_item(log)
+    table.put_item(Item={"session_id": session_id,
+                         "user_id": user_id,
+                         "log": json.dumps(log)})
 
 
 def get_log(session_id):
     table = get_table("dre-decision-logs")
-    return table.get_item(session_id=session_id)
+    return json.loads(table.get_item(Key={"session_id": session_id})["Item"]["log"])
 
 
 def remove_log(session_id):
     table = get_table("dre-decision-logs")
-    table.remove_item(session_id=session_id)    
+    table.delete_item(Key={"session_id": session_id})

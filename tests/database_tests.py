@@ -25,11 +25,11 @@ class TestDatabase(unittest.TestCase):
     def test_logs(self):
         session_id = "sd39f90f"
         user_id = "adf3333"
-        log = {"I'm a json!"}
+        log = {"key": "I'm a json!"}
         make_card(session_id, user_id, log)
 
         got_log = database.get_log(session_id)
-        assertEquals(got_log["log"], log)
+        self.assertEquals(got_log, log)
 
         database.remove_log(session_id)
 

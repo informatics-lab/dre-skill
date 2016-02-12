@@ -13,7 +13,7 @@
             }
         },
         'card':{
-            'content':'[{"min_forecast": 25, "max_forecast": 48, "mean_forecast": 46.083333333333336, "min": 0, "max": 50, "metric": "GaussDistFromIdeal", "n_forecasts": 12, "ideal": 0, "variable": "precipitation"}, {"min_forecast": 5, "max_forecast": 6, "mean_forecast": 5.083333333333333, "min": 10, "max": 23, "metric": "GaussDistFromIdeal", "n_forecasts": 12, "ideal": 15, "variable": "temperature"}, {"min_forecast": 3, "max_forecast": 36, "mean_forecast": 33.25, "min": 0, "max": 50, "metric": "GaussDistFromIdeal", "n_forecasts": 12, "ideal": 0, "variable": "precipitation"}, {"min_forecast": 4, "max_forecast": 5, "mean_forecast": 4.083333333333333, "min": 10, "max": 23, "metric": "GaussDistFromIdeal", "n_forecasts": 12, "ideal": 15, "variable": "temperature"}, {"min_forecast": 28, "max_forecast": 43, "mean_forecast": 29.25, "min": 0, "max": 50, "metric": "GaussDistFromIdeal", "n_forecasts": 12, "ideal": 0, "variable": "precipitation"}, {"min_forecast": 6, "max_forecast": 7, "mean_forecast": 6.083333333333333, "min": 10, "max": 23, "metric": "GaussDistFromIdeal", "n_forecasts": 12, "ideal": 15, "variable": "temperature"}]',
+            'content':'www.google.com',
             'type':'Simple',
             'title':'StationaryWhenIntent'
         }
