@@ -8,8 +8,8 @@ sys.path.append("..")
 from dre.decision import *
 import dre.actions as actions
 
-from config import config
-run = config.get_default_values_conf("tests")["run"]
+from database import database
+run = database.get_default_values_conf("tests")["run"]
 
 
 class RunTest(unittest.TestCase):
