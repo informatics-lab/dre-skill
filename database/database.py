@@ -8,6 +8,7 @@ from copy import deepcopy
 from datetime import datetime
 import decimal
 import isodate  
+import json
 import boto3
 import os
 
@@ -93,6 +94,20 @@ def parse_activities_config(json):
     return config
 
 
+def get_table(table_name):
+    try:
+        dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
+        table = dynamodb.Table(table_name)
+        _ = table.item_count #crystalise lazy table
+    except: # if no permissions then try and use envs (i.e. travis)
+        dynamodb = boto3.resource("dynamodb",
+                                  region_name="us-east-1",
+                                  aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+                                  aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"))
+        table = dynamodb.Table(table_name)
+    return table
+
+
 def get_default_values_conf(uid):
     """
     Gets default values specific to this user
@@ -101,17 +116,9 @@ def get_default_values_conf(uid):
         * uid (string): unique ID for this user
 
     """
-    try:
-        dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
-        table = dynamodb.Table("dre-default-values")
-        json = table.get_item(Key={"_id": uid})["Item"]
-        json = replace_decimals(json)
-    except: # if no permissions then try and use envs (i.e. travis)
-        conn = boto.dynamodb2.connect_to_region("us-east-1",
-                    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
-                    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"))
-        table = Table("dre-default-values", connection=conn)
-        json, = table.get_item(_id=uid).values()
+    table = get_table("dre-default-values")
+    json = table.get_item(Key={"_id": uid})["Item"]
+    json = replace_decimals(json)
 
     return parse_activities_config(json)["activities"]
 
@@ -125,16 +132,24 @@ def get_speech_conf(uid="default"):
             speech setup
     """
 
-    try:
-        dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
-        table = dynamodb.Table("dre-speech-configs")
-        conf = table.get_item(Key={"_id": uid})["Item"]["speeches"]
-        conf = replace_decimals(conf)
-    except: # if no permissions then try and use envs (i.e. travis)
-        conn = boto.dynamodb2.connect_to_region("us-east-1",
-                    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
-                    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"))
-        table = Table("dre-speech-config", connection=conn)
-        conf, = table.get_item(_id=uid).values()
+    table = get_table("dre-speech-configs")
+    conf = table.get_item(Key={"_id": uid})["Item"]["speeches"]
 
     return unicode_to_string(conf)
+
+
+def write_log(session_id, user_id, log):
+    table = get_table("dre-decision-logs")
+    table.put_item(Item={"session_id": session_id,
+                         "user_id": user_id,
+                         "log": json.dumps(log)})
+
+
+def get_log(session_id):
+    table = get_table("dre-decision-logs")
+    return json.loads(table.get_item(Key={"session_id": session_id})["Item"]["log"])
+
+
+def remove_log(session_id):
+    table = get_table("dre-decision-logs")
+    table.delete_item(Key={"session_id": session_id})
