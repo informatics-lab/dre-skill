@@ -29,6 +29,9 @@ def construct_options_speech(possibilities, activity):
     Returns a string
 
     """
+    # Generate '1st', '2nd', '3rd', '4th' etc. strings
+    ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+
     start = possibilities[0].possibility[0].time.isoformat()
     answer = ''
 
@@ -106,9 +109,6 @@ class IntentRequestHandlers(object):
         Finds best times for a specific activity in a single lat/lon
 
         """
-        # Generate '1st', '2nd', '3rd', '4th' etc. strings
-        ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-
         # Get lat, lon from location input
         place = Nominatim().geocode(slots.location)
         slots.location = DotMap({'lat': place.latitude, 'lon': place.longitude})
@@ -134,7 +134,7 @@ class IntentRequestHandlers(object):
 
         speech_output = construct_options_speech(possibilities, slots.activity)
         card = make_card(self.event.session.sessionId,
-                           self.event.session.userId,
+                           self.event.session.user.userId,
                            [p.score.metadata for p in possibilities])
 
         reprompt_text = ""
