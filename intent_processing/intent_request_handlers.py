@@ -13,6 +13,7 @@ from reduced_dotmap import DotMap
 
 # local
 from dre.when_decision import *
+from dre.what_decision import *
 
 
 class IntentRequestHandlers(object):
@@ -44,7 +45,15 @@ class IntentRequestHandlers(object):
         self._ir_map \
               = {'StationaryWhenIntent': {'function':self.stationary_when_intent,
                                         'grab_session':True},
+                 'StationaryWhatIntent': {'function':self.stationary_what_intent,
+                                        'grab_session':True},
                  'LocationIntent': {'function':self.carry_on_intent,
+                                  'grab_session':False},
+                 'StartTimeIntent': {'function':self.carry_on_intent,
+                                  'grab_session':False},
+                 'StartDateIntent': {'function':self.carry_on_intent,
+                                  'grab_session':False},
+                 'TotalTimeIntent': {'function':self.carry_on_intent,
                                   'grab_session':False}
                 }
 
@@ -133,3 +142,36 @@ class IntentRequestHandlers(object):
 
         return self.say(speech_output, reprompt_text,
                         self.event.request.intent.name, card_output)
+
+    def stationary_what_intent(self, slots):
+        """
+        Finds best activity to do at a given place and time.
+        """
+        # Get lat, lon from location input
+        place = Nominatim().geocode(slots.location)
+        slots.location = DotMap({'lat': place.latitude, 'lon': place.longitude})
+
+        # Decode duration
+        slots.totalTime = isodate.parse_duration(slots.totalTime)
+
+        # Decode time
+        slots.startTime = dateutil.parser.parse(slots.startTime).replace(tzinfo=pytz.UTC)
+
+        activities = []
+        for activity in self.activity_default_values:
+            activities.append(WhatActivity(
+                                            activity,
+                                            self.activity_default_values[activity].score,
+                                            self.activity_default_values[activity].conditions,
+                                            isodate.parse_duration(self.activity_default_values[activity].totalTime)
+                                        ))
+
+        timeslot = TimeSlot(slots.startTime, slots.startTime + slots.totalTime)
+
+        a_decision = WhatDecision(activities, timeslot, slots.location, self._cache)
+        a_decision.generatePossibleActivities(datetime.timedelta(seconds=15*60))
+        possibilities = a_decision.possibleActivities
+
+        answer = 'How about a ' + possibilities[0].name
+
+        return self.say(answer, answer, self.event.request.intent.name, answer)
