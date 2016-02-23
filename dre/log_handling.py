@@ -1,7 +1,7 @@
+from __future__ import division
+
 import json
 import math
-
-from __future__ import division
 
 
 def reduce_logs(logs):
