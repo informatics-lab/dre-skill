@@ -1,0 +1,51 @@
+{
+  "session": {
+    "sessionId": "SessionId.6ee1c514-faa1-4c87-b5a8-7e1bde010094",
+    "application": {
+      "applicationId": "amzn1.echo-sdk-ams.app.c9db9bdc-c711-4ab3-b3a2-9238e92afbc8"
+    },
+    "attributes": {
+      "new": true,
+      "slots": {
+        "totalTime": {
+          "name": "totalTime"
+        },
+        "startTime": {
+          "name": "startTime",
+          "value": "2016-01-09 15:00"
+        },
+        "location": {
+          "name": "location",
+          "value": "Exeter"
+        }
+      },
+      "current_intent": "StationaryWhatIntent",
+      "application": {
+        "applicationId": "amzn1.echo-sdk-ams.app.c9db9bdc-c711-4ab3-b3a2-9238e92afbc8"
+      },
+      "attributes": {},
+      "sessionId": "SessionId.6ee1c514-faa1-4c87-b5a8-7e1bde010094",
+      "user": {
+        "userId": "tests"
+      }
+    },
+    "user": {
+      "userId": "tests"
+    },
+    "new": false
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.c9e28287-ca81-449e-90b7-b9fcb9ab53a2",
+    "timestamp": "2016-01-27T09:16:40Z",
+    "intent": {
+      "name": "TotalTimeIntent",
+      "slots": {
+        "totalTime": {
+          "name": "totalTime",
+          "value": "PT3H"
+        }
+      }
+    }
+  }
+}
