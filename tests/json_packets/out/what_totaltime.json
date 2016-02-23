@@ -1,0 +1,1 @@
+{"version": "1.0", "response": {"outputSpeech": {"text": "How about a cinema", "type": "PlainText"}, "shouldEndSession": false, "reprompt": {"outputSpeech": {"text": "How about a cinema", "type": "PlainText"}}, "card": {"content": "How about a cinema", "type": "Simple", "title": "TotalTimeIntent"}}, "sessionAttributes": {"slots": {}, "current_intent": "StationaryWhatIntent"}}

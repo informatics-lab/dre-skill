@@ -13,6 +13,7 @@ from intent_processing.conversation import *
 from database import database
 speech_config = database.get_speech_conf("tests")
 activities_config = database.get_default_values_conf("tests")
+time_slot_config = database.get_default_time_slot_values_conf("tests")
 
 
 class LambdaDecisionTest(unittest.TestCase):
@@ -96,7 +97,7 @@ class SessionPersistenceTest(unittest.TestCase):
         new_slots = self.secondaryInput["request"]["intent"]["slots"]
         correctAnswer = self.secondaryOutput["sessionAttributes"]["slots"]
 
-        session = Session(self.secondaryInput, "", speech_config, activities_config, "activity")
+        session = Session(self.secondaryInput, "", speech_config, activities_config, time_slot_config, "activity")
         combined = session._add_new_slots_to_session(new_slots, stored_slots).toDict()
         self.assertEquals(combined, correctAnswer)
 
@@ -105,12 +106,12 @@ class SessionPersistenceTest(unittest.TestCase):
         stored_slots = DotMap()
         correctAnswer = new_slots
 
-        session = Session(self.secondaryInput, "", speech_config, activities_config, "activity")
+        session = Session(self.secondaryInput, "", speech_config, activities_config, time_slot_config, "activity")
         combined = session._add_new_slots_to_session(new_slots, stored_slots)
         self.assertEquals(combined, correctAnswer)
 
     def testCurrentIntent(self):
-        secondary = Session(self.secondaryInput, '', speech_config, activities_config, "activity")
+        secondary = Session(self.secondaryInput, '', speech_config, activities_config, time_slot_config, "activity")
         self.assertEquals(secondary.event.session.current_intent, self.secondaryInput["session"]["attributes"]["current_intent"])
 
     def testCustomStartTimeIntent(self):
@@ -171,6 +172,46 @@ class ExitTest(unittest.TestCase):
 
         result2 = go(self.cancel_run_intent, '', "tests", self.cache)
         self.assertEquals(result2, self.exit_run_output)
+
+
+class WhatIntentTest(unittest.TestCase):
+    base = os.path.split(__file__)[0]
+
+    cache = ForecastCache()
+    with open(os.path.join(base, 'data', 'testForecast.pkl'), "rb") as f:
+        timesteps = pickle.load(f)
+    cache.cache_forecast(timesteps, Loc(lat=50.7, lon=-3.5))
+    cache.cache_forecast(timesteps, Loc(lat=50.7256471, lon=-3.526661))
+
+    with open(os.path.join(base, 'json_packets', 'in', 'what_intent.json'), 'r') as f:
+        what_intent = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'out', 'what_intent.json'), 'r') as f:
+        what_output = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'in', 'what_intent_default.json'), 'r') as f:
+        what_intent_default = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'out', 'what_intent_default.json'), 'r') as f:
+        what_output_default = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'in', 'what_totaltime.json'), 'r') as f:
+        what_totaltime = yaml.safe_load(f.read())
+    with open(os.path.join(base, 'json_packets', 'out', 'what_totaltime.json'), 'r') as f:
+        what_totaltime_output = yaml.safe_load(f.read())
+
+    
+    def testWhatIntent(self):
+        result = go(self.what_intent, "", "tests", self.cache)
+        self.assertEquals(result, self.what_output)
+
+    def testWhatTotalTime(self):
+        result = go(self.what_totaltime, "", "tests", self.cache)
+        self.assertEquals(result, self.what_totaltime_output)
+
+    def testWhatIntentDefault(self):
+        result = go(self.what_intent_default, "", "tests", self.cache)
+        self.assertEquals(result, self.what_output_default)
+
+    def testWhatTotalTime(self):
+        result = go(self.what_totaltime, "", "tests", self.cache)
+        self.assertEquals(result, self.what_totaltime_output)
 
 
 if __name__ == '__main__':
