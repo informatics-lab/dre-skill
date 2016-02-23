@@ -10,9 +10,9 @@ from reduced_dotmap import DotMap
 from intent_processing.lambda_fn import *
 from intent_processing.conversation import *
 
-from config import config
-speech_config = config.get_speech_conf("tests")
-activities_config = config.get_default_values_conf("tests")
+from database import database
+speech_config = database.get_speech_conf("tests")
+activities_config = database.get_default_values_conf("tests")
 
 
 class LambdaDecisionTest(unittest.TestCase):
