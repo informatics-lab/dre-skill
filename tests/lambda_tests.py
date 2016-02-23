@@ -12,8 +12,7 @@ from intent_processing.conversation import *
 
 from config import config
 speech_config = config.get_speech_conf("tests")
-activities_config = config.get_default_values_conf("tests")
-time_slot_config = config.get_default_time_slot_values_conf("tests")
+full_conf = config.get_config('tests')
 
 
 class LambdaDecisionTest(unittest.TestCase):
@@ -97,7 +96,7 @@ class SessionPersistenceTest(unittest.TestCase):
         new_slots = self.secondaryInput["request"]["intent"]["slots"]
         correctAnswer = self.secondaryOutput["sessionAttributes"]["slots"]
 
-        session = Session(self.secondaryInput, "", speech_config, activities_config, time_slot_config, "activity")
+        session = Session(self.secondaryInput, "", speech_config, full_conf, "activity")
         combined = session._add_new_slots_to_session(new_slots, stored_slots).toDict()
         self.assertEquals(combined, correctAnswer)
 
@@ -106,12 +105,12 @@ class SessionPersistenceTest(unittest.TestCase):
         stored_slots = DotMap()
         correctAnswer = new_slots
 
-        session = Session(self.secondaryInput, "", speech_config, activities_config, time_slot_config, "activity")
+        session = Session(self.secondaryInput, "", speech_config, full_conf, "activity")
         combined = session._add_new_slots_to_session(new_slots, stored_slots)
         self.assertEquals(combined, correctAnswer)
 
     def testCurrentIntent(self):
-        secondary = Session(self.secondaryInput, '', speech_config, activities_config, time_slot_config, "activity")
+        secondary = Session(self.secondaryInput, '', speech_config, full_conf, "activity")
         self.assertEquals(secondary.event.session.current_intent, self.secondaryInput["session"]["attributes"]["current_intent"])
 
     def testCustomStartTimeIntent(self):

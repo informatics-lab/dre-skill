@@ -158,12 +158,12 @@ class IntentRequestHandlers(object):
         slots.startTime = dateutil.parser.parse(slots.startTime).replace(tzinfo=pytz.UTC)
 
         activities = []
-        for activity in self.activity_default_values:
+        for activity in self.all_default_values['StationaryWhenIntent']:
             activities.append(WhatActivity(
                                             activity,
-                                            self.activity_default_values[activity].score,
-                                            self.activity_default_values[activity].conditions,
-                                            isodate.parse_duration(self.activity_default_values[activity].totalTime)
+                                            self.all_default_values['StationaryWhenIntent'][activity].score,
+                                            self.all_default_values['StationaryWhenIntent'][activity].conditions,
+                                            isodate.parse_duration(self.all_default_values['StationaryWhenIntent'][activity].totalTime)
                                         ))
 
         timeslot = TimeSlot(slots.startTime, slots.startTime + slots.totalTime)

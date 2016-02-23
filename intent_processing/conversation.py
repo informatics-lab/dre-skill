@@ -93,7 +93,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
     Designed around the Amazon Alexa Skills Kit
 
     """
-    def __init__(self, event, context, speech_config, activity_default_values, time_slot_default_values, primary_slot, cache=ForecastCache()):
+    def __init__(self, event, context, speech_config, default_values, primary_slot, cache=ForecastCache()):
         """
         Args:
 
@@ -120,8 +120,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.context = DotMap(context)
 
         self.speech_config = DotMap(speech_config)
-        self.activity_default_values = DotMap(activity_default_values)
-        self.time_slot_default_values = DotMap(time_slot_default_values)
+        self.all_default_values = DotMap(default_values)
 
         self.primary_slot = primary_slot
 
@@ -131,6 +130,11 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             self.event.session.current_intent = self.event.session.attributes.current_intent
         except AttributeError:
             self.event.session.current_intent = "None"
+
+        try:
+            self.default_values = self.all_default_values[self.event.session.current_intent]
+        except:
+            self.default_values = self.all_default_values[self.event.request.intent.name]
 
         try:
             # Are there any stored slots to be retrieved?
@@ -211,14 +215,14 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             slot_interactions = [SlotInteraction(self.event,
                                                   this_slot,
                                                   self.speech_config,
-                                                  self.time_slot_default_values)
+                                                  self.default_values)
                                   for this_slot in self.event.session.slots.values()]
 
             return slot_interactions
 
         try:
             pslot = self.event.session.slots[self.primary_slot].value
-            default_values = self.activity_default_values[pslot]
+            default_values = self.default_values[pslot]
 
             # load in default slot values from config, or insert questioning SlotInteraction
             # if not in default values.
