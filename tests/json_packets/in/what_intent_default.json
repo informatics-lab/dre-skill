@@ -1,0 +1,32 @@
+{
+  "session": {
+    "sessionId": "SessionId.6ee1c514-faa1-4c87-b5a8-7e1bde010094",
+    "application": {
+      "applicationId": "amzn1.echo-sdk-ams.app.c9db9bdc-c711-4ab3-b3a2-9238e92afbc8"
+    },
+    "user": {
+      "userId": "tests"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.704ece51-8ae5-4fb2-9e5a-ae433f2397fc",
+    "timestamp": "2016-01-27T09:15:25Z",
+    "intent": {
+      "name": "StationaryWhatIntent",
+      "slots": {
+        "totalTime": {
+          "name": "totalTime"
+        },
+        "startTime": {
+          "name": "startTime",
+          "value": "now"
+        },
+        "location": {
+          "name": "location"
+        }
+      }
+    }
+  }
+}

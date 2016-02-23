@@ -24,6 +24,8 @@ if __name__ == "__main__":
         path = os.path.join(base, file_name)
         if "activities" in file_name:
             upsert_configs(path, "dre-default-values")
+        elif "time_slot" in file_name:
+            upsert_configs(path, "dre-default-timeslot-values")
         elif "speech" in file_name:
             upsert_configs(path, "dre-speech-configs")
         else:

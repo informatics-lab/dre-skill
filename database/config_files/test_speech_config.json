@@ -19,6 +19,12 @@
             "reprompt":"I SAID WHEN DO YOU WANT TO DO THAT!",
             "help":"Which word don't you understand"
         },
+        "totalTime":{
+            "title":"TITLE",
+            "question":"How long do you have",
+            "reprompt":"I SAID HOW LONG DO YOU HAVE!",
+            "help":"Which word don't you understand"
+        },
         "location":{
             "title":"TITLE",
             "question":"Where do you want to do that",
