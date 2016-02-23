@@ -188,3 +188,13 @@ def get_default_time_slot_values_conf(uid="default"):
         json, = table.get_item(_id=uid).values()
 
     return parse_time_slot_config(json)['timeSlot']
+
+
+def get_config(uid):
+    configs = {
+        'StationaryWhenIntent': get_default_values_conf(uid),
+        'StationaryWhatIntent': get_default_time_slot_values_conf()
+    }
+    for intent in ['AMAZON.HelpIntent', 'AMAZON.StopIntent', 'AMAZON.CancelIntent', 'LocationIntent', 'StartTimeIntent', 'StartDateIntent', 'TotalTimeIntent']:
+        configs[intent] = {}
+    return configs
