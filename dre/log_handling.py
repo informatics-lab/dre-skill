@@ -1,4 +1,7 @@
-import numpy as np
+from __future__ import division
+
+import json
+import math
 
 
 def reduce_logs(logs):
@@ -12,7 +15,8 @@ def reduce_logs(logs):
     conditions = []
     for log in logs:
         conditions.append({k: v for k, v in log.items() if k is not "forecast"})
-    unique_conditions = list(np.unique(np.array(conditions)))
+    unique_conditions = {json.dumps(log): log for log in logs}.values()
+    
     reduced_logs = []
     for condition in unique_conditions:
         these_forecasts = []
@@ -20,9 +24,9 @@ def reduce_logs(logs):
             if all(item in log.items() for item in condition.items()):
                 these_forecasts.append(log["forecast"])
         reduced_log = condition
-        reduced_log["mean_forecast"] = np.mean(these_forecasts)
-        reduced_log["min_forecast"] = np.min(these_forecasts)
-        reduced_log["max_forecast"] = np.max(these_forecasts)
+        reduced_log["mean_forecast"] = sum(these_forecasts)/len(these_forecasts)
+        reduced_log["min_forecast"] = min(these_forecasts)
+        reduced_log["max_forecast"] = max(these_forecasts)
         reduced_log["n_forecasts"] = len(these_forecasts)
 
         reduced_logs.append(reduced_log)

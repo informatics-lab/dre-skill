@@ -1,9 +1,8 @@
-dotmap
+dotmap==1.1.2
 datapoint==0.3.0
 geopy==1.11.0
 isodate==0.5.4
-boto3
-numpy==1.9.2
+boto3==1.2.3
 python-dateutil==2.4.2
 pyyaml==3.11
 pytz==2015.7
