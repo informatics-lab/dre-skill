@@ -120,7 +120,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         self.context = DotMap(context)
 
         self.speech_config = DotMap(speech_config)
-        self.default_values = DotMap(default_values)
+        self.all_default_values = DotMap(default_values)
 
         self.primary_slot = primary_slot
 
@@ -130,6 +130,11 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             self.event.session.current_intent = self.event.session.attributes.current_intent
         except AttributeError:
             self.event.session.current_intent = "None"
+
+        try:
+            self.default_values = self.all_default_values[self.event.session.current_intent]
+        except:
+            self.default_values = self.all_default_values[self.event.request.intent.name]
 
         try:
             # Are there any stored slots to be retrieved?
@@ -205,20 +210,26 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
         returns [SlotInteraction]
 
         """
-
         if not self.primary_slot in self.event.session.slots:
-            return []
+            # load in default slot values from config
+            slot_interactions = [SlotInteraction(self.event,
+                                                  this_slot,
+                                                  self.speech_config,
+                                                  self.default_values)
+                                  for this_slot in self.event.session.slots.values()]
+
+            return slot_interactions
 
         try:
-            activity_name = self.event.session.slots[self.primary_slot].value
+            pslot = self.event.session.slots[self.primary_slot].value
+            default_values = self.default_values[pslot]
 
             # load in default slot values from config, or insert questioning SlotInteraction
             # if not in default values.
             slot_interactions = [SlotInteraction(self.event,
                                                   this_slot,
                                                   self.speech_config,
-                                                  self.default_values,
-                                                  activity_name)
+                                                  default_values)
                                   for this_slot in self.event.session.slots.values()]
 
             # load in pythnon obejcts from config
@@ -226,8 +237,7 @@ class Session(IntentRequestHandlers, ConstructSpeechMixin):
             slot_interactions.extend([SlotInteraction(self.event,
                                                       this_slot,
                                                       self.speech_config,
-                                                      self.default_values,
-                                                      activity_name)
+                                                      default_values)
                                     for this_slot in config_slots])
         except (KeyError, AttributeError):
             raise PrimarySlotError(self.say("Sorry, I didn't recognise that "+self.primary_slot,
@@ -340,7 +350,7 @@ class SlotInteraction(ConstructSpeechMixin):
         3. By prompting the user
 
     """
-    def __init__(self, event, slot, speech_config, default_values, action_name):
+    def __init__(self, event, slot, speech_config, default_values):
         """
         Args:
             * event (DotMap): User data and metadata
@@ -352,11 +362,10 @@ class SlotInteraction(ConstructSpeechMixin):
         """
         self.event = event
         self.slot = slot
-        self.action_name = action_name
 
         if not 'value' in slot:
             try:
-                self.slot.value = default_values[action_name][self.slot.name]
+                self.slot.value = default_values[self.slot.name]
             except (KeyError, AttributeError): # accounts for dict or DotMap
                 self.title = speech_config[self.slot.name].title
                 self.question = speech_config[self.slot.name].question

@@ -93,6 +93,17 @@ def parse_activities_config(json):
     return config
 
 
+def parse_time_slot_config(json):
+    """
+    Takes a json config and adds in appropriate python objects
+    """
+    config = deepcopy(json)
+    if config["timeSlot"]["startTime"] == "NOW":
+        config["timeSlot"]["startTime"] = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    return config
+
+
 def get_default_values_conf(uid):
     """
     Gets default values specific to this user
@@ -138,3 +149,33 @@ def get_speech_conf(uid="default"):
         conf, = table.get_item(_id=uid).values()
 
     return unicode_to_string(conf)
+
+
+def get_default_time_slot_values_conf(uid="default"):
+    """
+    Gets default time slot values specific to this user
+    Args:
+        * uid (string): unique ID for this user
+    """
+    try:
+        dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
+        table = dynamodb.Table("dre-default-timeslot-values")
+        json = table.get_item(Key={"_id": uid})["Item"]
+        json = replace_decimals(json)
+    except: # if no permissions then try and use envs (i.e. travis)
+        conn = boto.dynamodb2.connect_to_region("us-east-1",
+                    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+                    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"))
+        table = Table("dre-default-values", connection=conn)
+        json, = table.get_item(_id=uid).values()
+
+    return parse_time_slot_config(json)['timeSlot']
+
+def get_config(uid):
+    configs = {
+        'StationaryWhenIntent': get_default_values_conf(uid),
+        'StationaryWhatIntent': get_default_time_slot_values_conf()
+    }
+    for intent in ['AMAZON.HelpIntent', 'AMAZON.StopIntent', 'AMAZON.CancelIntent', 'LocationIntent', 'StartTimeIntent', 'StartDateIntent', 'TotalTimeIntent']:
+        configs[intent] = {}
+    return configs
