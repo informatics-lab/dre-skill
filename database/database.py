@@ -166,8 +166,6 @@ def remove_log(session_id):
     table = get_table("dre-decision-logs")
     table.delete_item(Key={"session_id": session_id})
 
-    return unicode_to_string(conf)
-
 
 def get_default_time_slot_values_conf(uid="default"):
     """
