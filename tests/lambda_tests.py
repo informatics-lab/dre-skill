@@ -7,12 +7,17 @@ import sys
 sys.path.append("..")
 
 from reduced_dotmap import DotMap
+from conversation import *
+from dre.decision import Loc
+
 from intent_processing.lambda_fn import *
-from intent_processing.conversation import *
+from intent_processing.intent_request_handlers import IntentRequestHandlers
 
 from database import database
 speech_config = database.get_speech_conf("tests")
 full_conf = database.get_config('tests')
+
+Session = mk_session_class(IntentRequestHandlers)
 
 
 class LambdaDecisionTest(unittest.TestCase):
@@ -96,7 +101,7 @@ class SessionPersistenceTest(unittest.TestCase):
         new_slots = self.secondaryInput["request"]["intent"]["slots"]
         correctAnswer = self.secondaryOutput["sessionAttributes"]["slots"]
 
-        session = Session(self.secondaryInput, "", speech_config, full_conf, "activity")
+        session = Session(self.secondaryInput, "", speech_config, full_conf, "activity", self.cache)
         combined = session._add_new_slots_to_session(new_slots, stored_slots).toDict()
         self.assertEquals(combined, correctAnswer)
 
@@ -105,12 +110,12 @@ class SessionPersistenceTest(unittest.TestCase):
         stored_slots = DotMap()
         correctAnswer = new_slots
 
-        session = Session(self.secondaryInput, "", speech_config, full_conf, "activity")
+        session = Session(self.secondaryInput, "", speech_config, full_conf, "activity", self.cache)
         combined = session._add_new_slots_to_session(new_slots, stored_slots)
         self.assertEquals(combined, correctAnswer)
 
     def testCurrentIntent(self):
-        secondary = Session(self.secondaryInput, '', speech_config, full_conf, "activity")
+        secondary = Session(self.secondaryInput, '', speech_config, full_conf, "activity", self.cache)
         self.assertEquals(secondary.event.session.current_intent, self.secondaryInput["session"]["attributes"]["current_intent"])
 
     def testCustomStartTimeIntent(self):
