@@ -1073,7 +1073,7 @@ StationaryWhenIntent what a good time for the {run|activity} would be
 StationaryWhenIntent what a good time for the {run|activity} might be
 LocationIntent in {exeter|location}
 LocationIntent around {exeter|location}
-TotalTimeIntent {totalTime}
+TotalTimeIntent for {totalTime}
 StartTimeIntent from {startTime}
 AMAZON.HelpIntent help
 AMAZON.HelpIntent help me
@@ -1114,3 +1114,4 @@ AMAZON.StopIntent that is everyone
 AMAZON.StopIntent that's all
 AMAZON.StopIntent that's it
 AMAZON.StopIntent you've got all of us
+StationaryWhatIntent what should i do
