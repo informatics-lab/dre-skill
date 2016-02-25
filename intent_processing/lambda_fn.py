@@ -14,7 +14,7 @@ def go(event, context, speech_config_name="default", cache=ForecastCache()):
     speech_config = database.get_speech_conf(speech_config_name)
     try:
     	Session = conversation.mk_session_class(IntentRequestHandlers)
-        session = Session(event, context, speech_config, default_values, 'activity', cache=cache)
+        session = Session(event, context, speech_config, default_values, cache=cache)
         return session.respond()
     except conversation.PrimarySlotError as e:
         return e.message

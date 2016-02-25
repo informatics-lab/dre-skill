@@ -86,9 +86,11 @@ class IntentRequestHandlers(object):
         # run after all the slots have been filled
         self._ir_map \
               = {'StationaryWhenIntent': {'function':self.stationary_when_intent,
-                                        'grab_session':True},
+                                        'grab_session':True,
+                                        'primary_slot':'activity'},
                  'StationaryWhatIntent': {'function':self.stationary_what_intent,
-                                        'grab_session':True},
+                                        'grab_session':True,
+                                        'primary_slot':False},
                  'LocationIntent': {'function':self.carry_on_intent,
                                   'grab_session':False},
                  'StartTimeIntent': {'function':self.carry_on_intent,

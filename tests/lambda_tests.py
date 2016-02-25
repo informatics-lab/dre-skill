@@ -101,7 +101,7 @@ class SessionPersistenceTest(unittest.TestCase):
         new_slots = self.secondaryInput["request"]["intent"]["slots"]
         correctAnswer = self.secondaryOutput["sessionAttributes"]["slots"]
 
-        session = Session(self.secondaryInput, "", speech_config, full_conf, "activity", self.cache)
+        session = Session(self.secondaryInput, "", speech_config, full_conf, self.cache)
         combined = session._add_new_slots_to_session(new_slots, stored_slots).toDict()
         self.assertEquals(combined, correctAnswer)
 
@@ -110,12 +110,12 @@ class SessionPersistenceTest(unittest.TestCase):
         stored_slots = DotMap()
         correctAnswer = new_slots
 
-        session = Session(self.secondaryInput, "", speech_config, full_conf, "activity", self.cache)
+        session = Session(self.secondaryInput, "", speech_config, full_conf, self.cache)
         combined = session._add_new_slots_to_session(new_slots, stored_slots)
         self.assertEquals(combined, correctAnswer)
 
     def testCurrentIntent(self):
-        secondary = Session(self.secondaryInput, '', speech_config, full_conf, "activity", self.cache)
+        secondary = Session(self.secondaryInput, '', speech_config, full_conf, self.cache)
         self.assertEquals(secondary.event.session.current_intent, self.secondaryInput["session"]["attributes"]["current_intent"])
 
     def testCustomStartTimeIntent(self):

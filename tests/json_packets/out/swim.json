@@ -34,6 +34,6 @@
                 "value":"swim"
             }
         },
-        "current_intent":"None"
+        "current_intent":"StationaryWhenIntent"
     }
 }
