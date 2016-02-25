@@ -119,6 +119,14 @@ def parse_time_slot_config(json):
     return config
 
 
+def split_default_values_conf(conf):
+    get_defaults = lambda d: {'filter': d['filter'], 'startTime': d['startTime'], 'totalTime': d['totalTime']}
+    get_general = lambda d: {'conditions': d['conditions'], 'score': d['score']}
+
+    return {'default_values': {a: get_defaults(conf[a]) for a in conf.keys()},
+            'general_config': {a: get_general(conf[a]) for a in conf.keys()}}
+
+
 def get_default_values_conf(uid):
     """
     Gets default values specific to this user
@@ -131,7 +139,7 @@ def get_default_values_conf(uid):
     json = table.get_item(Key={"_id": uid})["Item"]
     json = replace_decimals(json)
 
-    return parse_activities_config(json)["activities"]
+    return split_default_values_conf(parse_activities_config(json)["activities"])
 
 
 def get_speech_conf(uid="default"):
@@ -167,6 +175,13 @@ def remove_log(session_id):
     table.delete_item(Key={"session_id": session_id})
 
 
+def split_time_values_conf(conf):
+    get_defaults = lambda d: d
+    get_general = lambda d: {}
+
+    return {'default_values': get_defaults(conf), 'general_config': get_general(conf)}
+
+
 def get_default_time_slot_values_conf(uid="default"):
     """
     Gets default time slot values specific to this user
@@ -185,7 +200,7 @@ def get_default_time_slot_values_conf(uid="default"):
         table = Table("dre-default-values", connection=conn)
         json, = table.get_item(_id=uid).values()
 
-    return parse_time_slot_config(json)['timeSlot']
+    return split_time_values_conf(parse_time_slot_config(json)['timeSlot'])
 
 
 def get_config(uid):
@@ -194,5 +209,5 @@ def get_config(uid):
         'StationaryWhatIntent': get_default_time_slot_values_conf()
     }
     for intent in ['AMAZON.HelpIntent', 'AMAZON.StopIntent', 'AMAZON.CancelIntent', 'LocationIntent', 'StartTimeIntent', 'StartDateIntent', 'TotalTimeIntent']:
-        configs[intent] = {}
+        configs[intent] = {'default_values': {}, 'general_config': {}}
     return configs

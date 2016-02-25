@@ -9,7 +9,7 @@ from dre.decision import *
 import dre.actions as actions
 
 from database import database
-run = database.get_default_values_conf("tests")["run"]
+run = database.get_default_values_conf("tests")['general_config']["run"]
 
 
 class RunTest(unittest.TestCase):

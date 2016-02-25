@@ -12,9 +12,13 @@ from dre.decision import *
 from dre.forecast_cache import ForecastCache
 
 from database import database
-run = database.get_default_values_conf("tests")["run"]
-sunbathe = database.get_default_values_conf("tests")["sunbathe"]
-cinema = database.get_default_values_conf("tests")["cinema"]
+
+run = database.get_default_values_conf("tests")['default_values']["run"]
+run.update(database.get_default_values_conf("tests")['general_config']["run"])
+sunbathe = database.get_default_values_conf("tests")['default_values']["sunbathe"]
+sunbathe.update(database.get_default_values_conf("tests")['general_config']["sunbathe"])
+cinema = database.get_default_values_conf("tests")['default_values']["cinema"]
+cinema.update(database.get_default_values_conf("tests")['general_config']["cinema"])
 
 
 class WhenDecisionTest(unittest.TestCase):
