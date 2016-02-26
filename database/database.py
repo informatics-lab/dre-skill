@@ -120,6 +120,11 @@ def parse_time_slot_config(json):
 
 
 def split_default_values_conf(conf):
+    """
+    Splits default values config into default values and general config.
+    Args:
+        * uid (dict): config to split
+    """
     get_defaults = lambda d: {'filter': d['filter'], 'startTime': d['startTime'], 'totalTime': d['totalTime']}
     get_general = lambda d: {'conditions': d['conditions'], 'score': d['score']}
 
@@ -176,6 +181,11 @@ def remove_log(session_id):
 
 
 def split_time_values_conf(conf):
+    """
+    Splits config into default values and general config (trivially).
+    Args:
+        * uid (dict): config to split
+    """
     get_defaults = lambda d: d
     get_general = lambda d: {}
 
@@ -204,6 +214,20 @@ def get_default_time_slot_values_conf(uid="default"):
 
 
 def get_config(uid):
+    """
+    Fetched all config for this user
+    Args:
+        * uid (string): unique ID for this user
+
+    Returns a dictionary of the form {IntentName: {'default_values': D, 'general_config': G}}
+    G is just a dictionary with no special format. It should be used for storing any config 
+    that can't be overridden by the user.
+    D can have two forms, depending on whether the intent uses a primary slot or not.
+    If it doesn't use a primary slot, D has the form 
+                    {slot: default, ...}.
+    If it does use a primary slot, D has the form 
+                    {primary_slot: {slot: default, ...}, ...}
+    """
     configs = {
         'StationaryWhenIntent': get_default_values_conf(uid),
         'StationaryWhatIntent': get_default_time_slot_values_conf()
