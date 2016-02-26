@@ -166,13 +166,13 @@ def write_log(session_id, user_id, log):
     table = get_table("dre-decision-logs")
     table.put_item(Item={"session_id": session_id,
                          "user_id": user_id,
-                         "log": json.dumps(log)})
+                         "log": log})
 
 
 def get_log(session_id):
     table = get_table("dre-decision-logs")
 
-    return json.loads(table.get_item(Key={"session_id": session_id})["Item"]["log"])
+    return table.get_item(Key={"session_id": session_id})["Item"]["log"]
 
 
 def remove_log(session_id):
