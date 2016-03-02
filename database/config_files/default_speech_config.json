@@ -5,31 +5,31 @@
             "greeting":"Hi. Welcome to the Met Office NLP app",
             "reprompt":"Hey, I said HI",
             "sign_off":"Thanks very much for using our app. See you later.",
-            "help":"I can't help you."
+            "help":"Ask me a question. You could try, when should I go for a run, or, what should I do."
         },
         "activity":{
-            "title":"TITLE",
+            "title":"Set activity",
             "question":"What do you want to do",
-            "reprompt":"I SAID WHAT DO YOU WANT TO DO!",
-            "help":"Which word don't you understand"
+            "reprompt":"What do you want to do",
+            "help":"Say an activity such as run or sunbathe."
         },
         "startTime":{
-            "title":"TITLE",
+            "title":"Set start time",
             "question":"When do you want to do that",
-            "reprompt":"I SAID WHEN DO YOU WANT TO DO THAT!",
-            "help":"Which word don't you understand"
+            "reprompt":"When do you want to do that",
+            "help":"Say a date such as tomorrow"
         },
         "totalTime":{
-            "title":"TITLE",
+            "title":"Set total time",
             "question":"How long do you have",
-            "reprompt":"I SAID HOW LONG DO YOU HAVE!",
-            "help":"Which word don't you understand"
+            "reprompt":"How long do you have",
+            "help":"Say a length of time such as two hours"
         },
         "location":{
-            "title":"TITLE",
+            "title":"Set location",
             "question":"Where do you want to do that",
-            "reprompt":"I SAID WHERE DO YOU WANT TO DO THAT!",
-            "help":"Which word don't you understand"
+            "reprompt":"Where do you want to do that",
+            "help":"Say a place name such as Exeter"
         }
     }
 }

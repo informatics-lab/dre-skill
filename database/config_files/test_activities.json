@@ -23,6 +23,46 @@
             ],
             "startTime":"NOW"
         },
+        "stroll":{
+            "score":"GaussDistFromIdeal",
+            "conditions":{
+                "temperature":{
+                    "ideal":20,
+                    "min":0,
+                    "max":30
+                },
+                "precipitation":{
+                    "ideal":0,
+                    "min":0,
+                    "max":20
+                }
+            },
+            "totalTime":"PT1H",
+            "filter":[
+
+            ],
+            "startTime":"NOW"
+        },
+        "walk":{
+            "score":"GaussDistFromIdeal",
+            "conditions":{
+                "temperature":{
+                    "ideal":20,
+                    "min":10,
+                    "max":30
+                },
+                "precipitation":{
+                    "ideal":0,
+                    "min":0,
+                    "max":15
+                }
+            },
+            "totalTime":"PT5H",
+            "filter":[
+
+            ],
+            "startTime":"NOW"
+        },
         "sunbathe":{
             "score":"GaussDistFromIdeal",
             "conditions":{
@@ -58,6 +98,26 @@
                 }
             },
             "totalTime":"PT2H",
+            "filter":[
+
+            ],
+            "startTime":"NOW"
+        },
+        "lazy day":{
+            "score":"GaussDistFromIdeal",
+            "conditions":{
+                "temperature":{
+                    "ideal":0,
+                    "min":-20,
+                    "max":20
+                },
+                "precipitation":{
+                    "ideal":90,
+                    "min":0,
+                    "max":100
+                }
+            },
+            "totalTime":"PT6H",
             "filter":[
 
             ],
