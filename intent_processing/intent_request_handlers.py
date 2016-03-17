@@ -158,7 +158,7 @@ class IntentRequestHandlers(object):
         reprompt_text = ""
 
         return self.say(speech_output, reprompt_text,
-                        self.event.request.intent.name, card)
+                        self.event.request.intent.name, card, True)
 
 
     def stationary_what_intent(self, slots):
@@ -192,4 +192,4 @@ class IntentRequestHandlers(object):
 
         answer = 'How about a ' + possibilities[0].name
 
-        return self.say(answer, answer, self.event.request.intent.name, answer)
+        return self.say(answer, answer, self.event.request.intent.name, answer, True)
