@@ -20,6 +20,7 @@
     },
     "sessionAttributes":{  
         "slots":{},
-        "current_intent":"StationaryWhenIntent"
+        "current_intent":"StationaryWhenIntent",
+        "custom": {"remaining_possibilities": []}
     }
 }
