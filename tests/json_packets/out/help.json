@@ -22,6 +22,7 @@
         "slots":{
 
         },
-        "current_intent":None
+        "current_intent":None,
+        "custom": {"remaining_possibilities": []}
     }
 }

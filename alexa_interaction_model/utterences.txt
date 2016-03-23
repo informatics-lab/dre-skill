@@ -1075,6 +1075,10 @@ LocationIntent in {exeter|location}
 LocationIntent around {exeter|location}
 TotalTimeIntent for {totalTime}
 StartTimeIntent from {startTime}
+NextPossibilityIntent when else
+NextPossibilityIntent what else
+NextPossibilityIntent more
+NextPossibilityIntent next
 AMAZON.HelpIntent help
 AMAZON.HelpIntent help me
 AMAZON.HelpIntent what can I ask you

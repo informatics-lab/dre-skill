@@ -34,12 +34,13 @@ def option_speech(pos, activity):
         answer += ' might be okay '
     else:
         answer += ' might be just about okay '
+
     answer += 'for a %s.' % activity
 
     return answer
 
 
-def construct_options_speech(possibilities, activity):
+def construct_options_speech_when(possibilities, activity):
     """
     A utility function which constructs natural language from
     a scored set of possible actions.
@@ -52,11 +53,49 @@ def construct_options_speech(possibilities, activity):
     Returns a string
 
     """
+    answers = []
     if len(possibilities) > 0:
-        answer = option_speech(possibilities[0], activity)
+        for p in possibilities:
+            answers.append(option_speech(p, activity))
     else: 
-        answer += "I couldn't find a good time for that activity."
-    return answer
+        answers.append("I couldn't find a good time for that activity.")
+    return answers
+
+
+def construct_options_speech_what(possibilities):
+    """
+    Analogous to construct_options_speech_when.
+
+    Args:
+        * possibilities (list): 'dre.possibility' objects
+
+    Returns a string
+    """
+    answers = []
+    for p in possibilities:
+        answers.append('How about a ' + p.name)
+    return answers
+
+
+def construct_options_speech(intent, possibilities, activity=None):
+    """
+    Calls the appropriate function to construct an option speech.
+
+    Args:
+        * intent (string): name of current intent
+        * possibilities (list): `dre.possibility` objects
+        * activity (string): the name of the activity
+
+    Returns a string
+    """
+    if intent == "StationaryWhenIntent":
+        answers = construct_options_speech_when(possibilities, activity)
+    elif intent == "StationaryWhatIntent":
+        answers = construct_options_speech_what(possibilities)
+    else:
+        answers = ["I'm not sure what you mean."]
+    return answers
+
 
 
 def make_card(session_id, user_id, log):
@@ -104,8 +143,13 @@ class IntentRequestHandlers(object):
                  'StartDateIntent': {'function':self.carry_on_intent,
                                   'grab_session':False},
                  'TotalTimeIntent': {'function':self.carry_on_intent,
+                                  'grab_session':False},
+                 'NextPossibilityIntent': {'function':self.next_possibility_intent,
                                   'grab_session':False}
                 }
+
+        if "remaining_possibilities" not in self.event.session.custom:
+            self.event.session.custom.remaining_possibilities = []
 
     def help_intent(self):
         if self._unset_sis:
@@ -150,15 +194,20 @@ class IntentRequestHandlers(object):
         a_decision.generatePossibleActivities(timeRes=datetime.timedelta(hours=3))
         possibilities = a_decision.possibleActivities
 
-        speech_output = construct_options_speech(possibilities, slots.activity)
+        answers = construct_options_speech(self.event.session.current_intent, possibilities, slots.activity)
+        speech_output = answers[0]
+        self.event.session.custom.remaining_possibilities = answers[1:3]
+
         card = make_card(self.event.session.sessionId,
                            self.event.session.user.userId,
                            [p.score.metadata for p in possibilities])
 
         reprompt_text = ""
 
+        self.event.session.current_intent = "None"
+
         return self.say(speech_output, reprompt_text,
-                        self.event.request.intent.name, card, True)
+                        self.event.request.intent.name, card, False)
 
 
     def stationary_what_intent(self, slots):
@@ -190,6 +239,25 @@ class IntentRequestHandlers(object):
         a_decision.generatePossibleActivities(datetime.timedelta(seconds=15*60))
         possibilities = a_decision.possibleActivities
 
-        answer = 'How about a ' + possibilities[0].name
+        answers = construct_options_speech_what(possibilities)
+        speech_output = answers[0]
+        self.event.session.custom.remaining_possibilities = answers[1:3]
 
-        return self.say(answer, answer, self.event.request.intent.name, answer, True)
+        self.event.session.current_intent = "None"
+        print self.event.session.custom
+
+        return self.say(speech_output, speech_output, self.event.request.intent.name, speech_output, False)
+
+    def next_possibility_intent(self, slots):
+        """
+        Offers the possibility with the next highest score.
+        """
+        print self.event.session.custom
+        try:
+            speech_output = self.event.session.custom.remaining_possibilities[0]
+            self.event.session.custom.remaining_possibilities = self.event.session.custom.remaining_possibilities[1:]
+            print self.event.session.custom
+        except IndexError:
+            speech_output = "I'm out of ideas."
+
+        return self.say(speech_output, speech_output, self.event.request.intent.name, speech_output, True)
